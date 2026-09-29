@@ -1,0 +1,42 @@
+{
+  "slug": "early-britain",
+  "title": "Roman and Early Medieval Britain",
+  "subtitle": "A sourced atlas, AD 43–1066",
+  "timeRange": { "from": 43, "to": 1066 },
+  "bounds": { "minLon": -11.0, "maxLon": 3.0, "minLat": 49.0, "maxLat": 61.5 },
+  "camera": { "center": [-2.5, 54.0], "zoom": 5.3 },
+  "magnitudeLabel": null,
+  "territory": null,
+  "kinds": [
+    { "id": "town", "label": "Town or urban centre" },
+    { "id": "settlement", "label": "Rural settlement or trading site" },
+    { "id": "villa", "label": "Villa or high-status residence" },
+    { "id": "fort", "label": "Fort or frontier site (as an archaeological site)" },
+    { "id": "religious", "label": "Temple, church, monastery or shrine" },
+    { "id": "burial", "label": "Burial or cemetery" },
+    { "id": "hoard", "label": "Hoard or significant find" },
+    { "id": "text", "label": "Written source: inscription, tablet or manuscript" },
+    { "id": "political", "label": "Political or administrative event" }
+  ],
+  "facetLabels": ["Evidence type", "Dating basis", "Interpretation", "Heritage status"],
+  "phases": [
+    { "id": "early-roman", "title": "A new province", "from": 43, "to": 122,
+      "story": "TODO (atlas synthesis): 2–3 sentences on Britain's first Roman generations: towns, roads, villas and the army's presence.",
+      "camera": { "center": [-1.5, 52.5], "zoom": 5.6 } },
+    { "id": "high-roman", "title": "Walls, towns and villas", "from": 122, "to": 285,
+      "story": "TODO (atlas synthesis): 2–3 sentences on the settled province and its northern frontier.",
+      "camera": { "center": [-2.5, 53.5], "zoom": 5.3 } },
+    { "id": "late-roman", "title": "Late Roman Britain", "from": 285, "to": 410,
+      "story": "TODO (atlas synthesis): 2–3 sentences on the late Roman province, Christianity, and the end of Roman administration.",
+      "camera": { "center": [-1.5, 52.5], "zoom": 5.4 } },
+    { "id": "after-rome", "title": "After Rome", "from": 410, "to": 600,
+      "story": "TODO (atlas synthesis): 2–3 sentences on the post-Roman centuries and why the evidence is so thin.",
+      "camera": { "center": [-3.0, 53.0], "zoom": 5.2 } },
+    { "id": "kingdoms", "title": "Kingdoms and conversion", "from": 600, "to": 793,
+      "story": "TODO (atlas synthesis): 2–3 sentences on the early kingdoms, conversion, and monastic learning.",
+      "camera": { "center": [-2.0, 53.5], "zoom": 5.3 } },
+    { "id": "norse-age", "title": "Norse settlement and the making of England", "from": 793, "to": 1066,
+      "story": "TODO (atlas synthesis): 2–3 sentences on Norse settlement, trade towns, and the emergence of the kingdom of England.",
+      "camera": { "center": [-2.0, 54.0], "zoom": 5.2 } }
+  ]
+}
