@@ -37,6 +37,8 @@ npm test                 # check the date formatting
 
 `npm run build` **stops with an error** while any row is still unverified, or anything else in the pack breaks the rules. The message lists the rows that need attention.
 
+`npm run build:draft` builds a **draft site** instead: it allows unverified rows and placeholder text, as the development view does, and every page is marked Draft. The Vercel deployment uses it for now (see `vercel.json`). When the pack passes `npm run validate`, change `buildCommand` in `vercel.json` to `npm run build`, so the published site can only be built from a checked pack.
+
 To show a particular dataset, add `?d=<name>` to the address, for example `http://localhost:5173/?d=early-britain`. Without it the atlas shows `early-britain`. If there is more than one dataset, you can also switch with the menu under the title.
 
 ## Adding a new dataset

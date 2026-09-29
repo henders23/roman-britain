@@ -1,7 +1,8 @@
 // Vite plugin: serves each dataset's latest pack round as a virtual module.
 //   import { DATASETS, DEFAULT_DATASET } from 'virtual:atlas-datasets'
-// The dev server validates in draft mode (unverified rows allowed); a production build
-// validates in production mode and fails if the pack does not pass.
+// The dev server and npm run build:draft validate in draft mode (unverified rows allowed,
+// and the site says so); npm run build validates in production mode and fails if the
+// pack does not pass.
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { listDatasets, loadDataset } from './pack.mjs';
@@ -24,7 +25,8 @@ export function datasetsPlugin({ root, defaultSlug = 'early-britain' }) {
   return {
     name: 'atlas-datasets',
     configResolved(c) {
-      draft = c.command === 'serve';
+      // ATLAS_DRAFT=1 (npm run build:draft) builds a labelled draft site that allows unverified rows.
+      draft = c.command === 'serve' || process.env.ATLAS_DRAFT === '1';
     },
     configureServer(s) {
       server = s;

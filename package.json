@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node scripts/copy-worker.mjs && vite",
     "build": "node scripts/copy-worker.mjs && node scripts/validate.mjs && tsc --noEmit && vite build",
+    "build:draft": "node scripts/copy-worker.mjs && node scripts/validate.mjs --draft && tsc --noEmit && ATLAS_DRAFT=1 vite build",
     "preview": "vite preview",
     "validate": "node scripts/validate.mjs",
     "validate:draft": "node scripts/validate.mjs --draft",
