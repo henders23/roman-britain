@@ -72,7 +72,7 @@ Open it in any text editor. Change:
 - `territory`: leave it `null`. (Shaded territories need extra map files; ask a developer.)
 - `kinds`: the types of event your pack may use, each with an `id` (used in the pack) and a `label` (shown to readers). These ids get their own symbol: `town`, `settlement`, `villa`, `fort`, `religious`, `burial`, `hoard`, `text`, `political`, `battle`, `treaty`, `death`, `naval`, `flag`. Any other id is drawn as a dot, or you can add `"icon": "town"` (for example) to borrow a symbol.
 - `facetLabels`: the extra labels your pack may use in its `facets` column, such as `"Evidence type"`.
-- `phases`: the chapters of your timeline, in order. Each has an `id`, a `title`, `from` and `to` years, a short `story` (your own synthesis, 2–3 sentences), and a `camera` for where the map moves to when playback reaches it.
+- `phases`: the chapters of your timeline, in order. Each has an `id`, a `title`, `from` and `to` years (`to` is the phase's last year, so the next phase starts the year after: 43–121, then 122–284), a short `story` (your own synthesis, 2–3 sentences), and a `camera` for where the map moves to when playback reaches it.
 
 Keep the punctuation exactly as it is: quotation marks around text, commas between items, no comma after the last item. If the atlas will not load, a missing or extra comma is the usual cause.
 

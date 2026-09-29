@@ -76,6 +76,7 @@ export interface Phase {
   id: string;
   title: string;
   from: number;
+  /** the phase's last year, inclusive; phases must not overlap */
   to: number;
   /** the atlas's own synthesis, not a claim made by the pack */
   story: string;

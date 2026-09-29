@@ -135,8 +135,13 @@ export function stepAt(steps: Step[], t: number): { step: Step; prev?: Step } {
   return { step: steps[i], prev: steps[i - 1] };
 }
 
+/** A phase's `to` is its last year, inclusive, so it runs to the end of that year. */
+export function phaseEnd(p: Phase) {
+  return p.to + 1;
+}
+
 export function phaseAt(phases: Phase[], t: number): Phase {
-  return phases.find((p) => t >= p.from && t < p.to) ?? (t < phases[0].from ? phases[0] : phases[phases.length - 1]);
+  return phases.find((p) => t >= p.from && t < phaseEnd(p)) ?? (t < phases[0].from ? phases[0] : phases[phases.length - 1]);
 }
 
 export function isFocus(p: Polity | undefined) {

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Atlas, AtlasEvent } from '../data/dataset';
+import { phaseEnd, type Atlas, type AtlasEvent } from '../data/dataset';
 import { store, useAtlas } from '../store';
 import { formatClock, formatShort, formatYear } from '../data/time';
 
@@ -123,8 +123,8 @@ export function Timeline({ atlas, onSeek }: { atlas: Atlas; onSeek: (t: number) 
           </defs>
           {atlas.phases.map((p, i) => {
             const a = x(Math.max(p.from, atlas.from));
-            const b = x(Math.min(p.to, atlas.to));
-            const on = t >= p.from && t < p.to;
+            const b = x(Math.min(phaseEnd(p), atlas.to));
+            const on = t >= p.from && t < phaseEnd(p);
             return (
               <g key={p.id} className={`tl-phase${on ? ' on' : ''}`}>
                 <rect x={a} y={phaseY} width={Math.max(0, b - a - 1)} height={20} rx={3} className={i % 2 ? 'odd' : ''} />
