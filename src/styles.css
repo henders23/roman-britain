@@ -392,3 +392,15 @@ dialog.about::backdrop { background: var(--backdrop); -webkit-backdrop-filter: b
   .set-title small { display: none; }
   .set-title { font-size: 17px; }
 }
+.tl-track { min-width: 0; overflow: hidden; }
+.tl-track svg { overflow: hidden; }
+.legend { z-index: 8; }
+@media (max-width: 720px) {
+  .tools { gap: 0; padding: 2px; }
+  .tools button, .tools .toggle { padding: 6px 9px; font-size: 12.5px; }
+  .tools .toggle { display: none; }
+  .theme-btn .theme-name { display: none; }
+  .legend.open { max-height: calc(100vh - var(--tl-h) - 190px); right: 10px; }
+  .lg-kinds { grid-template-columns: 1fr; }
+  .legend-body { gap: 10px; }
+}

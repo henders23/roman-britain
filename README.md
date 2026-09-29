@@ -1,32 +1,122 @@
-# Atlas of Wars: the Mongol conquests, 1206–1294
+# UK Atlas
 
-This is the Mongol conquests on an interactive globe. You can drag the timeline or press play to watch the empire spread and split, and click any marker to read the event behind it.
+An interactive 3D globe for teaching and research. It shows dated, sourced events over time, with a draggable timeline, a play button, and pins you can click to see the evidence behind each event.
 
-It is a Workshop museum exhibit, live at [qingsworkshop.com/war-atlas-a](https://www.qingsworkshop.com/war-atlas-a). The product brief is in [INTENT.md](INTENT.md).
+Every point on the map comes from a row in a **research pack**: a spreadsheet that records each candidate event, whether it was included, why, the sources behind it, and how precisely it may be drawn. The atlas never shows more certainty than the pack allows. The rules for packs are in [PACK-SPEC.md](PACK-SPEC.md), and the brief for the atlas is in [INTENT.md](INTENT.md).
 
-## What's on the map
+The first dataset is **Roman and early medieval Britain, AD 43–1066** (`datasets/early-britain/`). Its pack holds example rows only, all unverified.
 
-- **Events.** There are 103 events, one for each `include` row in the Instinct R71 research pack (`data/mongol/r71/`). The pack decides how precisely an event may be drawn:
-  - a solid pin marks a named city or battle locality;
-  - a dashed ring marks a region the sources support without supporting a point.
-  
-  The text is the atlas's own synthesis. Each event cites the pack's primary locators first. Problems found in the pack are listed in [data/mongol/r71-review.md](data/mongol/r71-review.md).
-- **Territory.** 103 historical regions are built from Natural Earth provinces, and each has a dated history of who controlled it (`src/data/mongol/territory.json`). This layer is the atlas's context, not a claim made by the pack. It is labelled as approximate in the app.
-- **Deliberately absent: army routes.** The pack refuses inferred route lines, so the atlas draws none.
+## What you see
 
-## Working on it
+- **Pins** mark events the sources place at a named place or site. The symbol shows the kind of event, and bigger pins are more important (importance 1 in the pack).
+- **Dashed rings** mark events the sources place only within a region. The ring's size is the pack's `radius_km`.
+- **Dotted rings** (on the map) and **faint bars** (on the timeline) mark events dated only to a window of years, such as "between AD 610 and 640". The event happened at some point in the window, not throughout it. They are at full strength only while the playhead is inside the window.
+- **Small dots** are earlier events.
+- Click any marker for its card: the date, the place, how certain it is, the narrative, the sources (primary first), and the pack's reason for including it.
+- Chapter stories and the About panel are the atlas's own writing, and are labelled "Atlas synthesis".
+
+## Running it on your computer
+
+You need [Node.js](https://nodejs.org/) (version 22 or later) and Python 3.
 
 ```sh
-npm ci
-npm run dev        # http://localhost:5173
-npm run validate   # every pack include row has one event; territory is consistent
-npm run build      # validate, typecheck, bundle
+npm ci              # once, to install
+npm run dev         # open http://localhost:5173
 ```
 
-`npm run geo -- <dir>` rebuilds `public/geo/` from the Natural Earth GeoJSON files in `<dir>`. It needs `ne_10m_admin_1_states_provinces`, `ne_50m_rivers_lake_centerlines` and `ne_50m_lakes`. The region definitions are in `scripts/region-spec.mjs`.
+The development view (`npm run dev`) is in **draft mode**: it shows rows that no one has checked yet, marked "Unverified". Use it while you build a pack.
 
-## Deployment
+Other commands:
 
-The atlas is its own Vercel project, `war-atlas-a`, built with `ATLAS_BASE=/war-atlas-a/`. The workshop homepage proxies `/war-atlas-a` to it. `vercel deploy --prod` publishes.
+```sh
+npm run validate:draft   # check every pack, allowing unverified rows
+npm run validate         # check every pack as a production build would
+npm run build            # validate, then build the site into dist/
+npm test                 # check the date formatting
+```
 
-Relief imagery comes from AWS Terrain Tiles; coastlines, rivers and provinces from Natural Earth. The map is rendered with MapLibre GL.
+`npm run build` **stops with an error** while any row is still unverified, or anything else in the pack breaks the rules. The message lists the rows that need attention.
+
+To show a particular dataset, add `?d=<name>` to the address, for example `http://localhost:5173/?d=early-britain`. Without it the atlas shows `early-britain`. If there is more than one dataset, you can also switch with the menu under the title.
+
+## Adding a new dataset
+
+You do not need to write any code. A dataset is a folder of plain files.
+
+### 1. Make the folder
+
+Copy `datasets/early-britain` and rename the copy. Use a short name in lower case with hyphens, for example `datasets/tudor-london`. This name is the dataset's **slug**.
+
+Inside it you will have:
+
+```
+datasets/tudor-london/
+  dataset.json              settings: title, dates, map view, kinds, phases
+  pack/tudor-london-r01.csv round 1 of the research pack
+  pack/CHANGES.md           what changed in each round, and why
+  narratives/               one text file for each included event
+```
+
+Delete the example narrative files, and rename the pack file so it starts with your slug (`tudor-london-r01.csv`).
+
+### 2. Edit `dataset.json`
+
+Open it in any text editor. Change:
+
+- `slug`: the folder name.
+- `title` and `subtitle`: shown at the top of the atlas.
+- `timeRange`: the first and last year of the timeline. Use negative numbers for BC (`-55` is 55 BC).
+- `bounds`: a box around your area, in degrees of longitude and latitude. The validator rejects any point outside it.
+- `camera`: where the map looks at first. `center` is `[longitude, latitude]`; `zoom` is about 5.3 for all of Britain, about 9 for a city.
+- `magnitudeLabel`: leave it `null`, or name a number your pack records for every event (for example `"Estimated population"`). When it is set, pin size follows that number instead of importance.
+- `territory`: leave it `null`. (Shaded territories need extra map files; ask a developer.)
+- `kinds`: the types of event your pack may use, each with an `id` (used in the pack) and a `label` (shown to readers). These ids get their own symbol: `town`, `settlement`, `villa`, `fort`, `religious`, `burial`, `hoard`, `text`, `political`, `battle`, `treaty`, `death`, `naval`, `flag`. Any other id is drawn as a dot, or you can add `"icon": "town"` (for example) to borrow a symbol.
+- `facetLabels`: the extra labels your pack may use in its `facets` column, such as `"Evidence type"`.
+- `phases`: the chapters of your timeline, in order. Each has an `id`, a `title`, `from` and `to` years, a short `story` (your own synthesis, 2–3 sentences), and a `camera` for where the map moves to when playback reaches it.
+
+Keep the punctuation exactly as it is: quotation marks around text, commas between items, no comma after the last item. If the atlas will not load, a missing or extra comma is the usual cause.
+
+### 3. Fill in the pack
+
+Open the CSV in a spreadsheet program (Excel, LibreOffice, Google Sheets) and save it back as CSV. Each row is one candidate event. [PACK-SPEC.md](PACK-SPEC.md) explains every column. In short:
+
+- `disposition` is `include`, `merge` or `exclude`. Only `include` rows appear on the map. Excluded and merged rows stay in the pack with their reasons, and are listed in the atlas's About panel.
+- `geometry` is `city` or `site` for a pin, or `area` for a region (then fill in `radius_km`).
+- `date_precision` is `year`, `circa`, `range` (a window: give `date_start` and `date_end`), `season`, `month` or `day`.
+- Whenever you are not sure (`certainty` is not `high`, or `location_certainty` is not `exact`), write an `uncertainty_note`. It is shown on the event's card.
+- New rows start as `review_status` = `unverified`. When someone has checked the sources, set it to `checked`; when two people have, `reconciled`.
+
+**Never edit a round once it is shared.** To change anything, copy `tudor-london-r01.csv` to `tudor-london-r02.csv`, make the changes there, and add a line to `pack/CHANGES.md` saying what changed and why. The atlas always uses the highest-numbered round.
+
+### 4. Write the narratives
+
+For each included row, create `narratives/<canonical_id>.md`, where `<canonical_id>` is that row's `canonical_id` (for example `narratives/globe-theatre-1599.md`). Start from `datasets/early-britain/narratives/_TEMPLATE.md`. It needs three headings, each with text under it:
+
+```
+## Summary
+## Detail
+## Significance
+```
+
+Write in your own words and cite your sources; do not paste source text.
+
+### 5. Check it
+
+Run `npm run validate:draft`. It reports every problem, naming the row (by `candidate_id`) and what is wrong. Fix them in the next round and run it again. Then run `npm run dev` and open `http://localhost:5173/?d=tudor-london`.
+
+Before the dataset can be published, `npm run validate` must pass. That means every row has been checked, every primary locator is real (no `TO LOCATE` placeholders), every narrative is written, and every phase story is filled in.
+
+## How it works (for developers)
+
+- `tools/validate_pack.py` is the reference validator. `scripts/validate.mjs` runs it for each dataset. `npm run build` runs it in production mode first, and so does the Vite plugin, so `vite build` alone cannot skip it.
+- `scripts/pack.mjs` reads a dataset folder: the latest pack round, include rows only, with prose from the narrative files. `scripts/vite-datasets.mjs` serves each dataset as a virtual module (`virtual:atlas-datasets`), so the CSV stays the only copy of the data. The dev server validates in draft mode and reloads when a dataset file changes.
+- `src/data/schema.ts` defines the event shape; `src/data/dataset.ts` turns a dataset into what the map needs. `src/data/time.ts` parses and formats dates (BC, AD, and date windows).
+- `src/map/AtlasMap.ts` draws the globe with MapLibre GL. Its animation timings scale with the length of the timeline.
+- An optional territory layer: set `territory` in `dataset.json` to a JSON file in the dataset folder holding `note`, `focusLabel`, `polities` (`id`, `name`, `color`, `focus`), `regions` (region id → `[[date, polity, status], …]`), and `regionsFile` and `bordersFile` naming GeoJSON files beside it. Territory is labelled as the atlas's synthesis.
+- `VITE_TERRAIN_TILES` can point the relief at a mirror of the Terrarium tiles. `ATLAS_BASE` serves the build under a path, and `ATLAS_DEFAULT` changes the default dataset.
+
+Relief comes from AWS Terrain Tiles (Mapzen, SRTM, ETOPO1, GMTED), and rivers and lakes from Natural Earth. The map is rendered with MapLibre GL.
+
+## Licence
+
+MIT (see [LICENSE](LICENSE)). The engine began as entry A of `henders23/waratlas`.

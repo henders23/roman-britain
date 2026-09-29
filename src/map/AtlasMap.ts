@@ -565,7 +565,7 @@ export class AtlasMap {
     const placed: { r: DOMRect; owner?: number }[] = [];
     const pad = 4;
     const overlaps = (r: DOMRect, self?: number) =>
-      placed.some(({ r: p, owner }) => owner !== self && r.left - pad < p.right && r.right + pad > p.left && r.top - pad < p.bottom && r.bottom + pad > p.top);
+      placed.some(({ r: p, owner }) => (owner === undefined || owner !== self) && r.left - pad < p.right && r.right + pad > p.left && r.top - pad < p.bottom && r.bottom + pad > p.top);
     // Every visible pin blocks labels, so a label never covers another event's pin.
     for (const l of this.evLabels) {
       const s = this.evState.get(l.ev.index);
@@ -579,6 +579,14 @@ export class AtlasMap {
     const rank = (l: { ev: AtlasEvent }) => (l.ev.id === selected ? -2 : l.ev.id === hovered ? -1 : l.ev.importance);
     const evs = this.evLabels.filter((l) => l.shown).sort((a, b) => rank(a) - rank(b) || b.ev.size - a.ev.size);
     for (const l of evs) {
+      // A label that would run off the right edge goes on the pin's left instead.
+      const gap = 15 + 6 * l.ev.size;
+      const p = this.map.project([l.ev.lon, l.ev.lat]);
+      const flip = view.left + p.x + gap + l.el.offsetWidth > view.right - 8;
+      if (l.el.classList.contains('flip') !== flip) {
+        l.el.classList.toggle('flip', flip);
+        l.el.style.transform = flip ? `translateX(calc(-100% - ${2 * gap}px))` : '';
+      }
       const r = l.el.getBoundingClientRect();
       const off = r.right < view.left || r.left > view.right || r.bottom < view.top || r.top > view.bottom;
       const hit = r.width === 0 || overlaps(r, l.ev.index);
