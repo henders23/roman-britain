@@ -5,7 +5,8 @@ Usage:
     python3 tools/validate_pack.py datasets/<slug>            # production rules
     python3 tools/validate_pack.py datasets/<slug> --draft    # allows unverified rows and missing narratives
 
-Checks the latest round (highest rNN) of pack/<slug>-rNN.csv. Exits 1 on any error.
+Checks the latest round (highest rNN) of pack/<slug>-rNN.csv, and any journeys in
+journeys/*.md. Exits 1 on any error.
 """
 import csv
 import json
@@ -59,6 +60,29 @@ def narrative_sections(path):
         head, _, body = part.partition("\n")
         found[head.strip()] = body.strip()
     return found
+
+
+def parse_journey(text):
+    """A journey file: '# Title', optional 'By:' and 'Order:' lines, an introduction,
+    then '## Stop: <canonical_id>' sections with the text for each stop."""
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
+    parts = re.split(r"^##\s+", text, flags=re.M)
+    head, stops = parts[0], []
+    for part in parts[1:]:
+        line, _, body = part.partition("\n")
+        m = re.match(r"Stop:\s*(\S+)\s*$", line.strip(), flags=re.I)
+        stops.append(((m[1] if m else ""), body.strip()))
+    title, by, order, intro = "", "", "chronological", []
+    for line in head.splitlines():
+        if not title and line.startswith("# "):
+            title = line[2:].strip()
+        elif re.match(r"^By:", line, flags=re.I):
+            by = line.split(":", 1)[1].strip()
+        elif re.match(r"^Order:", line, flags=re.I):
+            order = line.split(":", 1)[1].strip().lower()
+        else:
+            intro.append(line)
+    return {"title": title, "by": by, "order": order, "intro": "\n".join(intro).strip(), "stops": stops}
 
 
 def main():
@@ -226,6 +250,46 @@ def main():
                 err(r["candidate_id"], "merge row needs a merge_target")
             elif r["merge_target"] not in included:
                 err(r["candidate_id"], f"merge_target '{r['merge_target']}' is not an included canonical_id")
+
+    # journeys: guided routes through included events
+    jdir = root / "journeys"
+    for jpath in sorted(jdir.glob("*.md")) if jdir.is_dir() else []:
+        if jpath.name.startswith("_"):
+            continue
+        jid = f"journey:{jpath.stem}"
+        if not KEBAB.match(jpath.stem):
+            err(jid, "journey file name must be kebab-case")
+        j = parse_journey(jpath.read_text(encoding="utf-8"))
+        if not j["title"]:
+            err(jid, "journey needs a '# Title' line")
+        if not j["intro"]:
+            err(jid, "journey needs an introduction under its title")
+        elif "PLACEHOLDER" in j["intro"]:
+            (warn if draft else err)(jid, "journey introduction is still a placeholder")
+        if j["order"] not in ("chronological", "thematic"):
+            err(jid, f"Order: '{j['order']}' must be chronological or thematic")
+        if len(j["stops"]) < 2:
+            err(jid, "journey needs at least two '## Stop: <canonical_id>' sections")
+        seen_stops, prev_t = set(), None
+        for sid, text in j["stops"]:
+            where = f"{jid} stop {sid or '?'}"
+            if sid in seen_stops:
+                err(where, "stop appears twice in this journey")
+            seen_stops.add(sid)
+            if sid not in included:
+                other = next((r for r in rows if r["canonical_id"] == sid or r["candidate_id"] == sid), None)
+                why = {"merge": "is a merge row", "exclude": "is an exclude row"}.get(other["disposition"], "is not included") if other else "is not in the pack"
+                err(where, f"'{sid}' {why}; a journey may only stop at included events")
+                continue
+            if not text:
+                err(where, "stop has no text")
+            elif "PLACEHOLDER" in text:
+                (warn if draft else err)(where, "stop text is still a placeholder")
+            t = year_of(included[sid]["date_start"])
+            if j["order"] == "chronological" and t is not None and prev_t is not None and t < prev_t:
+                err(where, "stop is earlier than the one before it; reorder the stops or add 'Order: thematic'")
+            if t is not None:
+                prev_t = t
 
     counts = {d: sum(r["disposition"] == d for r in rows) for d in ("include", "merge", "exclude")}
     mode = "draft" if draft else "production"

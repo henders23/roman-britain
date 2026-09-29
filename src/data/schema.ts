@@ -127,6 +127,19 @@ export interface TerritoryData {
   bordersUrl: string;
 }
 
+/** A guided route through included events. Its text is the author's interpretation. */
+export interface Journey {
+  id: string;
+  title: string;
+  by: string;
+  order: 'chronological' | 'thematic';
+  intro: string;
+  /** each stop names the canonical_id of an included event */
+  stops: { event: string; text: string }[];
+  /** true while any of its text is still marked PLACEHOLDER */
+  placeholder: boolean;
+}
+
 /** What the virtual:atlas-dataset/<slug> module exports. */
 export interface DatasetModule {
   config: DatasetConfig;
@@ -141,5 +154,6 @@ export interface DatasetModule {
     unverified: { candidateId: string; disposition: string }[];
   };
   events: EventData[];
+  journeys: Journey[];
   territory: TerritoryData | null;
 }

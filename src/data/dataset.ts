@@ -1,5 +1,5 @@
 import { DATASETS, DEFAULT_DATASET } from 'virtual:atlas-datasets';
-import type { DatasetConfig, DatasetModule, EventData, Kind, PackNote, Phase, Polity, Status, TerritoryData } from './schema';
+import type { DatasetConfig, DatasetModule, EventData, Journey, Kind, PackNote, Phase, Polity, Status, TerritoryData } from './schema';
 import { parseDate, toYear } from './time';
 
 export interface AtlasEvent extends EventData {
@@ -45,6 +45,7 @@ export interface Atlas {
   territory: Territory | null;
   merged: PackNote[];
   excluded: PackNote[];
+  journeys: Journey[];
 }
 
 // The engine's animation constants were tuned on an 88-year timeline. Every duration
@@ -114,6 +115,8 @@ export function buildAtlas(data: DatasetModule): Atlas {
     territory: buildTerritory(data.territory),
     merged: data.pack.merged,
     excluded: data.pack.excluded,
+    // The validator guarantees every stop is an included event; drop any that are not, defensively.
+    journeys: (data.journeys ?? []).map((j) => ({ ...j, stops: j.stops.filter((s) => data.events.some((e) => e.id === s.event)) })).filter((j) => j.stops.length >= 2),
   };
 }
 

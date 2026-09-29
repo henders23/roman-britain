@@ -5,6 +5,7 @@ import { store, useAtlas } from './store';
 import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
 import { About, Chronicle, Clock, Header, Headline, Legend, ThemeToggle } from './ui/Panels';
+import { JourneyCard, JourneyList } from './ui/Journeys';
 import { formatShort } from './data/time';
 import { useTheme } from './theme';
 
@@ -35,7 +36,12 @@ function readHash(atlas: Atlas) {
   const h = new URLSearchParams(location.hash.slice(1));
   const t = Number(h.get('t'));
   const e = h.get('e');
-  return { t: h.has('t') && Number.isFinite(t) && t >= atlas.from && t <= atlas.to ? t : null, e: e && atlas.events.some((x) => x.id === e) ? e : null };
+  const j = h.get('j');
+  return {
+    t: h.has('t') && Number.isFinite(t) && t >= atlas.from && t <= atlas.to ? t : null,
+    e: e && atlas.events.some((x) => x.id === e) ? e : null,
+    j: j && atlas.journeys.some((x) => x.id === j) ? { id: j, step: Math.max(0, Number(h.get('s')) || 0) } : null,
+  };
 }
 
 function AtlasView({ atlas }: { atlas: Atlas }) {
@@ -52,7 +58,36 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   const playing = useAtlas((s) => s.playing);
   const theme = useAtlas((s) => s.theme);
   const t = useAtlas((s) => s.t);
+  const journeyState = useAtlas((s) => s.journey);
+  const journeyAuto = useAtlas((s) => s.journeyAuto);
+  const journey = journeyState ? atlas.journeys.find((j) => j.id === journeyState.id) : undefined;
   const byId = useMemo(() => new Map(atlas.events.map((e) => [e.id, e])), [atlas]);
+  // The playhead glides to each journey stop's date instead of jumping.
+  const tween = useRef<{ from: number; to: number; start: number; dur: number } | null>(null);
+  const glideTo = (to: number, dur = 1600) => {
+    const from = store.get().t;
+    tween.current = reduceMotion || capture ? null : { from, to, start: performance.now(), dur };
+    if (!tween.current) store.set({ t: to });
+  };
+  const goStep = (id: string, step: number) => {
+    const j = atlas.journeys.find((x) => x.id === id);
+    if (!j) return;
+    const n = Math.max(0, Math.min(j.stops.length, step));
+    const evs = j.stops.map((st) => byId.get(st.event)!);
+    store.set({ journey: { id, step: n }, panel: null, playing: false, headline: null });
+    setIntro(false);
+    if (n === 0) {
+      store.set({ selected: null });
+      // Start at the first stop's date, so the journey's first event is on the map.
+      glideTo(evs[0].t0 + 0.001);
+      map.current?.flyToEvents(evs);
+    } else {
+      const ev = evs[n - 1];
+      glideTo(ev.t0 + 0.001);
+      store.set({ selected: ev.id });
+    }
+  };
+  const exitJourney = () => store.set({ journey: null, journeyAuto: false });
   const selEv = selected ? byId.get(selected) : undefined;
   const u = atlas.unit;
 
@@ -68,8 +103,15 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
     };
     a.onRegionHover = (info, p) => setRegionTip(info && p ? { info, x: p.x, y: p.y } : null);
     a.onEventHover = (ev, p) => setEvTip(ev && p ? { ev, x: p.x, y: p.y } : null);
-    const { t: ht, e } = readHash(atlas);
-    if (e) {
+    const { t: ht, e, j } = readHash(atlas);
+    if (j) {
+      setIntro(false);
+      a.onReady = () => {
+        setReady(true);
+        setArea(a.focusArea(store.get().t));
+        goStep(j.id, j.step);
+      };
+    } else if (e) {
       const ev = byId.get(e)!;
       store.set({ t: ev.t0 + 0.001, selected: e });
       setIntro(false);
@@ -101,6 +143,13 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       last = now;
       const s = store.get();
       let t = s.t;
+      const tw = tween.current;
+      if (tw && !s.playing) {
+        const k = Math.min(1, (now - tw.start) / tw.dur);
+        t = tw.from + (tw.to - tw.from) * (k * k * (3 - 2 * k));
+        store.set({ t });
+        if (k >= 1) tween.current = null;
+      } else if (tw) tween.current = null;
       if (s.playing && !capture) {
         const slow = dwell > 0 ? 0.22 : 1;
         dwell = Math.max(0, dwell - dt);
@@ -140,15 +189,30 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   }, [selEv, ready]);
   useEffect(() => {
     if (playing) return;
-    const h = selected ? `e=${selected}` : `t=${t.toFixed(2)}`;
+    const h = journeyState ? `j=${journeyState.id}&s=${journeyState.step}` : selected ? `e=${selected}` : `t=${t.toFixed(2)}`;
     const id = setTimeout(() => history.replaceState(null, '', `${location.search}#${h}`), 250);
     return () => clearTimeout(id);
-  }, [t, selected, playing]);
+  }, [t, selected, playing, journeyState]);
+
+  // Auto mode moves to the next stop after a pause long enough to read the stop's text.
+  useEffect(() => {
+    if (!journey || !journeyState || !journeyAuto) return;
+    const n = journey.stops.length;
+    if (journeyState.step >= n) {
+      store.set({ journeyAuto: false });
+      return;
+    }
+    const text = journeyState.step === 0 ? journey.intro : journey.stops[journeyState.step - 1].text;
+    const wait = Math.max(7000, 4000 + text.length * 45);
+    const id = setTimeout(() => goStep(journey.id, journeyState.step + 1), wait);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [journey, journeyState, journeyAuto]);
 
   // Keyboard.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if ((e.target as HTMLElement).closest('input, textarea, dialog')) return;
+      if ((e.target as HTMLElement).closest?.('input, textarea, dialog')) return;
       const s = store.get();
       const seek = (d: number) => store.set({ t: Math.max(atlas.from, Math.min(atlas.to, s.t + d)), playing: false });
       // Arrow keys step by a small and a large "beat" of this dataset's timeline.
@@ -162,12 +226,16 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       else if (e.key === 'ArrowLeft') seek(e.shiftKey ? -big : -small);
       else if (e.key === 'Home') seek(-Infinity);
       else if (e.key === 'End') seek(Infinity);
+      else if ((e.key === ']' || e.key === '[') && s.journey) goStep(s.journey.id, s.journey.step + (e.key === ']' ? 1 : -1));
       else if (e.key === ']' || e.key === '[') {
         if (!atlas.events.length) return;
         const cur = s.selected ? byId.get(s.selected)!.index : atlas.events.filter((x) => x.t0 <= s.t).length - (e.key === ']' ? 1 : 0);
         const next = atlas.events[Math.max(0, Math.min(atlas.events.length - 1, cur + (e.key === ']' ? 1 : -1)))];
         store.set({ selected: next.id, t: next.t0 + 0.001, playing: false });
-      } else if (e.key === 'Escape') store.set({ selected: null, panel: null });
+      } else if (e.key === 'Escape') {
+        if (s.journey && !s.selected && !s.panel) store.set({ journey: null, journeyAuto: false });
+        else store.set({ selected: null, panel: null });
+      }
       else if (e.key.toLowerCase() === 'c') store.set({ panel: s.panel === 'chronicle' ? null : 'chronicle' });
     };
     window.addEventListener('keydown', onKey);
@@ -186,7 +254,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   const headEv = headline ? byId.get(headline) : undefined;
 
   return (
-    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' ? ' has-panel' : ''}${ready ? ' ready' : ''}`}>
+    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' || panel === 'journeys' ? ' has-panel' : ''}${journey ? ' in-journey' : ''}${ready ? ' ready' : ''}`}>
       <div className="map" ref={mapEl} />
       <div className="vignette" />
       <Header atlas={atlas} />
@@ -195,16 +263,22 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
         <button className={panel === 'chronicle' ? 'on' : ''} onClick={() => store.set({ panel: panel === 'chronicle' ? null : 'chronicle', selected: null })}>
           Chronicle
         </button>
+        {atlas.journeys.length > 0 && (
+          <button className={panel === 'journeys' || journey ? 'on' : ''} onClick={() => store.set({ panel: panel === 'journeys' ? null : 'journeys', selected: null })}>
+            Journeys
+          </button>
+        )}
         <button onClick={() => store.set({ panel: 'about' })}>About</button>
         <label className="toggle" title="Follow the phases while playing">
           <input type="checkbox" defaultChecked onChange={(e) => store.set({ autoCamera: e.target.checked })} /> Follow
         </label>
         <ThemeToggle />
       </nav>
-      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : null}
+      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyList atlas={atlas} onStart={(id) => goStep(id, 0)} /> : null}
+      {journey && journeyState && <JourneyCard atlas={atlas} journey={journey} step={journeyState.step} onStep={(n) => goStep(journey.id, n)} onExit={exitJourney} />}
       {panel === 'about' && <About atlas={atlas} onClose={() => store.set({ panel: null })} />}
-      {headEv && !selEv && <Headline ev={headEv} atlas={atlas} />}
-      <Legend atlas={atlas} />
+      {headEv && !selEv && !journey && <Headline ev={headEv} atlas={atlas} />}
+      {!journey && <Legend atlas={atlas} />}
       <Timeline atlas={atlas} onSeek={seek} />
       {regionTip && !evTip && (
         <div className="tip region-tip" style={{ left: regionTip.x, top: regionTip.y }}>
@@ -238,6 +312,9 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
               <button className="primary" onClick={begin} disabled={!ready}>
                 {ready ? 'Play the timeline' : 'Loading the map…'}
               </button>
+              {atlas.journeys.length > 0 && (
+                <button onClick={() => { setIntro(false); store.set({ panel: 'journeys' }); }}>Take a journey</button>
+              )}
               <button onClick={() => setIntro(false)}>Explore freely</button>
             </div>
           </div>

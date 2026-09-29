@@ -55,6 +55,7 @@ datasets/tudor-london/
   pack/tudor-london-r01.csv round 1 of the research pack
   pack/CHANGES.md           what changed in each round, and why
   narratives/               one text file for each included event
+  journeys/                 optional guided routes through the events
 ```
 
 Delete the example narrative files, and rename the pack file so it starts with your slug (`tudor-london-r01.csv`).
@@ -100,11 +101,39 @@ For each included row, create `narratives/<canonical_id>.md`, where `<canonical_
 
 Write in your own words and cite your sources; do not paste source text.
 
-### 5. Check it
+### 5. Add journeys (optional)
+
+A journey is a guided route through events that are already on the map, such as a revolt followed from town to town, or a question like "How do we know when?". Readers open it from **Journeys**. The timeline and camera move to each stop in turn, and the event's card opens beside the journey's own text.
+
+Copy `datasets/early-britain/journeys/_TEMPLATE.md` to `journeys/<journey-name>.md` (lower case, hyphens) and fill it in:
+
+```
+# How do we know when?
+By: Group 3
+Order: chronological
+
+An introduction: the question the journey asks, and what to look for.
+
+## Stop: vindolanda-tablets
+Why we stop here, what the evidence shows, and how it leads on.
+
+## Stop: sutton-hoo-mound1
+...
+```
+
+- Each `## Stop:` names the `canonical_id` of an **included** row in the latest round. A journey cannot add places or dates of its own, or stop at a merged or excluded row.
+- Stops go in date order. To order them some other way, for example by theme, write `Order: thematic`.
+- Nothing is drawn between stops: the camera moves, but the atlas does not claim a route. Say in the text what is known about how people or things moved.
+- The journey's text is shown as its author's interpretation. The evidence stays in each event's card.
+- A journey needs a title, an introduction and at least two stops, each with text. `npm run validate:draft` checks all of this.
+
+Share a journey by copying the address while it is open; the link opens at the same stop.
+
+### 6. Check it
 
 Run `npm run validate:draft`. It reports every problem, naming the row (by `candidate_id`) and what is wrong. Fix them in the next round and run it again. Then run `npm run dev` and open `http://localhost:5173/?d=tudor-london`.
 
-Before the dataset can be published, `npm run validate` must pass. That means every row has been checked, every primary locator is real (no `TO LOCATE` placeholders), every narrative is written, and every phase story is filled in.
+Before the dataset can be published, `npm run validate` must pass. That means every row has been checked, every primary locator is real (no `TO LOCATE` placeholders), every narrative and journey is written, and every phase story is filled in.
 
 ## How it works (for developers)
 

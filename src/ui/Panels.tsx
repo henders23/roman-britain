@@ -293,12 +293,21 @@ export function About({ atlas, onClose }: { atlas: Atlas; onClose: () => void })
           <p>{atlas.territory.note} <span className="synth">Atlas synthesis</span></p>
         </>
       )}
+      {atlas.journeys.length > 0 && (
+        <>
+          <h3>Journeys</h3>
+          <p>
+            Journeys are guided routes through events already on the map. Each stop is an included row; the journey’s text is its author’s
+            interpretation, and nothing is drawn between stops. <kbd>[</kbd> <kbd>]</kbd> move between stops.
+          </p>
+        </>
+      )}
       <h3>Not drawn</h3>
       <p>Routes, roads and linear monuments are not drawn. The atlas draws only points and regions that the pack supports.</p>
       <h3>Keyboard</h3>
       <p className="keys">
         <kbd>Space</kbd> play or pause · <kbd>←</kbd> <kbd>→</kbd> step · <kbd>Shift</kbd>+<kbd>←</kbd> <kbd>→</kbd> larger step ·{' '}
-        <kbd>[</kbd> <kbd>]</kbd> previous or next event · <kbd>C</kbd> chronicle · <kbd>Esc</kbd> close
+        <kbd>[</kbd> <kbd>]</kbd> previous or next event or journey stop · <kbd>C</kbd> chronicle · <kbd>Esc</kbd> close
       </p>
       <h3>Credits</h3>
       <p className="credits">

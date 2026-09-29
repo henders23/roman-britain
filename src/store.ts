@@ -10,7 +10,10 @@ export interface AtlasState {
   autoCamera: boolean;
   showPast: boolean;
   headline: string | null; // event id currently announced during playback
-  panel: 'chronicle' | 'about' | null;
+  panel: 'chronicle' | 'about' | 'journeys' | null;
+  /** the journey being followed; step 0 is its introduction, 1..n its stops */
+  journey: { id: string; step: number } | null;
+  journeyAuto: boolean;
   theme: Theme;
 }
 
@@ -46,6 +49,8 @@ export const store = createStore<AtlasState>({
   showPast: true,
   headline: null,
   panel: null,
+  journey: null,
+  journeyAuto: false,
   theme: 'dark',
 });
 

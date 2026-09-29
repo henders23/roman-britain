@@ -14,6 +14,8 @@ export function Timeline({ atlas, onSeek }: { atlas: Atlas; onSeek: (t: number) 
   const playing = useAtlas((s) => s.playing);
   const speed = useAtlas((s) => s.speed);
   const selected = useAtlas((s) => s.selected);
+  const journeyState = useAtlas((s) => s.journey);
+  const journey = journeyState ? atlas.journeys.find((j) => j.id === journeyState.id) : undefined;
   const withMonth = atlas.to - atlas.from <= 200;
 
   useEffect(() => {
@@ -175,6 +177,16 @@ export function Timeline({ atlas, onSeek }: { atlas: Atlas; onSeek: (t: number) 
               <text x={x(y)} y={evY + 45} textAnchor="middle">{formatYear(y)}</text>
             </g>
           ))}
+          {journey?.stops.map((st, i) => {
+            const ev = atlas.events.find((e) => e.id === st.event);
+            if (!ev) return null;
+            return (
+              <g key={st.event} className={`tl-jstop${journeyState?.step === i + 1 ? ' on' : ''}`} transform={`translate(${x(ev.t0)},${evY - 1})`}>
+                <circle r={6.5} />
+                <text textAnchor="middle" y={3}>{i + 1}</text>
+              </g>
+            );
+          })}
           <g className="tl-head" transform={`translate(${x(t)},0)`}>
             <line y1={0} y2={h - 2} />
             <circle cy={evY + 31} r={6} />

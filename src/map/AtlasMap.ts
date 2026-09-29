@@ -38,6 +38,7 @@ interface EvState {
   pulse: number;
   past: number;
   win: number;
+  ahead: number;
 }
 
 // Durations below are in multiples of atlas.unit (span / 88 years), so they read the
@@ -313,6 +314,18 @@ export class AtlasMap {
         'circle-stroke-opacity': ['coalesce', ['feature-state', 'past'], 0],
       },
     });
+    // Journey stops not yet reached: a faint hollow ring, so the route ahead is visible
+    // without drawing the event before its date.
+    m.addLayer({
+      id: 'ev-ahead', type: 'circle', source: 'ev-pts',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], cz - 3.8, 4, cz + 0.7, 7],
+        'circle-color': 'rgba(0,0,0,0)',
+        'circle-stroke-color': accent,
+        'circle-stroke-width': 1.5,
+        'circle-stroke-opacity': ['*', 0.7, ['coalesce', ['feature-state', 'ahead'], 0]],
+      },
+    });
     m.addLayer({
       id: 'ev-window', type: 'symbol', source: 'ev-pts',
       filter: ['==', ['get', 'windowed'], 1],
@@ -441,6 +454,7 @@ export class AtlasMap {
     m.setPaintProperty('ev-area-line', 'line-color', pc.fill);
     m.setPaintProperty('ev-pulse', 'circle-stroke-color', pc.fill);
     m.setPaintProperty('ev-past', 'circle-color', pc.fill);
+    m.setPaintProperty('ev-ahead', 'circle-stroke-color', pc.fill);
     m.setPaintProperty('ev-past', 'circle-stroke-color', theme === 'dark' ? 'rgba(10,8,4,0.8)' : 'rgba(255,250,240,0.9)');
     m.setPaintProperty('ev-halo', 'circle-color', theme === 'dark' ? '#fff6dd' : '#ffffff');
     this.drawImages(true);
@@ -604,8 +618,9 @@ export class AtlasMap {
   }
 
   private updateEvents(t: number) {
-    const { selected, hovered, showPast } = store.get();
+    const { selected, hovered, showPast, journey } = store.get();
     const u = this.atlas.unit;
+    const onJourney = this.journeyStops(journey?.id);
     // Frame-by-frame capture drives the pulse clock itself.
     const now = (window as { __clock?: number }).__clock ?? performance.now() / 1000;
     let labelsChanged = false;
@@ -638,6 +653,14 @@ export class AtlasMap {
           past = showPast ? 1 - vis : 0;
         }
       }
+      // While a journey is followed, events that are not on it recede.
+      if (onJourney && !onJourney.has(e.id)) {
+        vis *= 0.25;
+        active *= 0.25;
+        win *= 0.25;
+        past *= 0.4;
+      }
+      const ahead = onJourney?.has(e.id) && t < e.t0 && selected !== e.id ? 1 : 0;
       const sel = selected === e.id ? 1 : 0;
       if (sel) {
         vis = 1;
@@ -653,13 +676,35 @@ export class AtlasMap {
         labelsChanged = true;
       }
       const last = this.evState.get(e.index);
-      if (last && Math.abs(last.vis - vis) < 0.005 && Math.abs(last.past - past) < 0.005 && Math.abs(last.active - active) < 0.005 && Math.abs(last.win - win) < 0.005 && last.sel === sel && last.hover === hover && (active === 0 || e.windowed || Math.abs(last.pulse - pulse) < 0.01)) continue;
-      const st = { vis, active, sel, hover, pulse, past, win };
+      if (last && Math.abs(last.vis - vis) < 0.005 && Math.abs(last.past - past) < 0.005 && Math.abs(last.active - active) < 0.005 && Math.abs(last.win - win) < 0.005 && last.ahead === ahead && last.sel === sel && last.hover === hover && (active === 0 || e.windowed || Math.abs(last.pulse - pulse) < 0.01)) continue;
+      const st = { vis, active, sel, hover, pulse, past, win, ahead };
       this.evState.set(e.index, st);
       this.map.setFeatureState({ source: 'ev-pts', id: e.index }, st);
       if (e.geometry === 'area') this.map.setFeatureState({ source: 'ev-areas', id: e.index }, { vis, active });
     }
     if (labelsChanged) this.declutter();
+  }
+
+  private journeyCache: { id?: string; set: Set<string> | null } = { set: null };
+
+  private journeyStops(id?: string) {
+    if (this.journeyCache.id !== id) {
+      const j = id ? this.atlas.journeys.find((x) => x.id === id) : undefined;
+      this.journeyCache = { id, set: j ? new Set(j.stops.map((s) => s.event)) : null };
+    }
+    return this.journeyCache.set;
+  }
+
+  /** Frame a set of events, e.g. every stop of a journey. */
+  flyToEvents(evs: AtlasEvent[], duration = 2200) {
+    if (!evs.length) return;
+    const lons = evs.map((e) => e.lon);
+    const lats = evs.map((e) => e.lat);
+    const small = window.innerWidth < 720;
+    const pad = small ? { top: 170, bottom: 150, left: 40, right: 40 } : { top: 90, bottom: 200, left: 420, right: 120 };
+    // The map keeps a standing padding for the side panels; frame against zero padding instead.
+    this.map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+    this.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: pad, maxZoom: this.atlas.config.camera.zoom + 2, duration, essential: true, curve: 1.3 } as maplibregl.FitBoundsOptions);
   }
 
   /** Area in km² of regions held by or tributary to a focus polity at time t. */

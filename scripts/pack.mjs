@@ -57,6 +57,27 @@ export function narrativeSections(text) {
   return found;
 }
 
+/** A journey file: '# Title', optional 'By:' and 'Order:' lines, an introduction, then
+ *  '## Stop: <canonical_id>' sections. Mirrors parse_journey in tools/validate_pack.py. */
+export function parseJourney(text) {
+  const parts = text.replace(/<!--[\s\S]*?-->/g, '').split(/^##\s+/m);
+  const stops = parts.slice(1).map((part) => {
+    const nl = part.indexOf('\n');
+    const line = (nl < 0 ? part : part.slice(0, nl)).trim();
+    const m = /^Stop:\s*(\S+)\s*$/i.exec(line);
+    return { event: m ? m[1] : '', text: (nl < 0 ? '' : part.slice(nl + 1)).trim() };
+  });
+  let title = '', by = '', order = 'chronological';
+  const intro = [];
+  for (const line of parts[0].split('\n')) {
+    if (!title && line.startsWith('# ')) title = line.slice(2).trim();
+    else if (/^By:/i.test(line)) by = line.slice(line.indexOf(':') + 1).trim();
+    else if (/^Order:/i.test(line)) order = line.slice(line.indexOf(':') + 1).trim().toLowerCase();
+    else intro.push(line);
+  }
+  return { title, by, order, intro: intro.join('\n').trim(), stops };
+}
+
 const splitBar = (s) => (s ?? '').split('|').map((x) => x.trim()).filter(Boolean);
 
 function facetsOf(s) {
@@ -124,6 +145,18 @@ export function loadDataset(dir, slug) {
       };
     });
 
+  const jdir = join(dir, 'journeys');
+  const journeys = existsSync(jdir)
+    ? readdirSync(jdir)
+        .filter((f) => f.endsWith('.md') && !f.startsWith('_'))
+        .sort()
+        .map((f) => {
+          const j = parseJourney(readFileSync(join(jdir, f), 'utf8'));
+          const placeholder = [j.intro, ...j.stops.map((s) => s.text)].some((t) => t.includes('PLACEHOLDER'));
+          return { id: f.replace(/\.md$/, ''), ...j, placeholder };
+        })
+    : [];
+
   const set = (d) => rows.filter((r) => r.disposition === d).map((r) => ({ candidateId: r.candidate_id, description: r.candidate_description, reason: r.disposition_reason, ...(r.merge_target ? { target: r.merge_target } : {}) }));
   return {
     config: { ...config, slug },
@@ -137,5 +170,6 @@ export function loadDataset(dir, slug) {
       unverified: rows.filter((r) => r.review_status === 'unverified').map((r) => ({ candidateId: r.candidate_id, disposition: r.disposition })),
     },
     events,
+    journeys,
   };
 }
