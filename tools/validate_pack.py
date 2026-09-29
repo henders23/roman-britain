@@ -89,6 +89,16 @@ def main():
     for p in phases.values():
         if p.get("story", "").startswith("TODO"):
             (warn if draft else err)(f"phase:{p['id']}", "phase story is still TODO")
+    # Phase years are inclusive at both ends ("to" is the last year), so no year may
+    # belong to two phases.
+    ordered = sorted(phases.values(), key=lambda p: p["from"])
+    for p in ordered:
+        if p["from"] > p["to"]:
+            err(f"phase:{p['id']}", f"phase starts after it ends ({p['from']}–{p['to']})")
+    for a, nxt in zip(ordered, ordered[1:]):
+        if nxt["from"] <= a["to"]:
+            err(f"phase:{nxt['id']}", f"phase overlaps '{a['id']}': {a['id']} runs {a['from']}–{a['to']} "
+                f"and {nxt['id']} starts in {nxt['from']} (a phase's 'to' is its last year)")
 
     pack = latest_round(root / "pack", slug)
     if not pack:
