@@ -1,15 +1,17 @@
 import { useSyncExternalStore } from 'react';
+import type { Theme } from './map/icons';
 
 export interface AtlasState {
   t: number;
   playing: boolean;
-  speed: number; // years per second of playback
+  speed: number; // multiples of the dataset's time unit per second of playback
   selected: string | null;
   hovered: string | null;
   autoCamera: boolean;
   showPast: boolean;
   headline: string | null; // event id currently announced during playback
   panel: 'chronicle' | 'about' | null;
+  theme: Theme;
 }
 
 type Listener = () => void;
@@ -35,7 +37,7 @@ function createStore<S extends object>(initial: S) {
 }
 
 export const store = createStore<AtlasState>({
-  t: 1206,
+  t: 0,
   playing: false,
   speed: 1,
   selected: null,
@@ -44,6 +46,7 @@ export const store = createStore<AtlasState>({
   showPast: true,
   headline: null,
   panel: null,
+  theme: 'dark',
 });
 
 export function useAtlas<T>(pick: (s: AtlasState) => T): T {

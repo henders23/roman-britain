@@ -1,9 +1,10 @@
 import * as maplibregl from 'maplibre-gl';
 import type { MapGeoJSONFeature } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { baseStyle, WATER } from './style';
-import { drawPin, hatch, OUTCOME_COLORS } from './icons';
-import { isMongol, phaseAt, stepAt, type AtlasEvent, type Polity, type Status, type WarData } from '../data/war';
+import { baseStyle, MAP_THEMES } from './style';
+import { drawPin, glyphFor, hatch, PIN_COLORS, type Theme } from './icons';
+import { isFocus, phaseAt, stepAt, type Atlas, type AtlasEvent, type Territory } from '../data/dataset';
+import type { Polity, Status } from '../data/schema';
 import { store } from '../store';
 
 maplibregl.setWorkerUrl(`${import.meta.env.BASE_URL}maplibre/maplibre-gl-worker.mjs`);
@@ -29,8 +30,23 @@ interface RegionState {
   vassal: number;
 }
 
-const TRANSITION = 0.3; // years of timeline over which a region's colour blends to its new owner
-const FLASH = 0.7; // years a newly conquered region glows
+interface EvState {
+  vis: number;
+  active: number;
+  sel: number;
+  hover: number;
+  pulse: number;
+  past: number;
+  win: number;
+}
+
+// Durations below are in multiples of atlas.unit (span / 88 years), so they read the
+// same on an 88-year and a thousand-year timeline.
+const TRANSITION = 0.3; // over which a region's colour blends to its new owner
+const FLASH = 0.7; // how long a newly gained region glows
+const APPEAR = 0.06; // fade-in of a point event
+const SETTLE = 0.35; // an ended event's badge stops pulsing
+const LINGER = 2.5; // an ended event's badge shrinks to a small dot
 
 const hexToRgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
 const mix = (a: string, b: string, k: number) => {
@@ -43,7 +59,7 @@ const ease = (x: number) => x * x * (3 - 2 * x);
 
 function opacityFor(p: Polity | undefined, status: Status) {
   if (!p) return 0;
-  if (isMongol(p)) return status === 'vassal' ? 0.26 : status === 'contested' ? 0.3 : 0.44;
+  if (isFocus(p)) return status === 'vassal' ? 0.26 : status === 'contested' ? 0.3 : 0.44;
   return status === 'vassal' ? 0.18 : 0.2;
 }
 
@@ -62,18 +78,36 @@ function circlePolygon(lon: number, lat: number, km: number, n = 72): GeoJSON.Po
   return { type: 'Polygon', coordinates: [ring] };
 }
 
+/** A dotted ring drawn around a pin while the playhead is inside its date window. */
+function windowRing(theme: Theme): ImageData {
+  const S = 96;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = S;
+  const c = canvas.getContext('2d')!;
+  c.strokeStyle = PIN_COLORS[theme].fill;
+  c.lineWidth = 3;
+  c.lineCap = 'round';
+  c.setLineDash([0.1, 7.5]);
+  c.beginPath();
+  c.arc(S / 2, S / 2, S / 2 - 4, 0, Math.PI * 2);
+  c.stroke();
+  return c.getImageData(0, 0, S, S);
+}
+
 export class AtlasMap {
   map: maplibregl.Map;
-  private war: WarData;
+  private atlas: Atlas;
+  private territory: Territory | null;
+  private theme: Theme;
   private regions: RegionFeature[] = [];
   private regionState = new Map<string, RegionState>();
   private borders: { id: number; a: string; b: string }[] = [];
   private borderKind = new Map<number, number>();
   private labels = new Map<string, { marker: maplibregl.Marker; el: HTMLElement; area: number; shown: boolean }>();
+  private evLabels: { marker: maplibregl.Marker; el: HTMLElement; ev: AtlasEvent; shown: boolean }[] = [];
   private declutterAt = 0;
-  private cityMarkers: { marker: maplibregl.Marker; el: HTMLElement; from: number; to: number }[] = [];
   private ownerKey = '';
-  private evState = new Map<number, { vis: number; active: number; sel: number; hover: number; pulse: number; past: number }>();
+  private evState = new Map<number, EvState>();
   private ready = false;
   private lastT = NaN;
   private hoveredRegion: number | null = null;
@@ -81,16 +115,19 @@ export class AtlasMap {
   onEventHover?: (ev: AtlasEvent | null, point?: { x: number; y: number }) => void;
   onReady?: () => void;
 
-  constructor(container: HTMLElement, war: WarData, geoBase: string) {
-    this.war = war;
+  constructor(container: HTMLElement, atlas: Atlas, geoBase: string, theme: Theme) {
+    this.atlas = atlas;
+    this.territory = atlas.territory;
+    this.theme = theme;
     const small = window.innerWidth < 720;
+    const cam = atlas.config.camera;
     this.map = new maplibregl.Map({
       container,
-      style: baseStyle(),
-      center: [88, 42],
-      zoom: small ? 1.6 : 2.35,
+      style: baseStyle(theme),
+      center: cam.center,
+      zoom: cam.zoom - (small ? 0.8 : 0) - 0.6,
       minZoom: 1.2,
-      maxZoom: 9,
+      maxZoom: 11,
       attributionControl: { compact: true },
       canvasContextAttributes: { antialias: true },
       renderWorldCopies: false,
@@ -113,41 +150,53 @@ export class AtlasMap {
   }
 
   private async init(geoBase: string) {
-    const get = (f: string) => fetch(`${geoBase}${f}`).then((r) => r.json());
-    const [regions, borders, rivers, lakes] = await Promise.all([get('regions.json'), get('borders.json'), get('rivers.json'), get('lakes.json')]);
-    this.regions = regions.features;
-    this.borders = borders.features.map((f: GeoJSON.Feature) => ({ id: f.id as number, ...(f.properties as { a: string; b: string }) }));
+    const get = (url: string) => fetch(url).then((r) => r.json());
+    const T = this.territory;
+    const [rivers, lakes, regions, borders] = await Promise.all([
+      get(`${geoBase}rivers.json`),
+      get(`${geoBase}lakes.json`),
+      T ? get(T.regionsUrl) : null,
+      T ? get(T.bordersUrl) : null,
+    ]);
     const m = this.map;
+    const th = MAP_THEMES[this.theme];
 
     m.addSource('lakes', { type: 'geojson', data: lakes });
     m.addSource('rivers', { type: 'geojson', data: rivers });
-    m.addSource('regions', { type: 'geojson', data: regions });
-    m.addSource('borders', { type: 'geojson', data: borders });
-    m.addLayer({ id: 'lakes', type: 'fill', source: 'lakes', paint: { 'fill-color': WATER, 'fill-opacity': 0.95 } });
+    m.addLayer({ id: 'lakes', type: 'fill', source: 'lakes', paint: { 'fill-color': th.water, 'fill-opacity': 0.95 } });
     m.addLayer({
       id: 'rivers', type: 'line', source: 'rivers',
       paint: {
-        'line-color': '#3f6f96',
+        'line-color': th.river,
         'line-opacity': ['interpolate', ['linear'], ['zoom'], 1.5, 0.45, 5, 0.85],
         'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, ['case', ['<=', ['get', 'rank'], 3], 0.9, 0.4], 6, ['case', ['<=', ['get', 'rank'], 3], 2.4, 1.2]],
       },
     });
 
+    if (T && regions && borders) this.addTerritoryLayers(regions, borders);
+    this.addEventLayers();
+    this.addEventLabels();
+    this.onZoom();
+    this.bindPointer();
+    this.ready = true;
+    this.update(store.get().t, true);
+    this.onReady?.();
+  }
+
+  private addTerritoryLayers(regions: GeoJSON.FeatureCollection, borders: GeoJSON.FeatureCollection) {
+    const m = this.map;
+    this.regions = regions.features as RegionFeature[];
+    this.borders = borders.features.map((f) => ({ id: f.id as number, ...(f.properties as { a: string; b: string }) }));
+    m.addSource('regions', { type: 'geojson', data: regions });
+    m.addSource('borders', { type: 'geojson', data: borders });
     m.addImage('hatch-contested', hatch('rgba(255,120,70,0.9)', 8, 2.2), { pixelRatio: 2 });
     m.addImage('hatch-vassal', hatch('rgba(255,236,190,0.55)', 8, 1.2), { pixelRatio: 2 });
-
     m.addLayer({
       id: 'terr-fill', type: 'fill', source: 'regions',
       paint: { 'fill-color': ['coalesce', ['feature-state', 'color'], '#000'], 'fill-opacity': ['coalesce', ['feature-state', 'opacity'], 0], 'fill-antialias': false },
     });
-    m.addLayer({
-      id: 'terr-vassal', type: 'fill', source: 'regions',
-      paint: { 'fill-pattern': 'hatch-vassal', 'fill-opacity': ['coalesce', ['feature-state', 'vassal'], 0] },
-    });
-    m.addLayer({
-      id: 'terr-contested', type: 'fill', source: 'regions',
-      paint: { 'fill-pattern': 'hatch-contested', 'fill-opacity': ['*', 0.75, ['coalesce', ['feature-state', 'contested'], 0]] },
-    });
+    m.addLayer({ id: 'terr-vassal', type: 'fill', source: 'regions', paint: { 'fill-pattern': 'hatch-vassal', 'fill-opacity': ['coalesce', ['feature-state', 'vassal'], 0] } });
+    m.addLayer({ id: 'terr-contested', type: 'fill', source: 'regions', paint: { 'fill-pattern': 'hatch-contested', 'fill-opacity': ['*', 0.75, ['coalesce', ['feature-state', 'contested'], 0]] } });
     m.addLayer({
       id: 'terr-flash', type: 'fill', source: 'regions',
       paint: { 'fill-color': '#ffd98a', 'fill-opacity': ['*', 0.55, ['coalesce', ['feature-state', 'flash'], 0]], 'fill-antialias': false },
@@ -156,13 +205,12 @@ export class AtlasMap {
       id: 'terr-hover', type: 'line', source: 'regions',
       paint: { 'line-color': '#fff4d8', 'line-width': 1.4, 'line-opacity': ['*', 0.8, ['coalesce', ['feature-state', 'hover'], 0]] },
     });
-    // Frontiers: kind 1 = Mongol against the world, 2 = between khanates, 3 = between others.
+    // Frontiers: kind 1 = focus polities against the rest, 2 = between focus polities, 3 = between others.
     m.addLayer({
       id: 'frontier-glow', type: 'line', source: 'borders',
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#ffb347',
-        'line-blur': 6,
+        'line-color': '#ffb347', 'line-blur': 6,
         'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 5, 6, 12],
         'line-opacity': ['match', ['coalesce', ['feature-state', 'kind'], 0], 1, 0.45, 0],
       },
@@ -177,7 +225,7 @@ export class AtlasMap {
       },
     });
     m.addLayer({
-      id: 'frontier-khanate', type: 'line', source: 'borders',
+      id: 'frontier-focus', type: 'line', source: 'borders',
       paint: {
         'line-color': '#f7e3a8',
         'line-width': ['interpolate', ['linear'], ['zoom'], 1.5, 1, 6, 2],
@@ -185,77 +233,71 @@ export class AtlasMap {
         'line-opacity': ['match', ['coalesce', ['feature-state', 'kind'], 0], 2, 0.9, 0],
       },
     });
+  }
 
-    this.addEventLayers();
-    this.addCities();
-    this.bindPointer();
-    this.ready = true;
-    this.update(store.get().t, true);
-    this.onReady?.();
+  private iconKey(e: AtlasEvent) {
+    return `ev-${glyphFor(e.kind, this.atlas.kinds.get(e.kind)?.icon)}-${e.geometry === 'area' ? 'a' : 'p'}`;
+  }
+
+  private drawImages(update: boolean) {
+    const m = this.map;
+    const put = (key: string, img: ImageData) => (update && m.hasImage(key) ? m.updateImage(key, img) : !m.hasImage(key) && m.addImage(key, img, { pixelRatio: 2 }));
+    for (const e of this.atlas.events) {
+      const key = this.iconKey(e);
+      put(key, drawPin(glyphFor(e.kind, this.atlas.kinds.get(e.kind)?.icon), e.geometry === 'area', this.theme));
+    }
+    put('ev-window', windowRing(this.theme));
   }
 
   private addEventLayers() {
     const m = this.map;
-    const evs = this.war.events;
-    for (const e of evs) {
-      const key = `ev-${e.kind}-${e.outcome}-${e.geometry === 'area' ? 'a' : 'p'}`;
-      if (!m.hasImage(key)) m.addImage(key, drawPin(e.kind, e.outcome, e.geometry === 'area'), { pixelRatio: 2 });
-    }
+    const evs = this.atlas.events;
+    const cz = this.atlas.config.camera.zoom;
+    this.drawImages(false);
     m.addSource('ev-areas', {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
-        features: evs.filter((e) => e.geometry === 'area').map((e) => ({ type: 'Feature', id: e.index, properties: { outcome: e.outcome }, geometry: circlePolygon(e.lon, e.lat, e.radiusKm ?? 150) })),
+        features: evs.filter((e) => e.geometry === 'area').map((e) => ({ type: 'Feature', id: e.index, properties: {}, geometry: circlePolygon(e.lon, e.lat, e.radiusKm!) })),
       },
     });
     const pts: GeoJSON.Feature[] = evs.map((e) => ({
       type: 'Feature', id: e.index,
-      properties: { icon: `ev-${e.kind}-${e.outcome}-${e.geometry === 'area' ? 'a' : 'p'}`, importance: e.importance, outcome: e.outcome, eid: e.id },
+      properties: { icon: this.iconKey(e), size: e.size, importance: e.importance, eid: e.id, windowed: e.windowed ? 1 : 0 },
       geometry: { type: 'Point', coordinates: [e.lon, e.lat] },
     }));
-    let mid = 0;
-    const markers: GeoJSON.Feature[] = [];
-    for (const e of evs) for (const mk of e.markers ?? []) markers.push({ type: 'Feature', id: mid++, properties: { parent: e.index, name: mk.name }, geometry: { type: 'Point', coordinates: [mk.lon, mk.lat] } });
-    this.markerParents = markers.map((f) => (f.properties as { parent: number }).parent);
     m.addSource('ev-pts', { type: 'geojson', data: { type: 'FeatureCollection', features: pts } });
-    m.addSource('ev-markers', { type: 'geojson', data: { type: 'FeatureCollection', features: markers } });
 
-    const outcomeColor: maplibregl.ExpressionSpecification = ['match', ['get', 'outcome'], ...Object.entries(OUTCOME_COLORS).flat(), '#d8cfbf'] as unknown as maplibregl.ExpressionSpecification;
+    const accent = PIN_COLORS[this.theme].fill;
     const vis = ['coalesce', ['feature-state', 'vis'], 0] as maplibregl.ExpressionSpecification;
     const active = ['coalesce', ['feature-state', 'active'], 0] as maplibregl.ExpressionSpecification;
+    const size = ['get', 'size'] as maplibregl.ExpressionSpecification;
+    // Pins are sized relative to the dataset's own camera zoom, not a world view.
+    const zoomed = (far: number, near: number) =>
+      ['interpolate', ['linear'], ['zoom'], cz - 3.8, ['+', far * 0.55, ['*', far * 0.45, size]], cz + 0.7, ['+', near * 0.55, ['*', near * 0.45, size]]] as maplibregl.ExpressionSpecification;
 
-    m.addLayer({ id: 'ev-area-fill', type: 'fill', source: 'ev-areas', paint: { 'fill-color': outcomeColor, 'fill-opacity': ['+', ['*', vis, 0.06], ['*', active, 0.16]] } });
+    m.addLayer({ id: 'ev-area-fill', type: 'fill', source: 'ev-areas', paint: { 'fill-color': accent, 'fill-opacity': ['+', ['*', vis, 0.06], ['*', active, 0.16]] } });
     m.addLayer({
       id: 'ev-area-line', type: 'line', source: 'ev-areas',
-      paint: { 'line-color': outcomeColor, 'line-width': ['+', 1, ['*', active, 1]], 'line-dasharray': [3, 3], 'line-opacity': ['+', ['*', vis, 0.35], ['*', active, 0.55]] },
-    });
-    m.addLayer({
-      id: 'ev-marker-dot', type: 'circle', source: 'ev-markers',
-      paint: {
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 2.5, 6, 4.5],
-        'circle-color': '#fff1cf',
-        'circle-stroke-color': '#1a140c',
-        'circle-stroke-width': 1,
-        'circle-opacity': ['coalesce', ['feature-state', 'vis'], 0],
-        'circle-stroke-opacity': ['coalesce', ['feature-state', 'vis'], 0],
-      },
+      paint: { 'line-color': accent, 'line-width': ['+', 1, ['*', active, 1]], 'line-dasharray': [3, 3], 'line-opacity': ['+', ['*', vis, 0.35], ['*', active, 0.55]] },
     });
     m.addLayer({
       id: 'ev-pulse', type: 'circle', source: 'ev-pts',
       paint: {
-        'circle-radius': ['+', 10, ['*', 34, ['coalesce', ['feature-state', 'pulse'], 0]], ['*', 8, ['get', 'importance']]],
+        'circle-radius': ['+', 14, ['*', 34, ['coalesce', ['feature-state', 'pulse'], 0]], ['*', 14, size]],
         'circle-color': 'rgba(0,0,0,0)',
-        'circle-stroke-color': outcomeColor,
+        'circle-stroke-color': accent,
         'circle-stroke-width': 2,
-        'circle-stroke-opacity': ['*', active, ['-', 1, ['coalesce', ['feature-state', 'pulse'], 0]]],
+        // A windowed event does not pulse: pulsing would claim "happening now".
+        'circle-stroke-opacity': ['*', active, ['-', 1, ['get', 'windowed']], ['-', 1, ['coalesce', ['feature-state', 'pulse'], 0]]],
         'circle-pitch-alignment': 'map',
       },
     });
     m.addLayer({
       id: 'ev-halo', type: 'circle', source: 'ev-pts',
       paint: {
-        'circle-radius': ['+', 13, ['*', 3, ['get', 'importance']]],
-        'circle-color': '#fff6dd',
+        'circle-radius': ['+', 15, ['*', 9, size]],
+        'circle-color': this.theme === 'dark' ? '#fff6dd' : '#ffffff',
         'circle-blur': 0.6,
         'circle-opacity': ['*', 0.5, ['max', ['coalesce', ['feature-state', 'sel'], 0], ['coalesce', ['feature-state', 'hover'], 0]]],
       },
@@ -263,61 +305,80 @@ export class AtlasMap {
     m.addLayer({
       id: 'ev-past', type: 'circle', source: 'ev-pts',
       paint: {
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, ['+', 1.6, ['*', 0.6, ['get', 'importance']]], 6, ['+', 3, ['get', 'importance']]],
-        'circle-color': outcomeColor,
-        'circle-stroke-color': 'rgba(10,8,4,0.8)',
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], cz - 3.8, ['+', 1.8, ['*', 1.8, size]], cz + 0.7, ['+', 3, ['*', 3, size]]],
+        'circle-color': accent,
+        'circle-stroke-color': this.theme === 'dark' ? 'rgba(10,8,4,0.8)' : 'rgba(255,250,240,0.9)',
         'circle-stroke-width': 1,
         'circle-opacity': ['*', 0.85, ['coalesce', ['feature-state', 'past'], 0]],
         'circle-stroke-opacity': ['coalesce', ['feature-state', 'past'], 0],
       },
     });
     m.addLayer({
+      id: 'ev-window', type: 'symbol', source: 'ev-pts',
+      filter: ['==', ['get', 'windowed'], 1],
+      layout: { 'icon-image': 'ev-window', 'icon-size': zoomed(0.62, 0.95), 'icon-allow-overlap': true, 'icon-ignore-placement': true },
+      paint: { 'icon-opacity': ['coalesce', ['feature-state', 'win'], 0] },
+    });
+    m.addLayer({
       id: 'ev-icons', type: 'symbol', source: 'ev-pts',
       layout: {
         'icon-image': ['get', 'icon'],
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 1.5, ['match', ['get', 'importance'], 3, 0.62, 2, 0.5, 0.42], 6, ['match', ['get', 'importance'], 3, 0.95, 2, 0.8, 0.7]],
+        'icon-size': zoomed(0.5, 0.82),
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
-        'symbol-sort-key': ['get', 'importance'],
+        'symbol-sort-key': ['-', 4, ['get', 'importance']],
       },
       paint: { 'icon-opacity': vis },
     });
   }
 
-  private markerParents: number[] = [];
-
-  private addCities() {
-    for (const c of this.war.cities) {
+  /** Title labels beside pins; shown while a pin is on the map and decluttered by importance. */
+  private addEventLabels() {
+    for (const ev of this.atlas.events) {
+      const wrap = document.createElement('div');
       const el = document.createElement('div');
-      el.className = `city city-r${c.rank}`;
-      el.innerHTML = `<span class="city-dot"></span><span class="city-name">${c.name}</span>`;
-      if (c.modern) el.title = c.modern;
-      const marker = new maplibregl.Marker({ element: el, anchor: 'left', offset: [-4, 0], opacityWhenCovered: '0' } as maplibregl.MarkerOptions).setLngLat([c.lon, c.lat]).addTo(this.map);
-      this.cityMarkers.push({ marker, el, from: c.from ?? -Infinity, to: c.to ?? Infinity });
+      el.className = `ev-label imp-${ev.importance}`;
+      el.textContent = ev.title;
+      wrap.appendChild(el);
+      const marker = new maplibregl.Marker({ element: wrap, anchor: 'left', offset: [15 + 6 * ev.size, 0], opacityWhenCovered: '0' } as maplibregl.MarkerOptions)
+        .setLngLat([ev.lon, ev.lat])
+        .addTo(this.map);
+      this.evLabels.push({ marker, el, ev, shown: false });
     }
-    this.onZoom();
   }
 
   private onZoom() {
     const z = this.map.getZoom();
-    this.map.getContainer().style.setProperty('--z', String(z));
-    this.map.getContainer().classList.toggle('z-far', z < 2.6);
-    this.map.getContainer().classList.toggle('z-near', z >= 3.0);
+    const cz = this.atlas.config.camera.zoom;
+    const c = this.map.getContainer();
+    c.style.setProperty('--z', String(z));
+    c.classList.toggle('z-far', z < cz - 2.7);
+    c.classList.toggle('z-near', z >= cz - 2.3);
+  }
+
+  private hitEvent(box: [maplibregl.PointLike, maplibregl.PointLike]) {
+    return this.map
+      .queryRenderedFeatures(box, { layers: ['ev-icons', 'ev-past'] })
+      .filter((f) => {
+        const s = this.evState.get(f.id as number);
+        return (s?.vis ?? 0) > 0.05 || (s?.past ?? 0) > 0.05;
+      })
+      .sort((a, b) => (a.properties.importance as number) - (b.properties.importance as number))[0];
   }
 
   private bindPointer() {
     const m = this.map;
     let hoverEv: number | null = null;
     m.on('mousemove', (e) => {
-      const hit = m.queryRenderedFeatures([[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]], { layers: ['ev-icons', 'ev-past'] }).find((f) => { const s = this.evState.get(f.id as number); return (s?.vis ?? 0) > 0.05 || (s?.past ?? 0) > 0.05; });
-      const ev = hit ? this.war.events[hit.id as number] : null;
+      const hit = this.hitEvent([[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]]);
+      const ev = hit ? this.atlas.events[hit.id as number] : null;
       if ((ev?.index ?? null) !== hoverEv) {
         hoverEv = ev?.index ?? null;
         store.set({ hovered: ev?.id ?? null });
       }
       m.getCanvas().style.cursor = ev ? 'pointer' : '';
       this.onEventHover?.(ev, e.point);
-      const reg = ev ? undefined : m.queryRenderedFeatures(e.point, { layers: ['terr-fill'] })[0];
+      const reg = ev || !this.territory ? undefined : m.queryRenderedFeatures(e.point, { layers: ['terr-fill'] })[0];
       this.setRegionHover(reg, e.point);
     });
     m.on('mouseout', () => {
@@ -326,20 +387,20 @@ export class AtlasMap {
       this.setRegionHover(undefined);
     });
     m.on('click', (e) => {
-      const box: [maplibregl.PointLike, maplibregl.PointLike] = [[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]];
-      const hits = m.queryRenderedFeatures(box, { layers: ['ev-icons', 'ev-past'] }).filter((f) => { const s = this.evState.get(f.id as number); return (s?.vis ?? 0) > 0.05 || (s?.past ?? 0) > 0.05; });
-      if (hits.length) {
-        const best = hits.sort((a, b) => (b.properties.importance as number) - (a.properties.importance as number))[0];
-        store.set({ selected: this.war.events[best.id as number].id });
+      const hit = this.hitEvent([[e.point.x - 10, e.point.y - 10], [e.point.x + 10, e.point.y + 10]]);
+      if (hit) {
+        store.set({ selected: this.atlas.events[hit.id as number].id });
         return;
       }
       const area = m.queryRenderedFeatures(e.point, { layers: ['ev-area-fill'] }).filter((f) => (this.evState.get(f.id as number)?.active ?? 0) > 0.5)[0];
-      if (area) store.set({ selected: this.war.events[area.id as number].id });
+      if (area) store.set({ selected: this.atlas.events[area.id as number].id });
       else store.set({ selected: null });
     });
   }
 
   private setRegionHover(f: MapGeoJSONFeature | undefined, point?: { x: number; y: number }) {
+    const T = this.territory;
+    if (!T) return;
     const id = f ? (f.id as number) : null;
     if (id !== this.hoveredRegion) {
       if (this.hoveredRegion !== null) this.map.setFeatureState({ source: 'regions', id: this.hoveredRegion }, { hover: 0 });
@@ -348,40 +409,63 @@ export class AtlasMap {
     }
     if (!f) return this.onRegionHover?.(null);
     const region = f.properties.region as string;
-    const { step } = stepAt(this.war.timelines.get(region)!, store.get().t);
-    this.onRegionHover?.({ region, name: f.properties.name as string, polity: this.war.polities.get(step.polity)!, status: step.status, since: step.t }, point);
+    const { step } = stepAt(T.timelines.get(region)!, store.get().t);
+    this.onRegionHover?.({ region, name: f.properties.name as string, polity: T.polities.get(step.polity)!, status: step.status, since: step.t }, point);
   }
 
   /** Render the world at time t. Cheap enough to call every animation frame. */
   update(t: number, force = false) {
     if (!this.ready) return;
     const tChanged = force || t !== this.lastT;
-    if (tChanged) {
-      this.updateTerritory(t);
-      this.updateCities(t);
-    }
+    if (tChanged && this.territory) this.updateTerritory(t);
     this.updateEvents(t);
     this.lastT = t;
   }
 
+  setTheme(theme: Theme) {
+    if (theme === this.theme) return;
+    this.theme = theme;
+    const m = this.map;
+    const th = MAP_THEMES[theme];
+    m.setSky(th.sky);
+    m.setPaintProperty('background', 'background-color', th.background);
+    m.setPaintProperty('relief', 'color-relief-color', th.relief);
+    m.setPaintProperty('hillshade', 'hillshade-shadow-color', th.shadow);
+    m.setPaintProperty('hillshade', 'hillshade-highlight-color', th.highlight);
+    m.setPaintProperty('hillshade', 'hillshade-accent-color', th.accent);
+    if (!this.ready) return;
+    const pc = PIN_COLORS[theme];
+    m.setPaintProperty('lakes', 'fill-color', th.water);
+    m.setPaintProperty('rivers', 'line-color', th.river);
+    m.setPaintProperty('ev-area-fill', 'fill-color', pc.fill);
+    m.setPaintProperty('ev-area-line', 'line-color', pc.fill);
+    m.setPaintProperty('ev-pulse', 'circle-stroke-color', pc.fill);
+    m.setPaintProperty('ev-past', 'circle-color', pc.fill);
+    m.setPaintProperty('ev-past', 'circle-stroke-color', theme === 'dark' ? 'rgba(10,8,4,0.8)' : 'rgba(255,250,240,0.9)');
+    m.setPaintProperty('ev-halo', 'circle-color', theme === 'dark' ? '#fff6dd' : '#ffffff');
+    this.drawImages(true);
+  }
+
   private updateTerritory(t: number) {
     const m = this.map;
-    const P = this.war.polities;
+    const T = this.territory!;
+    const u = this.atlas.unit;
+    const P = T.polities;
     let ownerKey = '';
     const owners = new Map<string, { polity: string; status: Status }>();
     for (const f of this.regions) {
       const region = f.properties.region;
-      const steps = this.war.timelines.get(region);
+      const steps = T.timelines.get(region);
       if (!steps) continue;
       const { step, prev } = stepAt(steps, t);
-      const k = prev ? ease(clamp01((t - step.t) / TRANSITION)) : 1;
+      const k = prev ? ease(clamp01((t - step.t) / (TRANSITION * u))) : 1;
       const cur = P.get(step.polity);
       const was = prev ? P.get(prev.polity) : cur;
       const color = mix(was!.color, cur!.color, k);
       const opacity = opacityFor(was, prev?.status ?? step.status) * (1 - k) + opacityFor(cur, step.status) * k;
-      const gained = prev && isMongol(cur) && (!isMongol(was) || prev.status !== 'core') && step.status !== 'contested';
+      const gained = prev && isFocus(cur) && (!isFocus(was) || prev.status !== 'core') && step.status !== 'contested';
       const fresh = prev && (gained || (step.status === 'contested' && prev.status !== 'contested'));
-      const flash = fresh ? Math.pow(clamp01(1 - (t - step.t) / FLASH), 2) * (t >= step.t ? 1 : 0) : 0;
+      const flash = fresh ? Math.pow(clamp01(1 - (t - step.t) / (FLASH * u)), 2) * (t >= step.t ? 1 : 0) : 0;
       const contested = step.status === 'contested' ? k : prev?.status === 'contested' ? 1 - k : 0;
       const vassal = step.status === 'vassal' ? k : prev?.status === 'vassal' ? 1 - k : 0;
       const next: RegionState = { fid: f.id as number, polity: step.polity, status: step.status, color, opacity, flash, contested, vassal };
@@ -401,15 +485,15 @@ export class AtlasMap {
   }
 
   private updateFrontiers(owners: Map<string, { polity: string; status: Status }>) {
-    const P = this.war.polities;
+    const P = this.territory!.polities;
     for (const b of this.borders) {
       const A = owners.get(b.a);
       const B = owners.get(b.b);
       let kind = 0;
       if (A && B && A.polity !== B.polity) {
-        const ma = isMongol(P.get(A.polity));
-        const mb = isMongol(P.get(B.polity));
-        kind = ma !== mb ? 1 : ma && mb ? 2 : 3;
+        const fa = isFocus(P.get(A.polity));
+        const fb = isFocus(P.get(B.polity));
+        kind = fa !== fb ? 1 : fa && fb ? 2 : 3;
       }
       if (this.borderKind.get(b.id) !== kind) {
         this.borderKind.set(b.id, kind);
@@ -443,7 +527,7 @@ export class AtlasMap {
         const d = (f.properties.labelLon - x) ** 2 + (f.properties.labelLat - y) ** 2 - Math.log(f.properties.areaKm2) * 2;
         return d < best.d ? { f, d } : best;
       }, { f: fs[0], d: Infinity }).f;
-      const pol = this.war.polities.get(pid)!;
+      const pol = this.territory!.polities.get(pid)!;
       const scale = Math.max(0.55, Math.min(1, vw / 1200));
       const size = Math.max(9, Math.min(30, 5 + Math.sqrt(area) / 90) * scale);
       let entry = this.labels.get(pid);
@@ -451,7 +535,7 @@ export class AtlasMap {
         // MapLibre writes inline opacity on the marker element, so styling lives on a child.
         const wrap = document.createElement('div');
         const el = document.createElement('div');
-        el.className = `polity-label${isMongol(pol) ? ' is-mongol' : ''}`;
+        el.className = `polity-label${isFocus(pol) ? ' is-focus' : ''}`;
         el.textContent = pol.name;
         wrap.appendChild(el);
         const marker = new maplibregl.Marker({ element: wrap, anchor: 'center', opacityWhenCovered: '0' } as maplibregl.MarkerOptions).setLngLat([anchor.properties.labelLon, anchor.properties.labelLat]).addTo(this.map);
@@ -475,43 +559,74 @@ export class AtlasMap {
     requestAnimationFrame(() => this.declutter());
   }
 
-  /** Hide smaller polity labels that would overlap a larger one on screen. */
+  /** Hide labels that would overlap a more important one on screen. Pins themselves are never hidden. */
   private declutter() {
-    const placed: DOMRect[] = [];
-    const list = [...this.labels.values()].filter((l) => l.shown).sort((a, b) => b.area - a.area);
     const view = this.map.getContainer().getBoundingClientRect();
+    const placed: { r: DOMRect; owner?: number }[] = [];
+    const pad = 4;
+    const overlaps = (r: DOMRect, self?: number) =>
+      placed.some(({ r: p, owner }) => owner !== self && r.left - pad < p.right && r.right + pad > p.left && r.top - pad < p.bottom && r.bottom + pad > p.top);
+    // Every visible pin blocks labels, so a label never covers another event's pin.
+    for (const l of this.evLabels) {
+      const s = this.evState.get(l.ev.index);
+      if (!s || Math.max(s.vis, s.past) < 0.3) continue;
+      const p = this.map.project([l.ev.lon, l.ev.lat]);
+      const r = s.vis > 0.3 ? 12 + 6 * l.ev.size : 4;
+      placed.push({ r: new DOMRect(view.left + p.x - r, view.top + p.y - r, r * 2, r * 2), owner: l.ev.index });
+    }
+    // Event labels, most important first; the selected and hovered events win.
+    const { selected, hovered } = store.get();
+    const rank = (l: { ev: AtlasEvent }) => (l.ev.id === selected ? -2 : l.ev.id === hovered ? -1 : l.ev.importance);
+    const evs = this.evLabels.filter((l) => l.shown).sort((a, b) => rank(a) - rank(b) || b.ev.size - a.ev.size);
+    for (const l of evs) {
+      const r = l.el.getBoundingClientRect();
+      const off = r.right < view.left || r.left > view.right || r.bottom < view.top || r.top > view.bottom;
+      const hit = r.width === 0 || overlaps(r, l.ev.index);
+      l.el.classList.toggle('collide', hit && !off);
+      if (!hit) placed.push({ r });
+    }
+    const list = [...this.labels.values()].filter((l) => l.shown).sort((a, b) => b.area - a.area);
     for (const l of list) {
       const r = l.el.getBoundingClientRect();
-      const pad = 4;
-      const hit = r.width === 0 || placed.some((p) => r.left - pad < p.right && r.right + pad > p.left && r.top - pad < p.bottom && r.bottom + pad > p.top);
+      const hit = r.width === 0 || overlaps(r);
       const off = r.right < view.left || r.left > view.right;
       l.el.classList.toggle('collide', hit && !off);
-      if (!hit) placed.push(r);
+      if (!hit) placed.push({ r });
     }
-  }
-
-  private updateCities(t: number) {
-    for (const c of this.cityMarkers) c.el.classList.toggle('gone', t < c.from || t >= c.to);
   }
 
   private updateEvents(t: number) {
     const { selected, hovered, showPast } = store.get();
-    // Frame-by-frame video capture drives the pulse clock itself.
+    const u = this.atlas.unit;
+    // Frame-by-frame capture drives the pulse clock itself.
     const now = (window as { __clock?: number }).__clock ?? performance.now() / 1000;
-    for (const e of this.war.events) {
-      const appear = clamp01((t - e.t0 + 0.06) / 0.06);
+    let labelsChanged = false;
+    for (const e of this.atlas.events) {
       let vis = 0;
       let active = 0;
       let past = 0;
-      if (t >= e.t0 - 0.06) {
+      let win = 0;
+      if (e.windowed) {
+        // A date window: the event happened somewhere inside it. The pin holds steady for
+        // the whole window, circled by a dotted ring, and never pulses.
+        if (t >= e.t0 && t <= e.t1) {
+          vis = active = win = 1;
+        } else if (t > e.t1) {
+          const since = t - e.t1;
+          active = clamp01(1 - since / (SETTLE * u));
+          vis = clamp01(1 - since / (LINGER * u)) * (0.5 + 0.5 * active);
+          win = active;
+          past = showPast ? 1 - vis : 0;
+        }
+      } else if (t >= e.t0 - APPEAR * u) {
+        const appear = clamp01((t - e.t0 + APPEAR * u) / (APPEAR * u));
         if (t <= e.t1) {
-          vis = appear;
-          active = appear;
+          vis = active = appear;
         } else {
           // After an event ends its badge lingers a little, then settles to a small dot.
           const since = t - e.t1;
-          active = clamp01(1 - since / 0.35);
-          vis = clamp01(1 - since / 2.5) * (0.5 + 0.5 * active);
+          active = clamp01(1 - since / (SETTLE * u));
+          vis = clamp01(1 - since / (LINGER * u)) * (0.5 + 0.5 * active);
           past = showPast ? 1 - vis : 0;
         }
       }
@@ -521,55 +636,63 @@ export class AtlasMap {
         past = 0;
       }
       const hover = hovered === e.id ? 1 : 0;
-      const pulse = active > 0 ? ((now * 0.7 + e.index * 0.137) % 1) : 0;
+      const pulse = active > 0 && !e.windowed ? (now * 0.7 + e.index * 0.137) % 1 : 0;
+      const label = this.evLabels[e.index];
+      const show = vis > 0.45 || sel === 1 || hover === 1;
+      if (label && label.shown !== show) {
+        label.shown = show;
+        label.el.classList.toggle('shown', show);
+        labelsChanged = true;
+      }
       const last = this.evState.get(e.index);
-      if (last && Math.abs(last.vis - vis) < 0.005 && Math.abs(last.past - past) < 0.005 && Math.abs(last.active - active) < 0.005 && last.sel === sel && last.hover === hover && (active === 0 || Math.abs(last.pulse - pulse) < 0.01)) continue;
-      const st = { vis, active, sel, hover, pulse, past };
+      if (last && Math.abs(last.vis - vis) < 0.005 && Math.abs(last.past - past) < 0.005 && Math.abs(last.active - active) < 0.005 && Math.abs(last.win - win) < 0.005 && last.sel === sel && last.hover === hover && (active === 0 || e.windowed || Math.abs(last.pulse - pulse) < 0.01)) continue;
+      const st = { vis, active, sel, hover, pulse, past, win };
       this.evState.set(e.index, st);
       this.map.setFeatureState({ source: 'ev-pts', id: e.index }, st);
       if (e.geometry === 'area') this.map.setFeatureState({ source: 'ev-areas', id: e.index }, { vis, active });
     }
-    this.markerParents.forEach((p, i) => {
-      const s = this.evState.get(p);
-      const v = s ? Math.max(s.active, s.sel) : 0;
-      this.map.setFeatureState({ source: 'ev-markers', id: i }, { vis: v });
-    });
+    if (labelsChanged) this.declutter();
   }
 
-  /** Area in km² of regions held or tributary to a Mongol polity at time t. */
-  mongolArea(t: number) {
+  /** Area in km² of regions held by or tributary to a focus polity at time t. */
+  focusArea(t: number) {
+    const T = this.territory;
+    if (!T) return 0;
     let km2 = 0;
     for (const f of this.regions) {
-      const steps = this.war.timelines.get(f.properties.region);
+      const steps = T.timelines.get(f.properties.region);
       if (!steps) continue;
       const { step } = stepAt(steps, t);
-      if (isMongol(this.war.polities.get(step.polity)) && step.status !== 'contested') km2 += f.properties.areaKm2;
+      if (isFocus(T.polities.get(step.polity)) && step.status !== 'contested') km2 += f.properties.areaKm2;
     }
     return km2;
   }
 
-  hasActivePulses() {
-    for (const s of this.evState.values()) if (s.active > 0) return true;
-    return false;
-  }
-
   flyToEvent(e: AtlasEvent) {
     const z = this.map.getZoom();
-    const zoom = e.geometry === 'area' ? Math.max(3.4, Math.min(5.2, 8.6 - Math.log2(e.radiusKm ?? 200))) : Math.max(z, 4.6);
+    const cz = this.atlas.config.camera.zoom;
+    const zoom = e.geometry === 'area' ? Math.max(cz - 1.9, Math.min(cz + 1.5, 8.6 - Math.log2(e.radiusKm ?? 200) + (cz - 5.3) * 0.3)) : Math.max(z, cz + 0.9);
     const small = window.innerWidth < 720;
     this.map.flyTo({
       center: [e.lon, e.lat], zoom, duration: 1800, essential: true, curve: 1.3,
-      padding: small ? { top: 60, bottom: window.innerHeight * 0.5, left: 0, right: 0 } : { top: 0, bottom: 140, left: window.innerWidth > 1100 ? 340 : 300, right: 440 },
+      padding: small ? { top: 60, bottom: window.innerHeight * 0.55, left: 0, right: 0 } : { top: 0, bottom: 140, left: window.innerWidth > 1100 ? 340 : 300, right: 440 },
     });
   }
 
   flyToPhase(t: number, duration = 2600) {
-    const p = phaseAt(this.war.phases, t);
+    const p = phaseAt(this.atlas.phases, t);
+    const cam = p.camera ?? this.atlas.config.camera;
     const small = window.innerWidth < 720;
-    this.map.flyTo({ center: p.camera.center, zoom: p.camera.zoom - (small ? 0.8 : 0), duration, essential: true, curve: 1.2 });
+    this.map.flyTo({ center: cam.center, zoom: cam.zoom - (small ? 0.8 : 0), duration, essential: true, curve: 1.2 });
   }
 
-  /** Keep the globe's centre clear of the left-hand clock and bottom timeline. */
+  flyHome(duration = 2600) {
+    const cam = this.atlas.config.camera;
+    const small = window.innerWidth < 720;
+    this.map.flyTo({ center: cam.center, zoom: cam.zoom - (small ? 0.8 : 0), duration, essential: true, curve: 1.2 });
+  }
+
+  /** Keep the centre of the map clear of the left-hand clock and bottom timeline. */
   applyPadding() {
     const small = window.innerWidth < 720;
     this.map.setPadding(small ? { top: 120, bottom: 110, left: 0, right: 0 } : { top: 0, bottom: 120, left: window.innerWidth > 1100 ? 340 : 300, right: 0 });
