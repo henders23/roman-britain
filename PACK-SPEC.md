@@ -61,7 +61,7 @@ A pack is never edited in place. To change anything, copy the latest round to th
 7. `kind`, `phase` and facet labels exist in `dataset.json`, and the event's date lies within its phase.
 8. Every included row has a narrative file with the headings `Summary`, `Detail` and `Significance`, and none of the three is empty.
 9. In production mode, no included row may be `unverified`.
-10. Phases in `dataset.json` do not overlap. A phase's `to` is its last year, so the next phase starts at least a year later (43–121, then 122–284), and no phase ends before it starts.
+10. Phases in `dataset.json` cover the timeline with no overlaps and no gaps. A phase's `to` is its last year, so the next phase starts the year after (43–121, then 122–284). The first phase starts by the start of `timeRange`, the last ends no earlier than its end, and no phase ends before it starts.
 
 ## Standards the validator cannot check
 

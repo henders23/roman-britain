@@ -99,6 +99,15 @@ def main():
         if nxt["from"] <= a["to"]:
             err(f"phase:{nxt['id']}", f"phase overlaps '{a['id']}': {a['id']} runs {a['from']}–{a['to']} "
                 f"and {nxt['id']} starts in {nxt['from']} (a phase's 'to' is its last year)")
+        elif nxt["from"] > a["to"] + 1:
+            err(f"phase:{nxt['id']}", f"gap before this phase: '{a['id']}' ends in {a['to']} and "
+                f"'{nxt['id']}' starts in {nxt['from']}, so {a['to'] + 1}–{nxt['from'] - 1} belong to no phase")
+    # Together the phases must cover the whole timeline.
+    tr = cfg.get("timeRange", {})
+    if ordered and "from" in tr and ordered[0]["from"] > tr["from"]:
+        err(f"phase:{ordered[0]['id']}", f"the first phase starts in {ordered[0]['from']}, after the timeline starts ({tr['from']})")
+    if ordered and "to" in tr and ordered[-1]["to"] < tr["to"]:
+        err(f"phase:{ordered[-1]['id']}", f"the last phase ends in {ordered[-1]['to']}, before the timeline ends ({tr['to']})")
 
     pack = latest_round(root / "pack", slug)
     if not pack:
