@@ -2,6 +2,9 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
+## Pictures (images.json, outside the rounds)
+- 19 more pictures, so 32 of the 38 included events now have one. Where no public-domain picture exists, openly licensed photographs (CC0, CC BY, CC BY-SA) are used and credited with author and licence on the card. Still without a picture: the river battle of AD 43, Water Newton, Lullingstone, Prittlewell, Rendlesham and Edington, because no file with a confirmable licence and author was found.
+
 ## r03
 - First full research round: 50 rows (38 include, 6 merge, 6 exclude), compiled with web search. How each locator and picture was confirmed is in `r03-research-log.md`. Every row is still `unverified`: nobody has yet opened each locator at source.
 - Existing rows: every `TO LOCATE` replaced with a real locator, and the "EXAMPLE ROW." reasons rewritten. Aquae Sulis window widened to 60–90 (a later Flavian date for the first temple has been argued). Tintagel imports window widened to 450–650 (some imported pottery has been re-dated later).
