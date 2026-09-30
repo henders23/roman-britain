@@ -44,6 +44,13 @@ function Source({ s }: { s: string }) {
 
 const COMMONS = 'https://commons.wikimedia.org/wiki/';
 
+/** The deed for a Creative Commons licence name such as "CC BY-SA 4.0" or "CC0". */
+function licenceUrl(licence: string): string | null {
+  if (/^cc0/i.test(licence)) return 'https://creativecommons.org/publicdomain/zero/1.0/';
+  const m = /^CC (BY(?:-SA)?)(?: (\d\.\d))?/i.exec(licence.trim());
+  return m ? `https://creativecommons.org/licenses/${m[1].toLowerCase()}/${m[2] ?? '4.0'}/` : null;
+}
+
 /** A picture from Wikimedia Commons, credited and linked to its file page. Hidden if it fails to load. */
 function EventFigure({ image }: { image: EventImage }) {
   const [failed, setFailed] = useState(false);
@@ -58,7 +65,13 @@ function EventFigure({ image }: { image: EventImage }) {
       <figcaption>
         {image.caption}
         <span>
-          {credit && ` · ${credit}`} · {image.licence} · Wikimedia Commons
+          {credit && ` · ${credit}`} ·{' '}
+          {licenceUrl(image.licence) ? (
+            <a href={licenceUrl(image.licence)!} target="_blank" rel="noreferrer">{image.licence}</a>
+          ) : (
+            image.licence
+          )}{' '}
+          · Wikimedia Commons
         </span>
       </figcaption>
     </figure>
