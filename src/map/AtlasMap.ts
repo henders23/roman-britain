@@ -724,8 +724,12 @@ export class AtlasMap {
   flyToEvent(e: AtlasEvent) {
     const z = this.map.getZoom();
     const cz = this.atlas.config.camera.zoom;
-    const zoom = e.geometry === 'area' ? Math.max(cz - 1.9, Math.min(cz + 1.5, 8.6 - Math.log2(e.radiusKm ?? 200) + (cz - 5.3) * 0.3)) : Math.max(z, cz + 0.9);
     const small = window.innerWidth < 720;
+    // For a region, choose the zoom at which its radius spans a set number of pixels
+    // (a 512-pixel world is 40,075 km round at the equator).
+    const radiusPx = small ? 110 : 170;
+    const regionZoom = (km: number) => Math.log2((40075 * Math.cos((e.lat * Math.PI) / 180) * radiusPx) / (512 * km));
+    const zoom = e.geometry === 'area' ? Math.max(cz - 1.5, Math.min(cz + 3, regionZoom(e.radiusKm ?? 150))) : Math.max(z, cz + 0.9);
     this.map.flyTo({
       center: [e.lon, e.lat], zoom, duration: 1800, essential: true, curve: 1.3,
       padding: small ? { top: 60, bottom: window.innerHeight * 0.55, left: 0, right: 0 } : { top: 0, bottom: 140, left: window.innerWidth > 1100 ? 340 : 300, right: 440 },

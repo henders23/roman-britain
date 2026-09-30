@@ -73,7 +73,7 @@ Open it in any text editor. Change:
 - `camera`: where the map looks at first. `center` is `[longitude, latitude]`; `zoom` is about 5.3 for all of Britain, about 9 for a city.
 - `magnitudeLabel`: leave it `null`, or name a number your pack records for every event (for example `"Estimated population"`). When it is set, pin size follows that number instead of importance.
 - `territory`: leave it `null`. (Shaded territories need extra map files; ask a developer.)
-- `kinds`: the types of event your pack may use, each with an `id` (used in the pack) and a `label` (shown to readers). These ids get their own symbol: `town`, `settlement`, `villa`, `fort`, `religious`, `burial`, `hoard`, `text`, `political`, `battle`, `treaty`, `death`, `naval`, `flag`. Any other id is drawn as a dot, or you can add `"icon": "town"` (for example) to borrow a symbol.
+- `kinds`: the types of event your pack may use, each with an `id` (used in the pack) and a `label` (shown to readers). These ids get their own symbol: `town`, `settlement`, `villa`, `fort`, `religious`, `burial`, `hoard`, `text`, `political`, `battle` (used by `conflict`), `treaty`, `death`, `naval`, `flag`. Any other id is drawn as a dot, or you can add `"icon": "town"` (for example) to borrow a symbol.
 - `facetLabels`: the extra labels your pack may use in its `facets` column, such as `"Evidence type"`.
 - `phases`: the chapters of your timeline, in order. Each has an `id`, a `title`, `from` and `to` years (`to` is the phase's last year, so the next phase starts the year after: 43–121, then 122–284), a short `story` (your own synthesis, 2–3 sentences), and a `camera` for where the map moves to when playback reaches it.
 
@@ -131,7 +131,27 @@ Why we stop here, what the evidence shows, and how it leads on.
 
 Share a journey by copying the address while it is open; the link opens at the same stop.
 
-### 6. Check it
+### 6. Add pictures (optional)
+
+An event card can show a picture from [Wikimedia Commons](https://commons.wikimedia.org). List them in `datasets/<name>/images.json`, keyed by the event's `canonical_id`:
+
+```json
+{
+  "battle-of-hastings-1066": {
+    "file": "Bayeux Tapestry scene57 Harold death.jpg",
+    "caption": "Bayeux Tapestry, scene 57: King Harold is killed",
+    "author": "Unknown embroiderers",
+    "date": "c. 1070s",
+    "licence": "Public domain"
+  }
+}
+```
+
+- `file` is the file name exactly as Commons shows it after "File:".
+- Prefer public-domain works: manuscripts, old paintings, engravings and early photographs. Modern photographs are usually under a Creative Commons licence; if you use one, give its exact licence and author, which the card will credit.
+- Say in the caption when a picture is much later than the event, for example a Victorian painting. A picture is illustration, not evidence.
+
+### 7. Check it
 
 Run `npm run validate:draft`. It reports every problem, naming the row (by `candidate_id`) and what is wrong. Fix them in the next round and run it again. Then run `npm run dev` and open `http://localhost:5173/?d=tudor-london`.
 

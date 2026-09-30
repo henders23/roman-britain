@@ -1,16 +1,20 @@
-<!-- EXAMPLE JOURNEY: placeholder text showing the structure. Rewrite it once the stops' rows are checked. -->
-
 # How do we know when?
-By: Example
+By: UK Atlas (atlas synthesis)
 Order: chronological
 
-PLACEHOLDER: introduce the question. Each stop on this journey is dated by a different kind of evidence; ask the reader to notice how the kind of evidence shapes how precise the date can be.
+Every date on this map rests on some kind of evidence, and the kind of evidence decides how precise the date can be. Each stop on this journey is dated in a different way. Watch the timeline: most of these events are drawn as windows of years, not single dates, and the width of each window is the evidence speaking.
 
 ## Stop: vindolanda-tablets
-PLACEHOLDER: dating by layers. Explain how the order of deposits at the fort gives a window of years rather than a single date.
+Dating by layers. The tablets survived in waterlogged deposits laid down in successive rebuildings of the fort. The order of the layers, tied to coins, pottery and a few datable references, gives each group of letters a window of years rather than a single date.
+
+## Stop: hoxne-hoard
+Dating by the latest coin. A hoard cannot have been buried before its newest coin was struck, so the Hoxne coins of Constantine III give a date after which it went into the ground. How long after is a judgement, here based on how worn and clipped the coins are.
 
 ## Stop: sutton-hoo-mound1
-PLACEHOLDER: dating by coins. Explain why the latest coin gives a date after which the burial happened, and why that is a window too.
+The same method, a different argument. The gold coins in the Mound 1 purse give a date after which the burial happened, but scholars disagree about how quickly such a collection was assembled. That disagreement is why the window runs across three decades.
 
 ## Stop: lindisfarne-gospels
-PLACEHOLDER: dating by style and a later note. Explain what a colophon is, and why one added much later is evidence of a different kind.
+Dating by style and by a note added later. The book's decoration and script place it early in the eighth century. Its maker is named only in a colophon written about 250 years later, which is evidence of a different kind: what the community believed about its own treasure.
+
+## Stop: battle-of-hastings-1066
+Dating by a contemporary chronicle. By 1066 the Anglo-Saxon Chronicle records events year by year, and several sources agree on the day. Here, for once, the map can show a single date with confidence.
