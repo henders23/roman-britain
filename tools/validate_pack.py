@@ -5,8 +5,8 @@ Usage:
     python3 tools/validate_pack.py datasets/<slug>            # production rules
     python3 tools/validate_pack.py datasets/<slug> --draft    # allows unverified rows and missing narratives
 
-Checks the latest round (highest rNN) of pack/<slug>-rNN.csv, and any journeys in
-journeys/*.md. Exits 1 on any error.
+Checks the latest round (highest rNN) of pack/<slug>-rNN.csv, any journeys in
+journeys/*.md, and images.json. Exits 1 on any error.
 """
 import csv
 import json
@@ -250,6 +250,31 @@ def main():
                 err(r["candidate_id"], "merge row needs a merge_target")
             elif r["merge_target"] not in included:
                 err(r["candidate_id"], f"merge_target '{r['merge_target']}' is not an included canonical_id")
+
+    # images: public-domain or openly licensed pictures for event cards, from Wikimedia Commons
+    ipath = root / "images.json"
+    if ipath.exists():
+        try:
+            images = json.loads(ipath.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            images = {}
+            err("images.json", f"is not valid JSON: {e}")
+        for cid, img in images.items():
+            where = f"image:{cid}"
+            if cid not in included:
+                err(where, "no included event has this canonical_id")
+            if not isinstance(img, dict):
+                err(where, "must be an object with file, caption, author and licence")
+                continue
+            f = img.get("file", "")
+            if not f or f.startswith("File:") or "%" in f or "/" in f:
+                err(where, "file must be a plain Wikimedia Commons file name, without 'File:'")
+            for key in ("caption", "licence"):
+                if not str(img.get(key, "")).strip():
+                    err(where, f"missing {key}")
+            lic = str(img.get("licence", "")).lower()
+            if lic and not (lic.startswith("public domain") or lic == "cc0") and not str(img.get("author", "")).strip():
+                err(where, "an image that is not public domain needs its author for attribution")
 
     # journeys: guided routes through included events
     jdir = root / "journeys"

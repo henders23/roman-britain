@@ -16,7 +16,8 @@
     { "id": "burial", "label": "Burial or cemetery" },
     { "id": "hoard", "label": "Hoard or significant find" },
     { "id": "text", "label": "Written source: inscription, tablet or manuscript" },
-    { "id": "political", "label": "Political or administrative event" }
+    { "id": "political", "label": "Political or administrative event" },
+    { "id": "conflict", "label": "Battle, raid or revolt", "icon": "battle" }
   ],
   "facetLabels": ["Evidence type", "Dating basis", "Interpretation", "Heritage status"],
   "phases": [

@@ -145,6 +145,11 @@ export function loadDataset(dir, slug) {
       };
     });
 
+  // Pictures for event cards: datasets/<slug>/images.json, keyed by canonical_id.
+  const ipath = join(dir, 'images.json');
+  const images = existsSync(ipath) ? JSON.parse(readFileSync(ipath, 'utf8')) : {};
+  for (const e of events) if (images[e.id]) e.image = images[e.id];
+
   const jdir = join(dir, 'journeys');
   const journeys = existsSync(jdir)
     ? readdirSync(jdir)

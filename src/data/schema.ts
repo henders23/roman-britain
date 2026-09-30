@@ -25,6 +25,17 @@ export interface PackNote {
   target?: string;
 }
 
+/** A picture for an event card, from Wikimedia Commons (datasets/<slug>/images.json). */
+export interface EventImage {
+  /** the Commons file name, without "File:" */
+  file: string;
+  caption: string;
+  author?: string;
+  date?: string;
+  /** e.g. "Public domain" */
+  licence: string;
+}
+
 export interface EventData {
   /** canonical_id from the pack; the narrative file has the same name */
   id: string;
@@ -65,6 +76,7 @@ export interface EventData {
   summary: string;
   detail: string;
   significance: string;
+  image?: EventImage;
 }
 
 export interface Camera {

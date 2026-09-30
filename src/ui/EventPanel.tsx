@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { kindLabel, type Atlas, type AtlasEvent } from '../data/dataset';
+import type { EventImage } from '../data/schema';
 import { formatRange } from '../data/time';
 import { store } from '../store';
 import { Pin } from './Panels';
@@ -40,6 +42,29 @@ function Source({ s }: { s: string }) {
   return <>{s}</>;
 }
 
+const COMMONS = 'https://commons.wikimedia.org/wiki/';
+
+/** A picture from Wikimedia Commons, credited and linked to its file page. Hidden if it fails to load. */
+function EventFigure({ image }: { image: EventImage }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  const name = encodeURIComponent(image.file.replace(/ /g, '_'));
+  const credit = [image.author, image.date].filter(Boolean).join(', ');
+  return (
+    <figure className="ev-figure">
+      <a href={`${COMMONS}File:${name}`} target="_blank" rel="noreferrer" title="Open the file page on Wikimedia Commons">
+        <img src={`${COMMONS}Special:FilePath/${name}?width=640`} alt={image.caption} loading="lazy" onError={() => setFailed(true)} />
+      </a>
+      <figcaption>
+        {image.caption}
+        <span>
+          {credit && ` · ${credit}`} · {image.licence} · Wikimedia Commons
+        </span>
+      </figcaption>
+    </figure>
+  );
+}
+
 export function EventPanel({ ev, atlas, onClose }: { ev: AtlasEvent; atlas: Atlas; onClose: () => void }) {
   const i = ev.index;
   const prev = atlas.events[i - 1];
@@ -71,6 +96,7 @@ export function EventPanel({ ev, atlas, onClose }: { ev: AtlasEvent; atlas: Atla
       </header>
 
       <div className="ev-body">
+        {ev.image && <EventFigure image={ev.image} key={ev.image.file} />}
         <div className={`ev-certainty c-${ev.certainty}${uncertain ? ' is-uncertain' : ''}`}>
           <div className="cert-row">
             <span className="cert-meter" aria-hidden>
