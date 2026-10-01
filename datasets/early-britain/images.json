@@ -1,4 +1,11 @@
 {
+  "aberlemno-sculptured-stones": {
+    "file": "Aberlemno Kirkyard stone.JPG",
+    "caption": "The Class II Pictish cross-slab in Aberlemno churchyard, the stone whose reverse carries Pictish symbols above a battle scene, photographed in 2008.",
+    "author": "S Kidd",
+    "date": "2008",
+    "licence": "CC BY-SA 3.0"
+  },
   "aidan-lindisfarne-635": {
     "file": "T.homas Girtin Lindisfarne 1798.jpg",
     "caption": "'Lindisfarne', a watercolour by Thomas Girtin of 1798, showing the ruins of the later medieval priory on Holy Island. The priory was built in the late 11th and 12th centuries on the site of Aidan's monastery; nothing of Aidan's buildings survives.",
@@ -32,6 +39,13 @@
     "caption": "St Luke, from the St Augustine Gospels (Cambridge, Corpus Christi College, MS 286), a 6th-century Italian gospel book long kept at Canterbury and traditionally, but not certainly, linked with Augustine's mission.",
     "author": "Unknown Italian artist",
     "date": "6th century",
+    "licence": "Public domain"
+  },
+  "barbarian-conspiracy-367": {
+    "file": "Notitia Dignitatum - Comes litoris Saxonici per Britanniam.jpg",
+    "caption": "The page for the Count of the Saxon Shore in a 1436 copy of the Notitia Dignitatum (Bodleian Library, MS. Canon. Misc. 378), showing the forts of his command. The Notitia dates from around 400, a generation after 367; Nectaridus, killed in 367, held a coastal command often seen as a forerunner of this one.",
+    "author": "Peronet Lamy (illuminator of the 1436 copy)",
+    "date": "1436",
     "licence": "Public domain"
   },
   "battle-of-brunanburh-937": {
@@ -69,6 +83,20 @@
     "date": "1793",
     "licence": "Public domain"
   },
+  "brixworth-all-saints": {
+    "file": "Original Brixworth Plan.jpg",
+    "caption": "Plan of All Saints' church, Brixworth, as the Victorian antiquary C. F. Watkins reconstructed its original Anglo-Saxon form, from his book The Basilica and the Basilican Church of Brixworth (1867). It shows his reconstruction, and his 7th-century date for the church is now disputed.",
+    "author": "Rev. C. F. Watkins",
+    "date": "1867",
+    "licence": "Public domain"
+  },
+  "burghead-pictish-fort": {
+    "file": "Britishmuseumburgheadbull.jpg",
+    "caption": "One of the incised bull stones from Burghead, now in the British Museum: one of the handful of survivors of about thirty found when the fort was levelled in the 19th century.",
+    "author": "Ealdgyth",
+    "date": "2010",
+    "licence": "CC BY-SA 3.0"
+  },
   "caerleon-amphitheatre": {
     "file": "Caerleon Roman Amphitheatre, From the north west - geograph.org.uk - 8232136.jpg",
     "caption": "The legionary amphitheatre at Caerleon from the north-west, built about AD 90 outside the fortress of Isca and excavated by the Wheelers in 1926–27.",
@@ -96,6 +124,13 @@
     "author": "Classical Numismatic Group, Inc. (www.cngcoins.com)",
     "date": "Coin c. AD 288–290",
     "licence": "CC BY-SA 3.0"
+  },
+  "carrawburgh-mithraeum": {
+    "file": "Three altars dedicated to Mithras, from Carrawburgh, CIMRM 845, 846, 847, Great North Museum, Newcastle (38609985534).jpg",
+    "caption": "The three altars to Mithras from the Carrawburgh temple (RIB 1544–1546), set up by prefects of the First Cohort of Batavians, now in the Great North Museum: Hancock, Newcastle.",
+    "author": "Carole Raddato",
+    "date": "4 July 2017",
+    "licence": "CC BY-SA 2.0"
   },
   "columba-iona-563": {
     "file": "Iona Abbey. Panorama.jpg",
@@ -153,6 +188,27 @@
     "date": "1798",
     "licence": "Public domain"
   },
+  "dumbarton-siege-870": {
+    "file": "Thomas Girtin - Dumbarton Rock and Castle - Google Art Project.jpg",
+    "caption": "Dumbarton Rock and Castle, a watercolour by Thomas Girtin (1775–1802): the twin-peaked rock of Alt Clut as it looked about nine centuries after the siege, with the later castle buildings.",
+    "author": "Thomas Girtin (1775–1802)",
+    "date": "c. 1800",
+    "licence": "Public domain"
+  },
+  "dunadd-dal-riata": {
+    "file": "Dunadd Fort 20080427.jpg",
+    "caption": "Dunadd, the rocky hill in Kilmartin Glen on which the walled enclosures of the Dál Riatan fort were built, photographed in 2008.",
+    "author": "Otter",
+    "date": "27 April 2008",
+    "licence": "CC BY-SA 3.0"
+  },
+  "eliseg-pillar": {
+    "file": "Eliseg pillar.jpg",
+    "caption": "The Pillar of Eliseg, an engraving from a watercolour sketch published in William Hone's Every-day Book and Table Book (London, 1838), showing the broken shaft on its mound.",
+    "author": "Unknown engraver, after a watercolour sketch; published by William Hone",
+    "date": "1838",
+    "licence": "Public domain"
+  },
   "fishbourne-palace": {
     "file": "Dolphin mosaic.JPG",
     "caption": "A dolphin mosaic floor in Fishbourne Roman Palace near Chichester. Some of the palace's floors belong to its first build in the 70s; others, including the famous cupid-on-a-dolphin floor, were relaid later, in the 2nd century.",
@@ -160,12 +216,24 @@
     "date": "2016-09-08",
     "licence": "Public domain"
   },
+  "gipeswic-ipswich": {
+    "file": "Middle Early Medieval Ipswich Ware Pot (FindID 542201).jpg",
+    "caption": "Sherds of Middle Saxon Ipswich ware (c. 720–850), recorded by the Portable Antiquities Scheme from a garden in Norfolk. They show the kind of pottery made in the kilns at Ipswich and traded across East Anglia.",
+    "author": "Mary Chester-Kadwell, Norfolk County Council / Portable Antiquities Scheme",
+    "licence": "CC BY-SA 2.0"
+  },
   "hadrian-visit-britain-122": {
     "file": "As of Hadrian. RIC 577b; BMCRE 1175 (AD 119). (FindID 95108).jpg",
     "caption": "A bronze as of Hadrian struck at Rome in about AD 119, with the seated figure of Britannia on the reverse, found on the Isle of Wight. It is a coin of the emperor, not a record of the visit, and was minted a few years before he came to Britain.",
     "author": "Portable Antiquities Scheme (Isle of Wight Council)",
     "date": "Coin c. AD 119; photograph recorded by the Portable Antiquities Scheme",
     "licence": "CC BY-SA 2.0"
+  },
+  "hamwic": {
+    "file": "Lageskizze von Clausentum und Hamwic (Southampton).png",
+    "caption": "A modern sketch map, on an OpenStreetMap base, showing where Roman Clausentum (Bitterne) and Middle Saxon Hamwic lie in present-day Southampton. It is a diagram of the location, not a picture of the remains.",
+    "author": "Veleius",
+    "licence": "CC BY-SA 4.0"
   },
   "hinton-st-mary-mosaic": {
     "file": "Roundel mosaic christ hinton st mary british museum edit.JPG",
@@ -179,11 +247,25 @@
     "author": "Andrew West (BabelStone)",
     "licence": "CC0"
   },
+  "hywel-dda-laws": {
+    "file": "Hywel Dda, seated, from Peniarth MS 28, folio 1v.png",
+    "caption": "Hywel Dda enthroned, holding a sceptre, in Peniarth MS 28, folio 1v (National Library of Wales), a Latin lawbook of the mid-13th century: a picture made some three centuries after his death.",
+    "author": "Unknown 13th-century illuminator (National Library of Wales)",
+    "date": "mid-13th century",
+    "licence": "Public domain"
+  },
   "inchtuthil-fortress": {
     "file": "Den arkeologiske lämningen av fortet Inchtuthill med kant och upphöjt läge, floden Tay flyter (utanför bild) på tre sidor..jpg",
     "caption": "The plateau above the River Tay at Inchtuthil, site of the unfinished legionary fortress of the 80s AD, photographed from the air in 2003; the Roman remains lie below the fields.",
     "author": "Baron Delvine",
     "date": "2003",
+    "licence": "Public domain"
+  },
+  "lichfield-angel": {
+    "file": "West Door Lichfield Cathedral - George Washington Wilson - ABDMS018175.jpg",
+    "caption": "The west door of Lichfield Cathedral in a 19th-century photograph by George Washington Wilson. The Gothic cathedral was built in the 13th and 14th centuries; the Anglo-Saxon angel panel was found in 2003 under its nave, which this door opens into. No public-domain picture of the angel itself was found.",
+    "author": "George Washington Wilson (1823–1893); Aberdeen Art Gallery & Museums ABDMS018175",
+    "date": "19th century (undated)",
     "licence": "Public domain"
   },
   "lindisfarne-gospels": {
@@ -207,6 +289,13 @@
     "date": "Modern photograph (wall c. AD 190–225)",
     "licence": "CC BY-SA 2.0"
   },
+  "lydney-nodens-temple": {
+    "file": "Lydney Roman temple, the tripartite cella.jpg",
+    "caption": "The excavated foundations of the temple of Nodens at Lydney Park, showing the three-part inner shrine (cella), photographed during a visit by the Association for Roman Archaeology in 2019; people are seated in its three compartments.",
+    "author": "Richard Keatinge",
+    "date": "28 April 2019",
+    "licence": "CC BY-SA 4.0"
+  },
   "mildenhall-treasure": {
     "file": "The Mildenhall Great Dish.jpg",
     "caption": "The Great Dish from the Mildenhall treasure, with the mask of Oceanus at the centre and a Bacchic procession round the rim; a modern photograph of the 4th-century silver dish in the British Museum.",
@@ -219,6 +308,20 @@
     "author": "Hydrographic Office of the Admiralty (UK Government)",
     "date": "1894",
     "licence": "Public domain"
+  },
+  "offa-gold-dinar": {
+    "file": "Offa king of Mercia 757 793 gold dinar copy of dinar of the Abassid Caliphate 774.jpg",
+    "caption": "Offa's gold dinar in the British Museum: a copy of an Abbasid dinar of 773–774 with OFFA REX set upside down among the copied Arabic. (The file name gives Offa's reign wrongly as 757–793; he reigned 757–796.)",
+    "author": "PHGCOM",
+    "date": "2009",
+    "licence": "Public domain"
+  },
+  "portchester-shore-fort": {
+    "file": "Portchester Castle D shaped towers.JPG",
+    "caption": "Part of the south wall of Portchester Castle, showing the Roman curtain wall and its projecting D-shaped towers of the late 3rd century.",
+    "author": "Geni",
+    "date": "August 2012",
+    "licence": "CC BY-SA 4.0"
   },
   "repton-winter-camp-873": {
     "file": "The Repton Stone, Derby Museum, Derby.jpg",
@@ -300,6 +403,13 @@
     "caption": "Vindolanda tablet 291 (Tab. Vindol. II 291), Claudia Severa's birthday invitation to Sulpicia Lepidina, written in ink on a thin wooden leaf around AD 100; now in the British Museum.",
     "author": "Fæ",
     "date": "Modern photograph (tablet c. AD 97–103)",
+    "licence": "CC BY-SA 3.0"
+  },
+  "walbrook-mithraeum": {
+    "file": "Ruins of the Mithras Temple in the City of London, 2004.jpg",
+    "caption": "The remains of the Walbrook temple of Mithras in 2004, as rebuilt in 1962 on Queen Victoria Street, a short distance from where they were found; they were moved back close to the original site in 2017.",
+    "author": "Solar",
+    "date": "29 December 2004",
     "licence": "CC BY-SA 3.0"
   },
   "wearmouth-foundation-674": {

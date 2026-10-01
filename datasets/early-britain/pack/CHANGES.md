@@ -2,6 +2,14 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
+## r05
+- r04 unchanged, plus 33 new rows (20 include, 11 merge, 2 exclude), compiled by web search like r03 and r04; see `r05-research-log.md`. All new rows are `unverified`.
+- Gods and defence of Roman Britain: the Walbrook and Carrawburgh mithraea, the Uley temple of Mercury, the Lydney temple of Nodens, Portchester shore fort, the "Barbarian Conspiracy" of 367 (a region).
+- Picts, Scots, Britons and Wales: Dunadd, Burghead, Dun Nechtain 685 (a region covering both candidate sites), the Aberlemno stones, the siege of Dumbarton Rock 870, Dinas Powys, Eliseg's Pillar, the laws of Hywel Dda (low certainty; the manuscripts are 13th century).
+- Mercia and the trading towns: Lundenwic, Hamwic, Ipswich and Ipswich ware, Brixworth, Offa's gold dinar (a region; mint and findspot unknown), the Lichfield Angel.
+- Modern excavations and discoveries merged into their events. Excluded: the Fergus Mór founding legend of Dál Riata, and the modern claim that Offa converted to Islam.
+- 16 pictures added with the rows. Five new journeys: Gods of Roman Britain, Defending the late Roman province, Picts, Scots and Britons, Wales and the west after Rome, Mercia and the trading towns.
+
 ## r04
 - r03 unchanged, plus 20 new rows (17 include, 1 merge, 2 exclude), compiled by web search like r03; see `r04-research-log.md`. All new rows are `unverified`.
 - Emperors in Britain: Hadrian's visit (122, a region), Severus's death at York (211), Carausius (286–287, a region), Constantine proclaimed at York (306), Constantine III (407, a region). These are the first events in the 122–284 phase.
