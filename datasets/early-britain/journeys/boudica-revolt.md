@@ -1,6 +1,7 @@
 # Boudica's revolt
 By: UK Atlas (atlas synthesis)
 Order: chronological
+Thread: none
 
 In AD 60 or 61 the Iceni and their neighbours rose against Roman rule. Almost everything we know about the course of the revolt comes from two Roman historians, Tacitus and Cassius Dio, writing decades or more later. The archaeology is different evidence: layers of burnt debris in three towns. Follow the revolt, and keep asking which kind of evidence each stop rests on. The camera moves between places, but no route is drawn, because nobody knows the rebels' route.
 

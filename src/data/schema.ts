@@ -145,6 +145,8 @@ export interface Journey {
   title: string;
   by: string;
   order: 'chronological' | 'thematic';
+  /** 'story' draws a dotted thread joining the stops in story order; 'none' draws nothing */
+  thread: 'story' | 'none';
   intro: string;
   /** each stop names the canonical_id of an included event */
   stops: { event: string; text: string }[];

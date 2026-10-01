@@ -72,7 +72,7 @@ def parse_journey(text):
         line, _, body = part.partition("\n")
         m = re.match(r"Stop:\s*(\S+)\s*$", line.strip(), flags=re.I)
         stops.append(((m[1] if m else ""), body.strip()))
-    title, by, order, intro = "", "", "chronological", []
+    title, by, order, thread, intro = "", "", "chronological", "story", []
     for line in head.splitlines():
         if not title and line.startswith("# "):
             title = line[2:].strip()
@@ -80,9 +80,11 @@ def parse_journey(text):
             by = line.split(":", 1)[1].strip()
         elif re.match(r"^Order:", line, flags=re.I):
             order = line.split(":", 1)[1].strip().lower()
+        elif re.match(r"^Thread:", line, flags=re.I):
+            thread = line.split(":", 1)[1].strip().lower()
         else:
             intro.append(line)
-    return {"title": title, "by": by, "order": order, "intro": "\n".join(intro).strip(), "stops": stops}
+    return {"title": title, "by": by, "order": order, "thread": thread, "intro": "\n".join(intro).strip(), "stops": stops}
 
 
 def main():
@@ -293,6 +295,8 @@ def main():
             (warn if draft else err)(jid, "journey introduction is still a placeholder")
         if j["order"] not in ("chronological", "thematic"):
             err(jid, f"Order: '{j['order']}' must be chronological or thematic")
+        if j["thread"] not in ("story", "none"):
+            err(jid, f"Thread: '{j['thread']}' must be story or none")
         if len(j["stops"]) < 2:
             err(jid, "journey needs at least two '## Stop: <canonical_id>' sections")
         seen_stops, prev_t = set(), None

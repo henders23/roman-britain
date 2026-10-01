@@ -67,15 +67,16 @@ export function parseJourney(text) {
     const m = /^Stop:\s*(\S+)\s*$/i.exec(line);
     return { event: m ? m[1] : '', text: (nl < 0 ? '' : part.slice(nl + 1)).trim() };
   });
-  let title = '', by = '', order = 'chronological';
+  let title = '', by = '', order = 'chronological', thread = 'story';
   const intro = [];
   for (const line of parts[0].split('\n')) {
     if (!title && line.startsWith('# ')) title = line.slice(2).trim();
     else if (/^By:/i.test(line)) by = line.slice(line.indexOf(':') + 1).trim();
     else if (/^Order:/i.test(line)) order = line.slice(line.indexOf(':') + 1).trim().toLowerCase();
+    else if (/^Thread:/i.test(line)) thread = line.slice(line.indexOf(':') + 1).trim().toLowerCase();
     else intro.push(line);
   }
-  return { title, by, order, intro: intro.join('\n').trim(), stops };
+  return { title, by, order, thread, intro: intro.join('\n').trim(), stops };
 }
 
 const splitBar = (s) => (s ?? '').split('|').map((x) => x.trim()).filter(Boolean);

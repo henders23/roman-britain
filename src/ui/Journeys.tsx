@@ -68,6 +68,7 @@ export function JourneyCard({ atlas, journey, step, onStep, onExit }: { atlas: A
           <p key={k}>{p}</p>
         ))}
         <span className="synth" title="Written by the journey’s author; the evidence is in each event’s card">Journey author’s interpretation</span>
+        {journey.thread !== 'none' && step >= 2 && <p className="j-thread-note">The dotted line shows the order of the story, not a route.</p>}
       </div>
       <div className="j-dots" role="tablist" aria-label="Stops">
         {[0, ...journey.stops.map((_, i) => i + 1)].map((i) => (

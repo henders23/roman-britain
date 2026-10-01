@@ -9,6 +9,7 @@
 # Title of the journey
 By: Your name or group
 Order: chronological
+Thread: story
 
 One or two short paragraphs: the question this journey asks, and what the reader should look for.
 

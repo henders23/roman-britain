@@ -410,6 +410,14 @@ dialog.about::backdrop { background: var(--backdrop); -webkit-backdrop-filter: b
 .ev-figure figcaption span { color: var(--muted); }
 .ev-figure figcaption span a { display: inline; border: 0; background: none; color: inherit; text-decoration: underline; border-radius: 0; }
 
+/* journey interlude and story thread */
+.journey-interlude { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); z-index: 7; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 20px 11px; border-radius: 14px; background: var(--glass-strong); border: 1px solid var(--gold-bg-2); box-shadow: var(--shadow); pointer-events: none; animation: interlude 3.6s ease both; text-align: center; }
+.journey-interlude b { font: 500 21px/1.2 var(--serif); color: var(--gold-soft); }
+.journey-interlude span { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+@keyframes interlude { 0% { opacity: 0; transform: translate(-50%, -8px); } 12%, 80% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 4px); } }
+.j-thread-note { font-size: 11.5px !important; color: var(--muted) !important; margin: 6px 0 0 !important; font-style: italic; }
+@media (max-width: 720px) { .journey-interlude { top: auto; bottom: calc(45vh + 12px); max-width: calc(100vw - 32px); } .journey-interlude b { font-size: 17px; } }
+
 /* ── Small screens ───────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .chapter p { display: none; }

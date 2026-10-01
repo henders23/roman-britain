@@ -6,6 +6,7 @@ import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
 import { About, Chronicle, Clock, Header, Headline, Legend, ThemeToggle } from './ui/Panels';
 import { JourneyCard, JourneyList } from './ui/Journeys';
+import { placeGap, timeGap } from './data/journey';
 import { formatShort } from './data/time';
 import { useTheme } from './theme';
 
@@ -69,11 +70,23 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
     tween.current = reduceMotion || capture ? null : { from, to, start: performance.now(), dur };
     if (!tween.current) store.set({ t: to });
   };
+  const [interlude, setInterlude] = useState<{ key: number; time: string; place: string } | null>(null);
+  const interludeTimer = useRef(0);
   const goStep = (id: string, step: number) => {
     const j = atlas.journeys.find((x) => x.id === id);
     if (!j) return;
     const n = Math.max(0, Math.min(j.stops.length, step));
     const evs = j.stops.map((st) => byId.get(st.event)!);
+    const from = store.get().journey?.id === id ? store.get().journey!.step : 0;
+    // Moving on to the next stop: say how much time passes and how far the story moves.
+    clearTimeout(interludeTimer.current);
+    if (n === from + 1 && n >= 2) {
+      setInterlude({ key: Date.now(), time: timeGap(evs[n - 2], evs[n - 1]), place: placeGap(evs[n - 2], evs[n - 1]) });
+      interludeTimer.current = window.setTimeout(() => setInterlude(null), 3600);
+    } else setInterlude(null);
+    // The story thread joins the stops reached so far; the newest segment draws itself.
+    const pts = j.thread === 'none' ? [] : evs.slice(0, n).map((e) => [e.lon, e.lat] as [number, number]);
+    map.current?.setThread(pts, n === from + 1);
     store.set({ journey: { id, step: n }, panel: null, playing: false, headline: null });
     setIntro(false);
     if (n === 0) {
@@ -87,7 +100,11 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       store.set({ selected: ev.id });
     }
   };
-  const exitJourney = () => store.set({ journey: null, journeyAuto: false });
+  const exitJourney = () => {
+    store.set({ journey: null, journeyAuto: false });
+    map.current?.setThread([], false);
+    setInterlude(null);
+  };
   const selEv = selected ? byId.get(selected) : undefined;
   const u = atlas.unit;
 
@@ -275,6 +292,12 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
         <ThemeToggle />
       </nav>
       {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyList atlas={atlas} onStart={(id) => goStep(id, 0)} /> : null}
+      {journey && interlude && (
+        <div className="journey-interlude" key={interlude.key} aria-live="polite">
+          <b>{interlude.time}</b>
+          <span>{interlude.place}</span>
+        </div>
+      )}
       {journey && journeyState && <JourneyCard atlas={atlas} journey={journey} step={journeyState.step} onStep={(n) => goStep(journey.id, n)} onExit={exitJourney} />}
       {panel === 'about' && <About atlas={atlas} onClose={() => store.set({ panel: null })} />}
       {headEv && !selEv && !journey && <Headline ev={headEv} atlas={atlas} />}

@@ -113,6 +113,7 @@ Copy `datasets/early-britain/journeys/_TEMPLATE.md` to `journeys/<journey-name>.
 # How do we know when?
 By: Group 3
 Order: chronological
+Thread: story
 
 An introduction: the question the journey asks, and what to look for.
 
@@ -125,7 +126,8 @@ Why we stop here, what the evidence shows, and how it leads on.
 
 - Each `## Stop:` names the `canonical_id` of an **included** row in the latest round. A journey cannot add places or dates of its own, or stop at a merged or excluded row.
 - Stops go in date order. To order them some other way, for example by theme, write `Order: thematic`.
-- Nothing is drawn between stops: the camera moves, but the atlas does not claim a route. Say in the text what is known about how people or things moved.
+- Stops are revealed one at a time. Between stops a short interlude says how much time passes and how far the story moves ("8 years later · 90 km south"), worked out from the pack's dates and coordinates.
+- A dotted **story thread** joins the stops in the order of the story, drawn as the reader goes. It shows the order of the story, not a route, and the card says so. Where even a hint of a route would mislead (for example, a march nobody can trace), add the line `Thread: none` under `Order:` and nothing is drawn.
 - The journey's text is shown as its author's interpretation. The evidence stays in each event's card.
 - A journey needs a title, an introduction and at least two stops, each with text. `npm run validate:draft` checks all of this.
 

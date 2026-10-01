@@ -79,6 +79,24 @@ function circlePolygon(lon: number, lat: number, km: number, n = 72): GeoJSON.Po
   return { type: 'Polygon', coordinates: [ring] };
 }
 
+/** A small chevron placed along the story thread to show its direction. */
+function chevron(color: string): ImageData {
+  const S = 24;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = S;
+  const c = canvas.getContext('2d')!;
+  c.strokeStyle = color;
+  c.lineWidth = 3;
+  c.lineCap = 'round';
+  c.lineJoin = 'round';
+  c.beginPath();
+  c.moveTo(8, 5);
+  c.lineTo(16, 12);
+  c.lineTo(8, 19);
+  c.stroke();
+  return c.getImageData(0, 0, S, S);
+}
+
 /** A dotted ring drawn around a pin while the playhead is inside its date window. */
 function windowRing(theme: Theme): ImageData {
   const S = 96;
@@ -326,6 +344,19 @@ export class AtlasMap {
         'circle-stroke-opacity': ['*', 0.7, ['coalesce', ['feature-state', 'ahead'], 0]],
       },
     });
+    // The story thread (see setThread), drawn under the pins.
+    m.addSource('journey-thread', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+    m.addImage('thread-chevron', chevron(accent), { pixelRatio: 2 });
+    m.addLayer({
+      id: 'journey-thread', type: 'line', source: 'journey-thread',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': accent, 'line-width': 2.2, 'line-opacity': 0.75, 'line-dasharray': [0.1, 2.2] },
+    });
+    m.addLayer({
+      id: 'journey-thread-dir', type: 'symbol', source: 'journey-thread',
+      layout: { 'symbol-placement': 'line', 'symbol-spacing': 120, 'icon-image': 'thread-chevron', 'icon-size': 0.9, 'icon-allow-overlap': true, 'icon-ignore-placement': true, 'icon-rotation-alignment': 'map' },
+      paint: { 'icon-opacity': 0.85 },
+    });
     m.addLayer({
       id: 'ev-window', type: 'symbol', source: 'ev-pts',
       filter: ['==', ['get', 'windowed'], 1],
@@ -455,6 +486,8 @@ export class AtlasMap {
     m.setPaintProperty('ev-pulse', 'circle-stroke-color', pc.fill);
     m.setPaintProperty('ev-past', 'circle-color', pc.fill);
     m.setPaintProperty('ev-ahead', 'circle-stroke-color', pc.fill);
+    m.setPaintProperty('journey-thread', 'line-color', pc.fill);
+    m.updateImage('thread-chevron', chevron(pc.fill));
     m.setPaintProperty('ev-past', 'circle-stroke-color', theme === 'dark' ? 'rgba(10,8,4,0.8)' : 'rgba(255,250,240,0.9)');
     m.setPaintProperty('ev-halo', 'circle-color', theme === 'dark' ? '#fff6dd' : '#ffffff');
     this.drawImages(true);
@@ -660,7 +693,14 @@ export class AtlasMap {
         win *= 0.25;
         past *= 0.4;
       }
-      const ahead = onJourney?.has(e.id) && t < e.t0 && selected !== e.id ? 1 : 0;
+      // Journey stops are revealed one at a time: stops not yet reached are hidden, and the
+      // next one shows only as a faint hollow ring.
+      let ahead = 0;
+      const order = onJourney?.get(e.id);
+      if (order !== undefined && order > (journey?.step ?? 0) && selected !== e.id) {
+        vis = active = win = past = 0;
+        ahead = order === (journey?.step ?? 0) + 1 ? 1 : 0;
+      }
       const sel = selected === e.id ? 1 : 0;
       if (sel) {
         vis = 1;
@@ -685,14 +725,46 @@ export class AtlasMap {
     if (labelsChanged) this.declutter();
   }
 
-  private journeyCache: { id?: string; set: Set<string> | null } = { set: null };
+  private journeyCache: { id?: string; order: Map<string, number> | null } = { order: null };
 
+  /** The followed journey's stops, mapped to their position (1 = first stop). */
   private journeyStops(id?: string) {
     if (this.journeyCache.id !== id) {
       const j = id ? this.atlas.journeys.find((x) => x.id === id) : undefined;
-      this.journeyCache = { id, set: j ? new Set(j.stops.map((s) => s.event)) : null };
+      this.journeyCache = { id, order: j ? new Map(j.stops.map((s, i) => [s.event, i + 1])) : null };
     }
-    return this.journeyCache.set;
+    return this.journeyCache.order;
+  }
+
+  private threadAnim = 0;
+
+  /**
+   * The story thread: a dotted line joining a journey's stops in story order, up to the
+   * current stop. It shows the order of the story, not a route. When `grow` is set the
+   * newest segment draws itself from the previous stop.
+   */
+  setThread(points: [number, number][], grow: boolean) {
+    const src = this.map.getSource('journey-thread') as maplibregl.GeoJSONSource | undefined;
+    if (!src) return;
+    cancelAnimationFrame(this.threadAnim);
+    const draw = (k: number) => {
+      const segs: GeoJSON.Feature[] = [];
+      for (let i = 1; i < points.length; i++) {
+        const a = points[i - 1];
+        let b = points[i];
+        if (i === points.length - 1 && k < 1) b = [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k];
+        segs.push({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [a, b] } });
+      }
+      src.setData({ type: 'FeatureCollection', features: segs });
+    };
+    if (!grow || points.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return draw(1);
+    const start = performance.now();
+    const tick = (now: number) => {
+      const k = Math.min(1, (now - start) / 1500);
+      draw(k * k * (3 - 2 * k));
+      if (k < 1) this.threadAnim = requestAnimationFrame(tick);
+    };
+    this.threadAnim = requestAnimationFrame(tick);
   }
 
   /** Frame a set of events, e.g. every stop of a journey. */
