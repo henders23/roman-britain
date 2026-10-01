@@ -13,6 +13,7 @@ The first dataset is **Roman and early medieval Britain, AD 43–1066** (`datase
 - **Dotted rings** (on the map) and **faint bars** (on the timeline) mark events dated only to a window of years, such as "between AD 610 and 640". The event happened at some point in the window, not throughout it. They are at full strength only while the playhead is inside the window.
 - **Small dots** are earlier events.
 - Click any marker for its card: the date, the place, how certain it is, the narrative, the sources (primary first), and the pack's reason for including it.
+- **Music** ("Quiet Roman Dawn", `public/audio/quiet-roman-dawn.mp3`) plays quietly on a loop. Browsers only allow sound after a click or key press, so it starts then. The **Music** button in the top bar turns it on or off, and the browser remembers the choice.
 - Chapter stories and the About panel are the atlas's own writing, and are labelled "Atlas synthesis".
 
 ## Running it on your computer

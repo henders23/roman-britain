@@ -4,7 +4,7 @@ import { loadAtlas, phaseAt, type Atlas, type AtlasEvent } from './data/dataset'
 import { store, useAtlas } from './store';
 import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
-import { About, Chronicle, Clock, Header, Headline, Legend, ThemeToggle } from './ui/Panels';
+import { About, Chronicle, Clock, Header, Headline, Legend, MusicToggle, ThemeToggle } from './ui/Panels';
 import { JourneyCard, JourneyList } from './ui/Journeys';
 import { placeGap, timeGap } from './data/journey';
 import { formatShort } from './data/time';
@@ -296,6 +296,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
         <label className="toggle" title="Follow the phases while playing">
           <input type="checkbox" defaultChecked onChange={(e) => store.set({ autoCamera: e.target.checked })} /> Follow
         </label>
+        <MusicToggle />
         <ThemeToggle />
       </nav>
       {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyList atlas={atlas} onStart={(id) => goStep(id, 0)} /> : null}

@@ -4,6 +4,7 @@ import { formatClock, formatShort } from '../data/time';
 import { glyphFor, pinDataUrl } from '../map/icons';
 import { store, useAtlas } from '../store';
 import { setThemePref, useThemePref } from '../theme';
+import { setMusic, useMusic } from '../music';
 
 /** The pin artwork for an event (or a kind) as an <img>, redrawn when the theme changes. */
 export function Pin({ atlas, kind, area = false, size = 22 }: { atlas: Atlas; kind: string; area?: boolean; size?: number }) {
@@ -230,6 +231,21 @@ export function ThemeToggle() {
         <path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor" />
       </svg>
       <span className="theme-name">{label}</span>
+    </button>
+  );
+}
+
+export function MusicToggle() {
+  const on = useMusic();
+  return (
+    <button className="theme-btn" onClick={() => setMusic(!on)} aria-pressed={on} title={on ? 'Music on. Click to turn it off.' : 'Music off. Click to turn it on.'} aria-label="Music">
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden>
+        <path d="M6 12V3.5l7-1.5v8.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <circle cx="4.3" cy="12" r="1.9" fill="currentColor" />
+        <circle cx="11.3" cy="10.5" r="1.9" fill="currentColor" />
+        {!on && <path d="M2 2l12 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />}
+      </svg>
+      <span className="theme-name">{on ? 'Music' : 'Music off'}</span>
     </button>
   );
 }
