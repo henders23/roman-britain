@@ -10,6 +10,7 @@ Newest round first. Say what changed and why, in a line or two per change.
 - Five new journeys built on these rows: Emperors in Britain, Rome's northern frontier, Voices from the past, Saints and scholars of the north, Alfred's kingdom.
 
 ## Pictures (images.json, outside the rounds)
+- r04 events: 13 pictures added (coins of Hadrian, Carausius and Constantine III; the Severan family portrait; the modern Constantine statue at York; Inchtuthil from the air; Caerleon amphitheatre; Silchester's walls; Iona Abbey; Lindisfarne; Monkwearmouth; the Athelney monument; the Alfred Jewel). Still without one: Mons Graupius, the Bloomberg tablets, the Jarrow dedication stone and Wallingford, for want of a file with a confirmable licence and author.
 - 19 more pictures, so 32 of the 38 included events now have one. Where no public-domain picture exists, openly licensed photographs (CC0, CC BY, CC BY-SA) are used and credited with author and licence on the card. Added a 1725 plan of the River Medway for the river battle of AD 43. Still without a picture: Water Newton, Lullingstone, Prittlewell, Rendlesham and Edington; Commons has candidate files for all but Prittlewell, but their exact file names and authors could not be confirmed by search.
 
 ## r03

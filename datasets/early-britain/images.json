@@ -1,4 +1,25 @@
 {
+  "aidan-lindisfarne-635": {
+    "file": "T.homas Girtin Lindisfarne 1798.jpg",
+    "caption": "'Lindisfarne', a watercolour by Thomas Girtin of 1798, showing the ruins of the later medieval priory on Holy Island. The priory was built in the late 11th and 12th centuries on the site of Aidan's monastery; nothing of Aidan's buildings survives.",
+    "author": "Thomas Girtin (1775–1802)",
+    "date": "1798",
+    "licence": "Public domain"
+  },
+  "alfred-athelney-878": {
+    "file": "King Alfred's Monument, Athelney 05.jpg",
+    "caption": "The monument to King Alfred at Athelney, put up in 1801 for the landowner John Slade on the site traditionally linked with Alfred's fortress and later abbey: a much later memorial, not a work of Alfred's time.",
+    "author": "Simon Burchell",
+    "date": "21st century",
+    "licence": "CC BY-SA 4.0"
+  },
+  "alfred-jewel": {
+    "file": "Alfred-jewel-ashmolean.jpg",
+    "caption": "The Alfred Jewel in the Ashmolean Museum, Oxford: rock crystal over a cloisonné enamel figure in a gold frame with the openwork inscription AELFRED MEC HEHT GEWYRCAN.",
+    "author": "Mkooiman",
+    "date": "25 August 2015",
+    "licence": "CC BY-SA 4.0"
+  },
   "aquae-sulis": {
     "file": "Roman Baths and Abbey, IV, Bath, England-LCCN2002696370.jpg",
     "caption": "The Great Bath at Bath with the Abbey behind, a photochrom print of about 1890–1900. The pool is Roman, but the terraces, columns and statues around it are Victorian additions of the 1890s: a much later view.",
@@ -48,6 +69,13 @@
     "date": "1793",
     "licence": "Public domain"
   },
+  "caerleon-amphitheatre": {
+    "file": "Caerleon Roman Amphitheatre, From the north west - geograph.org.uk - 8232136.jpg",
+    "caption": "The legionary amphitheatre at Caerleon from the north-west, built about AD 90 outside the fortress of Isca and excavated by the Wheelers in 1926–27.",
+    "author": "Michael Garlick (Geograph)",
+    "date": "20 August 2023",
+    "licence": "CC BY-SA 2.0"
+  },
   "camulodunum-destruction-60": {
     "file": "Pictures of English History Plate IV - Boadicea and Her Army.jpg",
     "caption": "Boadicea and her army: colour print by Joseph Martin Kronheim from Pictures of English History (1868). It is a Victorian imagining of the revolt, not a depiction of Camulodunum or of any recorded scene.",
@@ -61,6 +89,34 @@
     "author": "Jenni Ahonen",
     "date": "Photograph undated (arch completed c. AD 51–52)",
     "licence": "CC BY-SA 4.0"
+  },
+  "carausius-usurpation-286": {
+    "file": "Antoninianus Carausius leg4-RIC 0069v.jpg",
+    "caption": "A bronze antoninianus of Carausius, struck at his London mint in about 288–290, with his radiate bust (IMP CARAVSIVS P F AVG) and a lion for the legion IIII Flavia: one of the coins he issued as emperor in Britain.",
+    "author": "Classical Numismatic Group, Inc. (www.cngcoins.com)",
+    "date": "Coin c. AD 288–290",
+    "licence": "CC BY-SA 3.0"
+  },
+  "columba-iona-563": {
+    "file": "Iona Abbey. Panorama.jpg",
+    "caption": "Iona Abbey in 2010. The church and cloister are later medieval Benedictine buildings, largely of the 13th to 15th centuries and restored in the 20th century; nothing of Columba's 6th-century monastery stands above ground.",
+    "author": "Oliver-Bonjoch",
+    "date": "10 August 2010",
+    "licence": "CC BY-SA 3.0"
+  },
+  "constantine-iii-proclaimed-407": {
+    "file": "Impero d'occidente, costantino III, solido in oro (lione), 407-408.JPG",
+    "caption": "A gold solidus of Constantine III struck at Lyon in 407–408, soon after the army in Britain made him emperor and he crossed into Gaul.",
+    "author": "Sailko",
+    "date": "Coin AD 407–408; photograph uploaded 2012",
+    "licence": "CC BY-SA 3.0"
+  },
+  "constantine-proclaimed-york-306": {
+    "file": "Constantine the Great statue outside York Minster - DSC07907.JPG",
+    "caption": "The bronze statue of Constantine by Philip Jackson outside the south door of York Minster, a modern work unveiled in 1998 near the site of the legionary fortress where he was proclaimed emperor in 306.",
+    "author": "Rept0n1x (photograph); statue by Philip Jackson",
+    "date": "Statue 1998; photograph 7 August 2010",
+    "licence": "CC BY-SA 3.0"
   },
   "coppergate-tenements": {
     "file": "Coppergate Helmet YORCM CA665-2.jpg",
@@ -104,6 +160,13 @@
     "date": "2016-09-08",
     "licence": "Public domain"
   },
+  "hadrian-visit-britain-122": {
+    "file": "As of Hadrian. RIC 577b; BMCRE 1175 (AD 119). (FindID 95108).jpg",
+    "caption": "A bronze as of Hadrian struck at Rome in about AD 119, with the seated figure of Britannia on the reverse, found on the Isle of Wight. It is a coin of the emperor, not a record of the visit, and was minted a few years before he came to Britain.",
+    "author": "Portable Antiquities Scheme (Isle of Wight Council)",
+    "date": "Coin c. AD 119; photograph recorded by the Portable Antiquities Scheme",
+    "licence": "CC BY-SA 2.0"
+  },
   "hinton-st-mary-mosaic": {
     "file": "Roundel mosaic christ hinton st mary british museum edit.JPG",
     "caption": "The central roundel of the Hinton St Mary mosaic, now in the British Museum: a clean-shaven male bust before a chi-rho, flanked by pomegranates, often read as Christ. A modern museum photograph of the 4th-century floor.",
@@ -115,6 +178,13 @@
     "caption": "Silver pepper pots from the Hoxne hoard, among them the 'Empress' pepper pot in the form of a woman's bust; a modern photograph of objects buried in the chest some time after 407/408, now in the British Museum.",
     "author": "Andrew West (BabelStone)",
     "licence": "CC0"
+  },
+  "inchtuthil-fortress": {
+    "file": "Den arkeologiske lämningen av fortet Inchtuthill med kant och upphöjt läge, floden Tay flyter (utanför bild) på tre sidor..jpg",
+    "caption": "The plateau above the River Tay at Inchtuthil, site of the unfinished legionary fortress of the 80s AD, photographed from the air in 2003; the Roman remains lie below the fields.",
+    "author": "Baron Delvine",
+    "date": "2003",
+    "licence": "Public domain"
   },
   "lindisfarne-gospels": {
     "file": "LindisfarneFol27rIncipitMatt.jpg",
@@ -177,6 +247,20 @@
     "date": "1725",
     "licence": "Public domain"
   },
+  "severus-death-york-211": {
+    "file": "Portrait of family of Septimius Severus - Altes Museum - Berlin - Germany 2017.jpg",
+    "caption": "The Severan Tondo, a painted wooden panel of about AD 200, probably from Egypt, showing Septimius Severus with Julia Domna and their sons Caracalla and Geta (Geta's face scratched out after his murder). It was painted about a decade before the family came to Britain; Antikensammlung, Berlin.",
+    "author": "José Luiz Bernardes Ribeiro (photograph); unknown Roman painter",
+    "date": "Painting c. AD 200; photograph 25 July 2017",
+    "licence": "CC BY-SA 4.0"
+  },
+  "silchester-ogham-stone": {
+    "file": "Silchester Roman city walls 21.jpg",
+    "caption": "The Roman town wall of Calleva Atrebatum at Silchester, inside which the ogham stone was found in a well in 1893. The stone itself, now in Reading Museum, is not shown.",
+    "author": "Simon Burchell",
+    "date": "21st century",
+    "licence": "CC BY-SA 4.0"
+  },
   "staffordshire-hoard": {
     "file": "Fragments from a helmet (Staffordshire Hoard).jpg",
     "caption": "Gold and silver fragments from a helmet in the Staffordshire Hoard, photographed after discovery for the Portable Antiquities Scheme.",
@@ -217,6 +301,12 @@
     "author": "Fæ",
     "date": "Modern photograph (tablet c. AD 97–103)",
     "licence": "CC BY-SA 3.0"
+  },
+  "wearmouth-foundation-674": {
+    "file": "St Peter's Church-Monkwearmouth.jpg",
+    "caption": "St Peter's Church, Monkwearmouth. The west wall and porch, at the foot of the tower, survive from Benedict Biscop's church of 674; the upper tower is later Anglo-Saxon work and much of the rest of the church is medieval or later.",
+    "author": "R J McNaughton (Geograph)",
+    "licence": "CC BY-SA 2.0"
   },
   "william-lands-pevensey-1066": {
     "file": "BayeuxTapestryScene38.jpg",
