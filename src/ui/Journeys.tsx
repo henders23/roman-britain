@@ -1,8 +1,17 @@
 import type { Atlas } from '../data/dataset';
 import type { Journey } from '../data/schema';
 import { formatShort, formatYear } from '../data/time';
+import { useState } from 'react';
 import { store, useAtlas } from '../store';
 import { Pin } from './Panels';
+
+/** A stop's picture from Wikimedia Commons, small; its pin symbol if it has none or the picture fails. */
+function Thumb({ atlas, kind, area, file }: { atlas: Atlas; kind: string; area: boolean; file?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!file || failed) return <Pin atlas={atlas} kind={kind} area={area} size={26} />;
+  const name = encodeURIComponent(file.replace(/ /g, '_'));
+  return <img src={`https://commons.wikimedia.org/wiki/Special:FilePath/${name}?width=120`} alt="" loading="lazy" onError={() => setFailed(true)} />;
+}
 
 const paragraphs = (s: string) => s.split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
 
@@ -70,11 +79,31 @@ export function JourneyCard({ atlas, journey, step, onStep, onExit }: { atlas: A
         <span className="synth" title="Written by the journey’s author; the evidence is in each event’s card">Journey author’s interpretation</span>
         {journey.thread !== 'none' && step >= 2 && <p className="j-thread-note">The dotted line shows the order of the story, not a route.</p>}
       </div>
-      <div className="j-dots" role="tablist" aria-label="Stops">
-        {[0, ...journey.stops.map((_, i) => i + 1)].map((i) => (
-          <button key={i} role="tab" aria-selected={i === step} className={i === step ? 'on' : i < step ? 'done' : ''} onClick={() => onStep(i)} aria-label={i === 0 ? 'Introduction' : `Stop ${i}`} />
-        ))}
-      </div>
+      <ol className="j-strip" aria-label="Stops">
+        <li>
+          <button className={`j-thumb j-intro${step === 0 ? ' on' : ''}`} onClick={() => onStep(0)} aria-current={step === 0 ? 'step' : undefined} title="Introduction">
+            <span aria-hidden>i</span>
+          </button>
+        </li>
+        {journey.stops.map((st, i) => {
+          const n = i + 1;
+          const ev = atlas.events.find((e) => e.id === st.event);
+          // Stops not yet reached show only their number, so the strip does not give away what comes next.
+          const reached = n <= step;
+          return (
+            <li key={st.event}>
+              <button
+                className={`j-thumb${n === step ? ' on' : reached ? ' done' : ' ahead'}`}
+                onClick={() => onStep(n)}
+                aria-current={n === step ? 'step' : undefined}
+                title={reached && ev ? `${n}. ${ev.title}` : `Stop ${n}`}
+              >
+                {reached && ev ? <Thumb atlas={atlas} kind={ev.kind} area={ev.geometry === 'area'} file={ev.image?.file} /> : <span>{n}</span>}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
       <footer>
         <button onClick={() => onStep(step - 1)} disabled={step === 0}>← Back</button>
         <label className="toggle" title="Move to the next stop every few seconds">
