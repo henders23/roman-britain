@@ -426,6 +426,19 @@ dialog.about::backdrop { background: var(--backdrop); -webkit-backdrop-filter: b
 .j-intro span { font: italic 600 15px var(--serif); color: var(--gold-soft); }
 @media (max-width: 720px) { .j-thumb { width: 36px; height: 36px; border-radius: 7px; } }
 
+/* end-of-journey summary */
+.j-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 10px; }
+.j-stats div { display: flex; flex-direction: column; }
+.j-stats dt { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.j-stats dd { margin: 0; font: 500 17px/1.3 var(--serif); color: var(--gold-soft); }
+.j-recap { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.j-recap button { width: 100%; display: flex; gap: 8px; align-items: flex-start; padding: 5px 6px; border: 0; border-radius: 8px; background: none; text-align: left; }
+.j-recap button:hover { background: var(--hover); }
+.j-recap .n { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font: 600 10.5px/18px var(--sans); text-align: center; }
+.j-recap span:last-child { display: flex; flex-direction: column; }
+.j-recap b { font: 500 13.5px/1.3 var(--serif); }
+.j-recap em { font-style: normal; font-size: 11.5px; color: var(--muted); }
+
 /* ── Small screens ───────────────────────────────────────────────────── */
 @media (max-width: 1100px) {
   .chapter p { display: none; }

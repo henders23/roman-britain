@@ -75,24 +75,31 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   const goStep = (id: string, step: number) => {
     const j = atlas.journeys.find((x) => x.id === id);
     if (!j) return;
-    const n = Math.max(0, Math.min(j.stops.length, step));
+    // Steps: 0 = introduction, 1..len = stops, len + 1 = the end-of-journey summary.
+    const len = j.stops.length;
+    const n = Math.max(0, Math.min(len + 1, step));
     const evs = j.stops.map((st) => byId.get(st.event)!);
     const from = store.get().journey?.id === id ? store.get().journey!.step : 0;
     // Moving on to the next stop: say how much time passes and how far the story moves.
     clearTimeout(interludeTimer.current);
-    if (n === from + 1 && n >= 2) {
+    if (n === from + 1 && n >= 2 && n <= len) {
       setInterlude({ key: Date.now(), time: timeGap(evs[n - 2], evs[n - 1]), place: placeGap(evs[n - 2], evs[n - 1]) });
       interludeTimer.current = window.setTimeout(() => setInterlude(null), 3600);
     } else setInterlude(null);
     // The story thread joins the stops reached so far; the newest segment draws itself.
     const pts = j.thread === 'none' ? [] : evs.slice(0, n).map((e) => [e.lon, e.lat] as [number, number]);
-    map.current?.setThread(pts, n === from + 1);
+    map.current?.setThread(pts, n === from + 1 && n <= len);
     store.set({ journey: { id, step: n }, panel: null, playing: false, headline: null });
     setIntro(false);
     if (n === 0) {
       store.set({ selected: null });
       // Start at the first stop's date, so the journey's first event is on the map.
       glideTo(evs[0].t0 + 0.001);
+      map.current?.flyToEvents(evs);
+    } else if (n > len) {
+      // The summary: the whole thread, every stop in view.
+      store.set({ selected: null });
+      glideTo(Math.max(...evs.map((e) => e.t0)) + 0.001);
       map.current?.flyToEvents(evs);
     } else {
       const ev = evs[n - 1];
@@ -215,11 +222,11 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   useEffect(() => {
     if (!journey || !journeyState || !journeyAuto) return;
     const n = journey.stops.length;
-    if (journeyState.step >= n) {
+    if (journeyState.step > n) {
       store.set({ journeyAuto: false });
       return;
     }
-    const text = journeyState.step === 0 ? journey.intro : journey.stops[journeyState.step - 1].text;
+    const text = journeyState.step === 0 ? journey.intro : journey.stops[journeyState.step - 1]?.text ?? '';
     const wait = Math.max(7000, 4000 + text.length * 45);
     const id = setTimeout(() => goStep(journey.id, journeyState.step + 1), wait);
     return () => clearTimeout(id);

@@ -128,6 +128,7 @@ Why we stop here, what the evidence shows, and how it leads on.
 - Stops go in date order. To order them some other way, for example by theme, write `Order: thematic`.
 - Stops are revealed one at a time. Between stops a short interlude says how much time passes and how far the story moves ("8 years later · 90 km south"), worked out from the pack's dates and coordinates.
 - A dotted **story thread** joins the stops in the order of the story, drawn as the reader goes. It shows the order of the story, not a route, and the card says so. Where even a hint of a route would mislead (for example, a march nobody can trace), add the line `Thread: none` under `Order:` and nothing is drawn.
+- After the last stop comes the journey's end: the years it spans, how many places it visits, the straight-line distance along the thread (left out with `Thread: none`) and every stop, each one a link back. Nothing extra needs writing for it.
 - The journey's text is shown as its author's interpretation. The evidence stays in each event's card.
 - A journey needs a title, an introduction and at least two stops, each with text. `npm run validate:draft` checks all of this.
 

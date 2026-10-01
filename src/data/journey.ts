@@ -35,6 +35,13 @@ export function timeGap(a: AtlasEvent, b: AtlasEvent): string {
   return `${about}${n} years later`;
 }
 
+/** Kilometres between two events, as the crow flies. */
+export function kmBetween(a: AtlasEvent, b: AtlasEvent) {
+  const r = Math.PI / 180;
+  const φ1 = a.lat * r, φ2 = b.lat * r, dλ = (b.lon - a.lon) * r;
+  return 2 * 6371 * Math.asin(Math.sqrt(Math.sin((φ2 - φ1) / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(dλ / 2) ** 2));
+}
+
 const DIRS = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
 
 export function placeGap(a: AtlasEvent, b: AtlasEvent): string {
