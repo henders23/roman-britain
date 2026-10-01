@@ -2,6 +2,13 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
+## r04
+- r03 unchanged, plus 20 new rows (17 include, 1 merge, 2 exclude), compiled by web search like r03; see `r04-research-log.md`. All new rows are `unverified`.
+- Emperors in Britain: Hadrian's visit (122, a region), Severus's death at York (211), Carausius (286–287, a region), Constantine proclaimed at York (306), Constantine III (407, a region). These are the first events in the 122–284 phase.
+- Rome in the north and written voices: Mons Graupius (a region; site unknown), Inchtuthil, the Bloomberg writing tablets, the Caerleon amphitheatre, the Silchester ogham stone. The Caerleon "Round Table" legend is excluded.
+- Saints and Wessex: Iona (563), Lindisfarne founded (635), Wearmouth (674), the Jarrow dedication stone (685), Alfred at Athelney (878), the Alfred Jewel (with its 1693 discovery merged), the burh at Wallingford. The "burnt cakes" legend is excluded.
+- Five new journeys built on these rows: Emperors in Britain, Rome's northern frontier, Voices from the past, Saints and scholars of the north, Alfred's kingdom.
+
 ## Pictures (images.json, outside the rounds)
 - 19 more pictures, so 32 of the 38 included events now have one. Where no public-domain picture exists, openly licensed photographs (CC0, CC BY, CC BY-SA) are used and credited with author and licence on the card. Added a 1725 plan of the River Medway for the river battle of AD 43. Still without a picture: Water Newton, Lullingstone, Prittlewell, Rendlesham and Edington; Commons has candidate files for all but Prittlewell, but their exact file names and authors could not be confirmed by search.
 
