@@ -355,7 +355,11 @@ dialog.about::backdrop { background: var(--backdrop); -webkit-backdrop-filter: b
 
 /* journeys */
 .journeys .j-help { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
-.j-list { list-style: none; margin: 0; padding: 8px 10px 16px; overflow-y: auto; flex: 1; }
+.j-groups { overflow-y: auto; flex: 1; padding: 4px 0 16px; }
+.j-group h3 { margin: 14px 22px 0; font: 600 11px/1.4 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.j-group h3 .count { margin-left: 4px; letter-spacing: 0; }
+.j-group-note { margin: 3px 22px 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.j-list { list-style: none; margin: 0; padding: 4px 10px 0; }
 .j-list button { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 10px 12px; border: 1px solid transparent; border-radius: 10px; background: none; text-align: left; }
 .j-list button:hover { background: var(--hover); border-color: var(--line); }
 .j-list b { font: 500 17px/1.25 var(--serif); }
@@ -427,6 +431,8 @@ dialog.about::backdrop { background: var(--backdrop); -webkit-backdrop-filter: b
 @media (max-width: 720px) { .j-thumb { width: 36px; height: 36px; border-radius: 7px; } }
 
 /* end-of-journey summary */
+.j-closing { margin: 0 0 14px; }
+.j-closing p { margin: 0 0 8px; }
 .j-stats { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 10px; }
 .j-stats div { display: flex; flex-direction: column; }
 .j-stats dt { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }

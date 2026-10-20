@@ -1,6 +1,6 @@
 # Emperors in Britain
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
 Britain was a distant province, yet emperors came here, died here and were made here. This journey follows them across four centuries. Notice what kind of source puts each emperor in Britain: a later biography, a historian writing long after, an inscription, or coins.
 
@@ -21,3 +21,6 @@ When the emperor Constantius died at York, his army proclaimed his son Constanti
 
 ## Stop: constantine-iii-proclaimed-407
 The last emperor made in Britain was a soldier named Constantine, raised by the army in 407. He took troops to Gaul and did not return. Within a few years Roman government in Britain had ended.
+
+## Closing
+Emperors came to Britain to win glory, to fight, and in the end to be made. Most of what we know of their visits comes from historians rather than the ground. When the army in Britain made Constantine III emperor in 407 and followed him to Gaul, the last imperial story here was one of leaving.

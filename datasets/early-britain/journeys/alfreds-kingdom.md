@@ -1,6 +1,6 @@
 # Alfred's kingdom
 By: UK Atlas (atlas synthesis)
-Order: thematic
+Collection: rulers-and-kingdoms
 
 In 878 King Alfred of Wessex was nearly defeated. Within a generation his family ruled much of England. This journey follows the recovery and the kingdom he built, and keeps the famous legend about the cakes off the map. The stops follow the story rather than strict date order, since the Alfred Jewel can only be dated to his reign as a whole.
 
@@ -18,3 +18,6 @@ To defend Wessex, Alfred and his successors built a network of fortified towns, 
 
 ## Stop: battle-of-brunanburh-937
 Alfred's grandson Athelstan defeated a coalition of northern kings at Brunanburh, a victory celebrated as the moment the English kingdom held. From the marshes of Athelney to Brunanburh is less than sixty years.
+
+## Closing
+From a marsh fort to a kingdom ringed by fortified towns took less than sixty years. Much of the written record of Alfred's recovery comes from his own court, so it tells the story his way. At Brunanburh his grandson won the battle that held the English kingdom together.

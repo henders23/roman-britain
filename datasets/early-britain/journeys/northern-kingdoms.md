@@ -1,6 +1,6 @@
 # Picts, Scots and Britons
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
 North of the old Roman frontier, the centuries after Rome saw kingdoms of Picts, of Gaelic-speaking Scots in Dál Riata, and of Britons on the Clyde. They left few written records of their own, so this journey depends on fortresses, carved stones, and the annals kept by monks.
 
@@ -21,3 +21,6 @@ At Aberlemno, a carved cross-slab shows warriors in battle. Some scholars link t
 
 ## Stop: dumbarton-siege-870
 In 870 Viking leaders from Dublin besieged Dumbarton Rock, the fortress of the Britons of the Clyde, for four months, took it and carried off captives. The kingdom survived, but its old centre had fallen.
+
+## Closing
+North of the old frontier, kingdoms of Picts, Gaels and Britons rose and fought, but left few written records of their own. Forts, carved stones and short entries in Irish annals carry most of their story. The fall of Dumbarton Rock in 870 ended the oldest British stronghold in the north and opened a new chapter there.

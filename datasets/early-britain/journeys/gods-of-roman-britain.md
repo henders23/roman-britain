@@ -1,6 +1,6 @@
 # Gods of Roman Britain
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: gods-saints-and-the-church
 
 Roman Britain had no single religion. Local gods were given Roman names, soldiers brought cults from the eastern empire, and in the fourth century Christianity arrived in villas and treasures. This journey visits seven sacred places and asks, at each one, what the evidence shows people actually did there.
 
@@ -24,3 +24,6 @@ Silver vessels and plaques marked with the chi-rho show Christians worshipping t
 
 ## Stop: lullingstone-house-church
 In a villa in Kent, a room was painted with Christian symbols and figures at prayer, while a pagan shrine elsewhere in the house may still have been in use. Belief in Roman Britain was rarely one thing at a time.
+
+## Closing
+Roman Britain worshipped many gods side by side: local gods with Roman names, soldiers' cults from the east, and at last Christ. The evidence is temples, offerings and curses rather than anyone's account of what they believed. Christianity arrived as one faith among many, in the houses of the wealthy.

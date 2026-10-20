@@ -1,6 +1,6 @@
 # Voices from the past: who wrote things down?
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: how-do-we-know
 
 Most people in Roman and early medieval Britain left no writing. This journey visits the places where writing survives, from debts and curses scratched in wax and lead to the great books of the monasteries, and asks whose voices each one preserves.
 
@@ -24,3 +24,6 @@ The Lindisfarne Gospels are writing as a work of art, made in a monastery for wo
 
 ## Stop: bede-historia-731
 Bede, at Jarrow, wrote the first history of the English people. Much of what is on this map after 597 depends on him, so it is worth remembering that his voice, too, had a point of view.
+
+## Closing
+Writing in Britain begins here with soldiers, merchants and people cursing thieves, and this journey ends with a monk writing the history of a people. Who could write changed, and so does what we can know. Most people in these centuries are still silent.

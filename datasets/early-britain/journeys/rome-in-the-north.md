@@ -1,6 +1,6 @@
 # Rome's northern frontier
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: conquest-and-frontiers
 
 How far north did Rome reach, and why did it stop? This journey moves between a lost battlefield, an unfinished fortress and the forts behind the later frontier. The walls themselves are lines the atlas cannot yet draw, so they appear in the pack as excluded rows rather than on the map.
 
@@ -18,3 +18,6 @@ Hadrian's visit is usually linked with the decision to build his Wall. The visit
 
 ## Stop: severus-death-york-211
 A century later, Severus campaigned beyond the Wall and died at York. After him, the frontier settled on Hadrian's line for good.
+
+## Closing
+Rome reached far into Scotland, won a battle there and began a fortress it never finished. The lasting frontier settled further south, where the Vindolanda letters show an army at home. Even so, emperors kept coming north, and Severus died at York after his own campaigns. The frontier was a choice Rome kept revisiting, not a line it reached once.

@@ -1,6 +1,6 @@
 # Defending the late Roman province
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: conquest-and-frontiers
 
 In its last century Roman Britain faced raiders by sea and from the north, and its own commanders made themselves emperors. This journey follows how the province was defended, and how it slipped out of Roman control.
 
@@ -18,3 +18,6 @@ In 407 the army in Britain raised its own emperor, who took troops to Gaul. For 
 
 ## Stop: hoxne-hoard
 Around this time someone in Suffolk buried a fortune and never returned for it. Hoards like this are often read as signs of insecurity, but they cannot tell us why their owners never came back.
+
+## Closing
+The province was defended with new forts, and its commanders more than once turned its army into a throne. Each usurper took troops away, and after 407 they did not come back. The Hoxne hoard, buried soon afterwards, belongs to a Britain that Rome no longer defended.

@@ -115,6 +115,14 @@ export interface DatasetConfig {
   kinds: Kind[];
   facetLabels: string[];
   phases: Phase[];
+  /** groups for the journey list, in display order; every journey names one */
+  journeyCollections?: JourneyCollection[];
+}
+
+export interface JourneyCollection {
+  id: string;
+  title: string;
+  description: string;
 }
 
 export type Status = 'core' | 'vassal' | 'contested';
@@ -144,12 +152,16 @@ export interface Journey {
   id: string;
   title: string;
   by: string;
-  order: 'chronological' | 'thematic';
+  /** one of the journeyCollections ids in dataset.json */
+  collection: string;
   /** 'story' draws a dotted thread joining the stops in story order; 'none' draws nothing */
   thread: 'story' | 'none';
+  /** the opening: the question the journey asks */
   intro: string;
-  /** each stop names the canonical_id of an included event */
+  /** each stop names the canonical_id of an included event; they run forward in time */
   stops: { event: string; text: string }[];
+  /** the closing: what the stops showed */
+  closing: string;
   /** true while any of its text is still marked PLACEHOLDER */
   placeholder: boolean;
 }

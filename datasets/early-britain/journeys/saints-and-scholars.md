@@ -1,6 +1,6 @@
 # Saints and scholars of the north
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: gods-saints-and-the-church
 
 In the seventh century the north of Britain became one of the great centres of learning in Europe. This journey follows the monks who made it so, from Iona to Jarrow, and ends with the raid that shook their world. Much of the story is told by Bede, who belonged to it.
 
@@ -27,3 +27,6 @@ At Jarrow, Bede finished his Ecclesiastical History. It is the main reason this 
 
 ## Stop: lindisfarne-raid-793
 Sixty years later, raiders struck Lindisfarne. To the scholars of the north it seemed the end of an age.
+
+## Closing
+From Iona to Jarrow, a handful of monasteries made the north a centre of learning in little more than a century. Almost all we know of them comes from Bede, who belonged to that world. The raid of 793 did not end it at once, but to the scholars it seemed the end of an age.

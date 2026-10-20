@@ -77,6 +77,7 @@ Open it in any text editor. Change:
 - `kinds`: the types of event your pack may use, each with an `id` (used in the pack) and a `label` (shown to readers). These ids get their own symbol: `town`, `settlement`, `villa`, `fort`, `religious`, `burial`, `hoard`, `text`, `political`, `battle` (used by `conflict`), `treaty`, `death`, `naval`, `flag`. Any other id is drawn as a dot, or you can add `"icon": "town"` (for example) to borrow a symbol.
 - `facetLabels`: the extra labels your pack may use in its `facets` column, such as `"Evidence type"`.
 - `phases`: the chapters of your timeline, in order. Each has an `id`, a `title`, `from` and `to` years (`to` is the phase's last year, so the next phase starts the year after: 43–121, then 122–284), a short `story` (your own synthesis, 2–3 sentences), and a `camera` for where the map moves to when playback reaches it.
+- `journeyCollections` (needed once the dataset has journeys): the groups the journey list shows, in order. Each has an `id`, a `title` and a one-line `description`; every journey names one in its `Collection:` line.
 
 Keep the punctuation exactly as it is: quotation marks around text, commas between items, no comma after the last item. If the atlas will not load, a missing or extra comma is the usual cause.
 
@@ -106,32 +107,41 @@ Write in your own words and cite your sources; do not paste source text.
 
 ### 5. Add journeys (optional)
 
-A journey is a guided route through events that are already on the map, such as a revolt followed from town to town, or a question like "How do we know when?". Readers open it from **Journeys**. The timeline and camera move to each stop in turn, and the event's card opens beside the journey's own text.
+A journey is a guided story through events that are already on the map, such as a revolt followed from town to town, or a question like "How do we know when?". Readers open it from **Journeys**, where journeys are grouped into the collections the dataset declares. The timeline and camera move to each stop in turn, and the event's card opens beside the journey's own text.
 
 Copy `datasets/early-britain/journeys/_TEMPLATE.md` to `journeys/<journey-name>.md` (lower case, hyphens) and fill it in:
 
 ```
 # How do we know when?
 By: Group 3
-Order: chronological
+Collection: how-do-we-know
 Thread: story
 
-An introduction: the question the journey asks, and what to look for.
+The opening: the question the journey asks, and what to look for.
 
 ## Stop: vindolanda-tablets
 Why we stop here, what the evidence shows, and how it leads on.
 
-## Stop: sutton-hoo-mound1
+## Stop: hoxne-hoard
 ...
+
+## Closing
+What the stops showed: the answer, or the honest lack of one, to the opening question.
 ```
 
-- Each `## Stop:` names the `canonical_id` of an **included** row in the latest round. A journey cannot add places or dates of its own, or stop at a merged or excluded row.
-- Stops go in date order. To order them some other way, for example by theme, write `Order: thematic`.
+Every journey follows three rules, and `npm run validate:draft` checks them:
+
+- **At least five stops.** Each `## Stop:` names the `canonical_id` of an **included** row in the latest round. A journey cannot add places or dates of its own, or stop at a merged or excluded row.
+- **Always forward in time.** No stop may end before the stop before it begins. Stops in the same year, or whose date windows overlap, can follow the order of the story or the argument (for example, from the clearest evidence to the most debated).
+- **A beginning and an end.** The opening under the title sets the question; the `## Closing` section after the last stop says what the stops showed.
+
+And:
+
+- `Collection:` names one of the `journeyCollections` in `dataset.json`, each with an `id`, a `title` and a short `description`. The journey list shows the collections in that order.
 - Stops are revealed one at a time. Between stops a short interlude says how much time passes and how far the story moves ("8 years later · 90 km south"), worked out from the pack's dates and coordinates.
-- A dotted **story thread** joins the stops in the order of the story, drawn as the reader goes. It shows the order of the story, not a route, and the card says so. Where even a hint of a route would mislead (for example, a march nobody can trace), add the line `Thread: none` under `Order:` and nothing is drawn.
-- After the last stop comes the journey's end: the years it spans, how many places it visits, the straight-line distance along the thread (left out with `Thread: none`) and every stop, each one a link back. Nothing extra needs writing for it.
-- The journey's text is shown as its author's interpretation. The evidence stays in each event's card.
-- A journey needs a title, an introduction and at least two stops, each with text. `npm run validate:draft` checks all of this.
+- A dotted **story thread** joins the stops in the order of the story, drawn as the reader goes. It shows the order of the story, not a route, and the card says so. Where even a hint of a route would mislead (for example, a march nobody can trace), add the line `Thread: none` and nothing is drawn.
+- After the last stop comes the journey's end: the closing, the years it spans, how many places it visits, the straight-line distance along the thread (left out with `Thread: none`) and every stop, each one a link back.
+- The journey's text, opening and closing included, is shown as its author's interpretation. The evidence stays in each event's card.
 
 Share a journey by copying the address while it is open; the link opens at the same stop.
 

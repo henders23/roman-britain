@@ -57,26 +57,34 @@ export function narrativeSections(text) {
   return found;
 }
 
-/** A journey file: '# Title', optional 'By:' and 'Order:' lines, an introduction, then
- *  '## Stop: <canonical_id>' sections. Mirrors parse_journey in tools/validate_pack.py. */
+/** A journey file: '# Title', optional 'By:', 'Collection:' and 'Thread:' lines, an opening,
+ *  '## Stop: <canonical_id>' sections, then a '## Closing' section. Mirrors parse_journey in
+ *  tools/validate_pack.py. */
 export function parseJourney(text) {
   const parts = text.replace(/<!--[\s\S]*?-->/g, '').split(/^##\s+/m);
-  const stops = parts.slice(1).map((part) => {
+  const stops = [];
+  let closing = '';
+  for (const part of parts.slice(1)) {
     const nl = part.indexOf('\n');
     const line = (nl < 0 ? part : part.slice(0, nl)).trim();
+    const body = (nl < 0 ? '' : part.slice(nl + 1)).trim();
+    if (/^Closing$/i.test(line)) {
+      closing = body;
+      continue;
+    }
     const m = /^Stop:\s*(\S+)\s*$/i.exec(line);
-    return { event: m ? m[1] : '', text: (nl < 0 ? '' : part.slice(nl + 1)).trim() };
-  });
-  let title = '', by = '', order = 'chronological', thread = 'story';
+    stops.push({ event: m ? m[1] : '', text: body });
+  }
+  let title = '', by = '', collection = '', thread = 'story';
   const intro = [];
   for (const line of parts[0].split('\n')) {
     if (!title && line.startsWith('# ')) title = line.slice(2).trim();
     else if (/^By:/i.test(line)) by = line.slice(line.indexOf(':') + 1).trim();
-    else if (/^Order:/i.test(line)) order = line.slice(line.indexOf(':') + 1).trim().toLowerCase();
+    else if (/^Collection:/i.test(line)) collection = line.slice(line.indexOf(':') + 1).trim();
     else if (/^Thread:/i.test(line)) thread = line.slice(line.indexOf(':') + 1).trim().toLowerCase();
-    else intro.push(line);
+    else if (!/^Order:/i.test(line)) intro.push(line);
   }
-  return { title, by, order, thread, intro: intro.join('\n').trim(), stops };
+  return { title, by, collection, thread, intro: intro.join('\n').trim(), stops, closing };
 }
 
 const splitBar = (s) => (s ?? '').split('|').map((x) => x.trim()).filter(Boolean);
@@ -158,7 +166,7 @@ export function loadDataset(dir, slug) {
         .sort()
         .map((f) => {
           const j = parseJourney(readFileSync(join(jdir, f), 'utf8'));
-          const placeholder = [j.intro, ...j.stops.map((s) => s.text)].some((t) => t.includes('PLACEHOLDER'));
+          const placeholder = [j.intro, ...j.stops.map((s) => s.text), j.closing].some((t) => t.includes('PLACEHOLDER'));
           return { id: f.replace(/\.md$/, ''), ...j, placeholder };
         })
     : [];

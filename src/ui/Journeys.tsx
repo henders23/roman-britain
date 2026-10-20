@@ -24,28 +24,48 @@ function span(atlas: Atlas, j: Journey) {
 }
 
 export function JourneyList({ atlas, onStart }: { atlas: Atlas; onStart: (id: string) => void }) {
+  // Journeys are grouped by the collections dataset.json declares, in that order; any journey
+  // naming no known collection is listed last. Within a collection, earliest first.
+  const cols = atlas.config.journeyCollections ?? [];
+  const known = new Set(cols.map((c) => c.id));
+  const start = (j: Journey) => Math.min(...j.stops.map((s) => atlas.events.find((e) => e.id === s.event)!.t0));
+  const byDate = (js: Journey[]) => [...js].sort((a, b) => start(a) - start(b));
+  const groups = [
+    ...cols.map((c) => ({ ...c, journeys: byDate(atlas.journeys.filter((j) => j.collection === c.id)) })),
+    { id: '', title: 'Other journeys', description: '', journeys: byDate(atlas.journeys.filter((j) => !known.has(j.collection))) },
+  ].filter((g) => g.journeys.length);
   return (
     <aside className="panel journeys" aria-label="Journeys">
       <header>
         <h2>Journeys</h2>
         <span className="count">{atlas.journeys.length}</span>
         <button className="close" onClick={() => store.set({ panel: null })} aria-label="Close">×</button>
-        <p className="j-help">Guided routes through events on the map. The camera and timeline follow each stop; the text is its author’s interpretation.</p>
+        <p className="j-help">Guided stories through events on the map, each moving forward in time. The camera and timeline follow each stop; the text is its author’s interpretation.</p>
       </header>
-      <ol className="j-list">
-        {atlas.journeys.map((j) => (
-          <li key={j.id}>
-            <button onClick={() => onStart(j.id)}>
-              <b>{j.title}</b>
-              <span>
-                {j.stops.length} stops · {span(atlas, j)}
-                {j.by && ` · ${j.by}`}
-              </span>
-              {atlas.draft && j.placeholder && <em className="ev-flag">Placeholder text</em>}
-            </button>
-          </li>
+      <div className="j-groups">
+        {groups.map((g) => (
+          <section key={g.id || 'other'} className="j-group" aria-label={g.title}>
+            <h3>
+              {g.title} <span className="count">{g.journeys.length}</span>
+            </h3>
+            {g.description && <p className="j-group-note">{g.description}</p>}
+            <ol className="j-list">
+              {g.journeys.map((j) => (
+                <li key={j.id}>
+                  <button onClick={() => onStart(j.id)}>
+                    <b>{j.title}</b>
+                    <span>
+                      {j.stops.length} stops · {span(atlas, j)}
+                      {j.by && ` · ${j.by}`}
+                    </span>
+                    {atlas.draft && j.placeholder && <em className="ev-flag">Placeholder text</em>}
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </section>
         ))}
-      </ol>
+      </div>
     </aside>
   );
 }
@@ -141,6 +161,14 @@ function JourneySummary({ atlas, journey, onStep }: { atlas: Atlas; journey: Jou
   const kmText = km < 20 ? Math.round(km) : km < 1000 ? Math.round(km / 10) * 10 : Math.round(km / 50) * 50;
   return (
     <div className="j-text j-summary">
+      {journey.closing && (
+        <div className="j-closing">
+          {paragraphs(journey.closing).map((p, k) => (
+            <p key={k}>{p}</p>
+          ))}
+          <span className="synth" title="Written by the journey’s author; the evidence is in each event’s card">Journey author’s interpretation</span>
+        </div>
+      )}
       <dl className="j-stats">
         <div>
           <dt>Years</dt>

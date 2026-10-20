@@ -39,5 +39,14 @@
     { "id": "norse-age", "title": "Norse settlement and the making of England", "from": 793, "to": 1066,
       "story": "From 793 Scandinavian raiders, then armies and settlers, reshaped Britain. Kings of Wessex fought, bargained and expanded until a single English kingdom emerged, which in 1066 was fought over by Norwegian and Norman claimants.",
       "camera": { "center": [-2.0, 54.0], "zoom": 5.2 } }
+  ],
+  "journeyCollections": [
+    { "id": "start-here", "title": "Start here", "description": "Two short overviews of the whole period." },
+    { "id": "conquest-and-frontiers", "title": "Conquest and frontiers", "description": "How Rome took Britain, who fought back, and where the army stopped." },
+    { "id": "rulers-and-kingdoms", "title": "Rulers and kingdoms", "description": "Emperors, kings and the kingdoms they built." },
+    { "id": "gods-saints-and-the-church", "title": "Gods, saints and the Church", "description": "What people believed, from Roman temples to Northumbrian monks." },
+    { "id": "vikings-and-england", "title": "Vikings and the making of England", "description": "Raids, armies, settlers, and the kingdom that came out of them." },
+    { "id": "towns-trade-and-everyday-life", "title": "Towns, trade and everyday life", "description": "Where people lived, traded and showed off their wealth." },
+    { "id": "how-do-we-know", "title": "How do we know?", "description": "Journeys about the evidence itself: dates, writing, hoards and arguments." }
   ]
 }

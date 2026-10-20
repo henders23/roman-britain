@@ -1,6 +1,6 @@
 # Vikings and the making of England
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: vikings-and-england
 
 This journey follows the Scandinavian presence in England from the first raid to the battle that is often said to have made England one kingdom. Most of the dates come from the Anglo-Saxon Chronicle, written from the West Saxon point of view; the archaeology at Repton, Cuerdale and York adds evidence the chroniclers did not write down.
 
@@ -21,3 +21,6 @@ Excavation in York found timber houses and workshops of the tenth century, prese
 
 ## Stop: battle-of-brunanburh-937
 Athelstan's victory over a coalition of Norse and Scottish kings was celebrated in a poem in the Chronicle. Where it was fought is still debated; the map draws only one of the candidate areas, the Wirral, and names the others in the card.
+
+## Closing
+Raids became armies, and armies became settlers, kings and traders. Wessex survived and expanded, and by 937 an English king could defeat a northern alliance. The making of England was as much a response to the Vikings as a victory over them.

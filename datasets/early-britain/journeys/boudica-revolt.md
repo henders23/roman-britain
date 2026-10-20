@@ -1,6 +1,6 @@
 # Boudica's revolt
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: conquest-and-frontiers
 Thread: none
 
 In AD 60 or 61 the Iceni and their neighbours rose against Roman rule. Almost everything we know about the course of the revolt comes from two Roman historians, Tacitus and Cassius Dio, writing decades or more later. The archaeology is different evidence: layers of burnt debris in three towns. Follow the revolt, and keep asking which kind of evidence each stop rests on. The camera moves between places, but no route is drawn, because nobody knows the rebels' route.
@@ -19,3 +19,6 @@ The rebels next took Verulamium, near modern St Albans. Excavation found burnt s
 
 ## Stop: boudica-final-battle-60
 The revolt ended in a single battle that the Romans won. No ancient writer says where it was fought, and no battlefield has been found, so the map draws a broad region rather than inventing a pin. Compare the certainty here with the burnt towns.
+
+## Closing
+Three towns burned, and both the Roman writers and the ground say so. Where the revolt ended, nobody knows: the writers name no place, and no battlefield has been found. That gap between what the ground confirms and what only the writers tell us runs through all of Roman Britain.

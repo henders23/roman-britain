@@ -1,6 +1,6 @@
 # Mercia and the trading towns
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
 In the seventh and eighth centuries new trading towns grew up on rivers and coasts, and the kingdom of Mercia became the strongest power in southern Britain. This journey moves between the towns, where archaeology has found the evidence of everyday trade, and the treasures and churches of Mercian kings.
 
@@ -27,3 +27,6 @@ Under the floor of Lichfield Cathedral, excavators found a carved and painted an
 
 ## Stop: repton-winter-camp-873
 Mercian power ended with the Viking great army, which wintered at Repton, a royal and religious centre of Mercia, and drove out its king.
+
+## Closing
+Mercia grew powerful in an age of new trading towns, and its king Offa even copied a coin from the Islamic world. Churches and carvings show its wealth. In 873 a Viking army wintered at Repton, one of its royal centres, drove out its king, and Mercia's power broke.
