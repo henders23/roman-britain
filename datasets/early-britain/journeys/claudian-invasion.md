@@ -2,7 +2,7 @@
 By: UK Atlas (atlas synthesis)
 Collection: conquest-and-frontiers
 
-The emperor Claudius's invasion of AD 43 is described in detail by only one ancient writer, Cassius Dio, who wrote about 170 years later. This journey sets his account beside the ground and follows the conquest for its first forty years, from the landing in Kent to a battle in the far north. At each stop, ask how much of the famous story is evidence and how much is interpretation.
+The emperor Claudius's invasion of AD 43 is described in detail by only one ancient writer, Cassius Dio, who wrote about 170 years later. This journey sets his account beside the ground and follows the conquest for its first forty years, from the landing to a battle in the far north. At each stop, ask how much of the famous story is evidence and how much is interpretation.
 
 ## Stop: richborough-invasion-base-43
 Richborough has Claudian defensive ditches and later became the main port of entry to the province, which is why it is usually taken as the landing place. Some historians argue for a landing near Chichester instead. The ditches are evidence of an early base, not proof of where every ship came ashore.
@@ -20,4 +20,4 @@ A generation after the invasion, a vast courtyard residence with mosaics and a f
 Forty years after the landing, the governor Agricola defeated a Caledonian army at a hill Tacitus calls Mons Graupius, somewhere in north-east Scotland. Tacitus was Agricola's son-in-law and wrote to praise him. No battlefield has been found, so the map draws a broad region.
 
 ## Closing
-Rome won the battles of the conquest, but the evidence for them is uneven: a few ditches, an inscription, a palace whose owner we cannot name, and a battlefield nobody can find. Mons Graupius was the furthest Rome's army fought in Britain, and the far north was never held. Much of what we know about the conquest still comes from two Roman writers.
+Rome won the battles of the conquest, but the evidence for them is uneven: a few ditches, an inscription, a palace whose owner we cannot name, and a battlefield nobody can find. Mons Graupius was the furthest Rome's army fought in Britain in the first century, and the far north was never held. Much of what we know about the conquest still comes from two Roman writers.

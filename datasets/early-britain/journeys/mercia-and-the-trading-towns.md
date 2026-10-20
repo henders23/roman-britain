@@ -26,7 +26,7 @@ Offa of Mercia had a gold coin made that copies an Islamic dinar, Arabic writing
 Under the floor of Lichfield Cathedral, excavators found a carved and painted angel of about 800, probably from a shrine at the heart of Mercia's chief church.
 
 ## Stop: repton-winter-camp-873
-Mercian power ended with the Viking great army, which wintered at Repton, a royal and religious centre of Mercia, and drove out its king.
+Mercia's days as an independent kingdom ended with the Viking great army, which wintered at Repton, a royal and religious centre of Mercia, and drove out its king.
 
 ## Closing
-Mercia grew powerful in an age of new trading towns, and its king Offa even copied a coin from the Islamic world. Churches and carvings show its wealth. In 873 a Viking army wintered at Repton, one of its royal centres, drove out its king, and Mercia's power broke.
+Mercia grew powerful in an age of new trading towns, and its king Offa even copied a coin from the Islamic world. Churches and carvings show its wealth. In 873 a Viking army wintered at Repton, one of its royal centres, drove out its king, and Mercia's days as an independent kingdom were over.

@@ -2,7 +2,7 @@
 By: UK Atlas (atlas synthesis)
 Collection: vikings-and-england
 
-This journey follows the Scandinavian presence in England from the first raid to the battle that is often said to have made England one kingdom. Most of the dates come from the Anglo-Saxon Chronicle, written from the West Saxon point of view; the archaeology at Repton, Cuerdale and York adds evidence the chroniclers did not write down.
+This journey follows the Scandinavian presence in England from the raid on Lindisfarne to the battle that is often said to have made England one kingdom. Most of the dates come from the Anglo-Saxon Chronicle, written from the West Saxon point of view; the archaeology at Repton, Cuerdale and York adds evidence the chroniclers did not write down.
 
 ## Stop: lindisfarne-raid-793
 The Chronicle records the raid on Lindisfarne in 793. Its exact day is a scholarly correction of the manuscript text, which is a reminder that even a precise date can rest on judgement.

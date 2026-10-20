@@ -5,13 +5,13 @@ Collection: conquest-and-frontiers
 In its last century Roman Britain faced raiders by sea and from the north, and its own commanders made themselves emperors. This journey follows how the province was defended, and how it slipped out of Roman control.
 
 ## Stop: portchester-shore-fort
-Portchester's walls still stand almost to their full height. It is one of the forts built along the south-east coast in the late third century, later grouped under a commander called the Count of the Saxon Shore. Who the forts were meant to keep out is still debated.
+Portchester's walls still stand almost to their full height. It is one of the forts built along the south and east coasts in the late third century, later grouped under a commander called the Count of the Saxon Shore. Who the forts were meant to keep out is still debated.
 
 ## Stop: carausius-usurpation-286
-Carausius, appointed to clear the Channel of raiders, used his fleet to make himself emperor of Britain. Some historians think the shore forts were his work.
+Carausius, appointed to clear the Channel of raiders, used his fleet to make himself emperor, ruling Britain and part of northern Gaul. Some historians think the shore forts were his work.
 
 ## Stop: barbarian-conspiracy-367
-Ammianus Marcellinus describes Picts, Scots, Attacotti and Saxons attacking together in 367, killing senior commanders. Whether the raids were really co-ordinated, or a story that made the recovery look more heroic, is debated.
+Ammianus Marcellinus says that in 367 Picts, Scots and Attacotti attacked Britain while Franks and Saxons raided Gaul. One senior commander was killed and another ambushed. Whether the raids were really co-ordinated, or a story that made the recovery look more heroic, is debated.
 
 ## Stop: constantine-iii-proclaimed-407
 In 407 the army in Britain raised its own emperor, who took troops to Gaul. For the province, defending itself and choosing its own rulers had become the same thing.
@@ -20,4 +20,4 @@ In 407 the army in Britain raised its own emperor, who took troops to Gaul. For 
 Around this time someone in Suffolk buried a fortune and never returned for it. Hoards like this are often read as signs of insecurity, but they cannot tell us why their owners never came back.
 
 ## Closing
-The province was defended with new forts, and its commanders more than once turned its army into a throne. Each usurper took troops away, and after 407 they did not come back. The Hoxne hoard, buried soon afterwards, belongs to a Britain that Rome no longer defended.
+The province was defended with new forts, and its commanders more than once turned its army into a throne. Each usurper took troops away, and after 407 they did not come back. The Hoxne hoard, buried some time after 408, belongs to a Britain that Rome no longer defended.

@@ -20,4 +20,4 @@ Bede names Rendlesham as an East Anglian royal residence, and survey has found a
 Not far from the royal centres, Ipswich grew from a landing place into a trading town, where England's first wheel-turned pottery since Rome was made. Kings needed more than treasure: a town like this brought goods and wealth through their lands.
 
 ## Closing
-Graves and hoards show kings with extraordinary wealth, but rarely who they were. Only at Rendlesham does a written source name the place. By the end of the seventh century, trading towns like Ipswich point to a new source of royal wealth that would outlast the age of buried treasure.
+Graves and hoards show kings with extraordinary wealth, but rarely who they were. Only at Rendlesham does a written source name the place. In the eighth century, trading towns like Ipswich point to a new source of royal wealth that would outlast the age of buried treasure.

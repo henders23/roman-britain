@@ -25,7 +25,7 @@
       "story": "Claudius's army landed in AD 43 and within a generation much of lowland Britain was a Roman province. The written record is Roman and hostile to the Britons; the ground adds burnt towns from Boudica's revolt, new ports and palaces, and letters from the army on the northern frontier.",
       "camera": { "center": [-1.5, 52.5], "zoom": 5.6 } },
     { "id": "high-roman", "title": "Walls, towns and villas", "from": 122, "to": 284,
-      "story": "From the 120s the frontier was fixed in stone across northern England, and the lowland province settled into towns, villas and roads. Walls and roads are lines the atlas cannot yet draw, so this chapter is thin on the map; the evidence for it is plentiful on the ground.",
+      "story": "From the 120s a wall ran across northern England; for a time in the 140s and 150s the frontier moved north to the Antonine Wall before settling back on Hadrian's line, and the lowland province settled into towns, villas and roads. Walls and roads are lines the atlas cannot yet draw, so this chapter is thin on the map; the evidence for it is plentiful on the ground.",
       "camera": { "center": [-2.5, 53.5], "zoom": 5.3 } },
     { "id": "late-roman", "title": "Late Roman Britain", "from": 285, "to": 409,
       "story": "In the fourth century Britain was a wealthy, largely peaceful part of the empire, and Christianity reached its villas and treasures. As imperial control weakened after 400, people buried their valuables and, by about 410, Roman government had ended.",

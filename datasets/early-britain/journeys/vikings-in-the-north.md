@@ -20,7 +20,7 @@ Around 905–910 a chest of about 40 kilograms of silver was buried at a crossin
 In York, excavation at Coppergate found tenth-century houses and workshops preserved in wet ground. The Vikings who had come as raiders were now townspeople, craftsmen and traders.
 
 ## Stop: battle-of-stamford-bridge-1066
-In September 1066 the Norwegian king Harald Hardrada invaded and was killed by King Harold at Stamford Bridge, near York. It was the last great Scandinavian attempt on England.
+In September 1066 the Norwegian king Harald Hardrada invaded and was killed by King Harold at Stamford Bridge, near York. It was the last great Norwegian invasion of England.
 
 ## Closing
 In the north, Vikings came first as raiders, then as armies and kings, and then as settlers and traders whose silver and streets archaeologists still find. The story ends where it was strongest, near York, with a Norwegian king's defeat. Three days later another descendant of Scandinavians, William of Normandy, landed in the south.

@@ -29,4 +29,4 @@ At Jarrow, Bede finished his Ecclesiastical History. It is the main reason this 
 Sixty years later, raiders struck Lindisfarne. To the scholars of the north it seemed the end of an age.
 
 ## Closing
-From Iona to Jarrow, a handful of monasteries made the north a centre of learning in little more than a century. Almost all we know of them comes from Bede, who belonged to that world. The raid of 793 did not end it at once, but to the scholars it seemed the end of an age.
+From Iona to Jarrow, a handful of monasteries made the north a centre of learning in little more than a century. Much of what we know of them comes from Bede, who belonged to that world. The raid of 793 did not end it at once, but to the scholars it seemed the end of an age.

@@ -2,6 +2,19 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
+## r06
+- r05 with eight corrections from a fact-check; no rows added or removed, and every row is still `unverified`.
+- camulodunum-surrender-43: retitled "Claudius takes Camulodunum; British kings submit", since no source says where the kings submitted.
+- bloomberg-tablets: WT44 itself names both men as freedmen; only their role as business agents is interpretation.
+- londinium-destruction-60: Tacitus's 70,000 dead refers to the places he has described, usually taken as all three towns.
+- inchtuthil-fortress: date precision `range` (it has a start and an end), not `circa`.
+- repton-winter-camp-873: the five coins of 872–5 came from the charnel deposit, not a separate grave.
+- dumbarton-siege-870: the well drying up comes from the Fragmentary Annals of Ireland, not the Annals of Ulster; source added.
+- lindisfarne-raid-793: dated to the year only. The Chronicle's day reads 8 January, and 8 June is a modern emendation, so a day-level date overstated it.
+- battle-of-brunanburh-937: Bromborough's name is "widely thought to" derive from Brunanburh, not stated as fact.
+- Narratives corrected at the same time (outside the rounds): bloomberg-tablets, constantine-proclaimed-york-306, caerleon-amphitheatre, londinium-destruction-60, carausius-usurpation-286, water-newton-treasure, repton-winter-camp-873, columba-iona-563, alfred-athelney-878, battle-of-brunanburh-937.
+- Still to check at source: the Dinas Powys start date (Campbell et al., Antiquity 97, 2023, may put the earliest activity after 500 rather than in the 5th century) and the Brixworth window (Parsons and Sutherland 2013 prefer the late 8th or very early 9th century; Fernie's 800–860 is not confirmed).
+
 ## r05
 - r04 unchanged, plus 33 new rows (20 include, 11 merge, 2 exclude), compiled by web search like r03 and r04; see `r05-research-log.md`. All new rows are `unverified`.
 - Gods and defence of Roman Britain: the Walbrook and Carrawburgh mithraea, the Uley temple of Mercury, the Lydney temple of Nodens, Portchester shore fort, the "Barbarian Conspiracy" of 367 (a region).

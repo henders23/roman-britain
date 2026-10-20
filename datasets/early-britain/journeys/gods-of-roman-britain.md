@@ -20,7 +20,7 @@ In London a larger Mithraeum stood by the Walbrook stream. Its discovery in 1954
 At Lydney, above the Severn, a temple to Nodens, a British god of healing, had a guest house and baths for visitors. Its date is argued over, which matters: some place it in the late fourth century, when Christianity was the emperors' religion.
 
 ## Stop: water-newton-treasure
-Silver vessels and plaques marked with the chi-rho show Christians worshipping together in the fourth century. Some plaques are shaped like the votive leaves offered to pagan gods: old habits in a new faith.
+Silver vessels and plaques marked with the chi-rho suggest Christians worshipping together in the fourth century. Some plaques are shaped like the votive leaves offered to pagan gods: old habits in a new faith.
 
 ## Stop: lullingstone-house-church
 In a villa in Kent, a room was painted with Christian symbols and figures at prayer, while a pagan shrine elsewhere in the house may still have been in use. Belief in Roman Britain was rarely one thing at a time.

@@ -304,8 +304,8 @@ export function About({ atlas, onClose }: { atlas: Atlas; onClose: () => void })
         <>
           <h3>Journeys</h3>
           <p>
-            Journeys are guided stories through events already on the map, grouped into collections. Each moves forward in time over at least five
-            stops, with an opening and a closing. Every stop is an included row; the journey’s text is its author’s interpretation, and the dotted
+            Journeys are guided stories through events already on the map, grouped into collections. Each has at least five stops and moves forward in time
+            (stops whose dates overlap follow the story), with an opening and a closing. Every stop is an included row; the journey’s text is its author’s interpretation, and the dotted
             thread shows the order of the story, not a route. <kbd>[</kbd> <kbd>]</kbd> move between stops.
           </p>
         </>

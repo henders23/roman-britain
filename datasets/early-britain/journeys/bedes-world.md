@@ -17,7 +17,7 @@ A month later, on 20 May 685, a Pictish army destroyed the army of the same King
 In the early eighth century the Lindisfarne Gospels were made in Northumbria, combining Irish, Anglo-Saxon and Mediterranean styles. They show the same world of learning and craft that produced Bede.
 
 ## Stop: bede-historia-731
-In 731 Bede finished his Ecclesiastical History of the English People at Jarrow. It is the main written source for the conversion of the English, and for every earlier stop on this journey.
+In 731 Bede finished his Ecclesiastical History of the English People at Jarrow. It is the main written source for the conversion of the English, and for the battle at Dún Nechtain.
 
 ## Closing
-Bede's world was small in space, two monasteries a few miles apart, but it reached Rome, Gaul and Ireland through books, builders and teachers. Even the battle at Dún Nechtain is known mainly through Bede's account. When we read this period, we often read it through his eyes.
+Bede's world was small in space, two monasteries a few miles apart, but it reached Rome, Gaul and Ireland through books, builders and teachers. The battle at Dún Nechtain is known mainly through Bede's account and the Irish annals. When we read this period, we often read it through his eyes.

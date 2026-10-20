@@ -11,7 +11,7 @@ On the Tintagel headland, excavation found buildings and a large quantity of pot
 Near Cardiff, a wealthy household imported wine, pottery and glass from the Mediterranean and Gaul in the fifth to seventh centuries. Long-distance trade was a mark of status.
 
 ## Stop: sutton-hoo-mound1
-The ship burial at Sutton Hoo held silver from the eastern Mediterranean and a purse of Frankish gold coins, alongside gold and garnet made closer to home. An East Anglian king's treasure came from across Europe.
+The ship burial at Sutton Hoo held silver from the eastern Mediterranean and a purse of Frankish gold coins, alongside gold and garnet made closer to home. Treasure probably buried with an East Anglian king came from across Europe.
 
 ## Stop: offa-gold-dinar
 A unique gold coin copies an Islamic dinar of 773–774, Arabic inscription and all, but adds the Latin words OFFA REX for the Mercian king Offa. Why it was made is debated, but its model came from the Islamic world.

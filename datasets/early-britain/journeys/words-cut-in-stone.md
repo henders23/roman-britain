@@ -8,7 +8,7 @@ Writing on wood, wax and parchment usually rotted away. Stone lasted. This journ
 At the temple of Mithras outside the fort at Carrawburgh, three altars were set up by commanders of the garrison, each carved with an inscription naming the man who dedicated it.
 
 ## Stop: silchester-ogham-stone
-In a well at Silchester, a small Roman stone column was found carrying an ogham inscription, an Irish script, naming a man usually read as Ebicatos or Tebicatos. It is the only ogham stone found east of the Severn.
+In a well at Silchester, a small Roman stone column was found carrying an ogham inscription, an Irish script, naming a man usually read as Ebicatos or Tebicatos. It is the only ogham stone found in England outside the south-west.
 
 ## Stop: jarrow-dedication-685
 A stone in St Paul's church at Jarrow records that the church was dedicated on 23 April 685. It still survives in the church, and gives one of the few dates of this age written at the time.

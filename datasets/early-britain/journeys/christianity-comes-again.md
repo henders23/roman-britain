@@ -2,7 +2,7 @@
 By: UK Atlas (atlas synthesis)
 Collection: gods-saints-and-the-church
 
-Christians were meeting in a villa in Kent in the fourth century. So why did missionaries have to come to Britain from Iona and from Rome two centuries later? This journey follows Christianity from Roman Britain to the meeting at Whitby where two missions settled their differences.
+Christians seem to have been meeting in a villa in Kent in the fourth century. So why did missionaries have to come to Britain from Iona and from Rome two centuries later? This journey follows Christianity from Roman Britain to the meeting at Whitby where two missions settled their differences.
 
 ## Stop: lullingstone-house-church
 In the later fourth century an upper room in the villa at Lullingstone was painted with figures praying and chi-rho monograms. It is evidence of Christian worship in a wealthy Roman household.
