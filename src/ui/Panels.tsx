@@ -32,7 +32,6 @@ export function Header({ atlas }: { atlas: Atlas }) {
       <button className="set-pick" onClick={() => many && setOpen(!open)} aria-expanded={many ? open : undefined} aria-haspopup={many ? 'listbox' : undefined} disabled={!many}>
         <span className="kicker">
           UK Atlas
-          {atlas.draft && <span className="draft-badge" title="The dev server shows unverified rows. A production build refuses them.">Draft · {atlas.pack.round}</span>}
         </span>
         <span className="set-title">
           {atlas.title} <small>{atlas.subtitle}</small>
@@ -82,12 +81,10 @@ export function Clock({ atlas, areaKm2 }: { atlas: Atlas; areaKm2: number }) {
       <div className="chapter" key={phase.id}>
         <span className="chapter-n">Chapter {chapter} of {atlas.phases.length}</span>
         <h3>{phase.title}</h3>
-        {story ? (
+        {story && (
           <p>
             {story} <span className="synth" title="Written for the atlas; not a claim made by the research pack">Atlas synthesis</span>
           </p>
-        ) : (
-          atlas.draft && <p className="story-missing">No chapter story written yet.</p>
         )}
       </div>
     </div>
@@ -280,12 +277,6 @@ export function About({ atlas, onClose }: { atlas: Atlas; onClose: () => void })
         {windows} {windows === 1 ? 'event is' : 'events are'} dated only to a window of years. On the timeline a window is a faint bar, and on the map a dotted ring,
         at full strength only while the playhead is inside it. A window says when something happened, not how long it lasted.
       </p>
-      {atlas.draft && (
-        <p className="intro-draft">
-          Draft: you are looking at the development build, which shows rows no one has checked yet ({p.unverified.filter((r) => r.disposition === 'include').length} of {p.include} included rows are unverified).
-          A production build refuses to run until every included row has been checked.
-        </p>
-      )}
       {(p.excluded.length > 0 || p.merged.length > 0) && (
         <>
           <h3>Left off the map</h3>
@@ -313,8 +304,9 @@ export function About({ atlas, onClose }: { atlas: Atlas; onClose: () => void })
         <>
           <h3>Journeys</h3>
           <p>
-            Journeys are guided routes through events already on the map. Each stop is an included row; the journey’s text is its author’s
-            interpretation, and nothing is drawn between stops. <kbd>[</kbd> <kbd>]</kbd> move between stops.
+            Journeys are guided stories through events already on the map, grouped into collections. Each moves forward in time over at least five
+            stops, with an opening and a closing. Every stop is an included row; the journey’s text is its author’s interpretation, and the dotted
+            thread shows the order of the story, not a route. <kbd>[</kbd> <kbd>]</kbd> move between stops.
           </p>
         </>
       )}

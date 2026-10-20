@@ -768,12 +768,13 @@ export class AtlasMap {
   }
 
   /** Frame a set of events, e.g. every stop of a journey. */
-  flyToEvents(evs: AtlasEvent[], duration = 2200) {
+  /** Frame the events. `right` reserves room for a panel on the right (desktop only). */
+  flyToEvents(evs: AtlasEvent[], duration = 2200, right = 120) {
     if (!evs.length) return;
     const lons = evs.map((e) => e.lon);
     const lats = evs.map((e) => e.lat);
     const small = window.innerWidth < 720;
-    const pad = small ? { top: 170, bottom: 150, left: 40, right: 40 } : { top: 90, bottom: 200, left: 420, right: 120 };
+    const pad = small ? { top: 170, bottom: 150, left: 40, right: 40 } : { top: 90, bottom: 200, left: 420, right };
     // The map keeps a standing padding for the side panels; frame against zero padding instead.
     this.map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
     this.map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: pad, maxZoom: this.atlas.config.camera.zoom + 2, duration, essential: true, curve: 1.3 } as maplibregl.FitBoundsOptions);

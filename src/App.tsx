@@ -5,7 +5,7 @@ import { store, useAtlas } from './store';
 import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
 import { About, Chronicle, Clock, Header, Headline, Legend, MusicToggle, ThemeToggle } from './ui/Panels';
-import { JourneyCard, JourneyList } from './ui/Journeys';
+import { JourneyCard, JourneyLibrary } from './ui/Journeys';
 import { placeGap, timeGap } from './data/journey';
 import { formatShort } from './data/time';
 import { useTheme } from './theme';
@@ -106,6 +106,21 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       glideTo(ev.t0 + 0.001);
       store.set({ selected: ev.id });
     }
+  };
+  // The library previews the journey it has open: its stops in view, the playhead at its
+  // last stop so every stop is on the map, and its thread (unless it has Thread: none).
+  const previewJourney = (id: string | null) => {
+    if (store.get().journey) return;
+    const j = id ? atlas.journeys.find((x) => x.id === id) : undefined;
+    if (!j) {
+      map.current?.setThread([], false);
+      return;
+    }
+    const evs = j.stops.map((st) => byId.get(st.event)!);
+    map.current?.setThread(j.thread === 'none' ? [] : evs.map((e) => [e.lon, e.lat] as [number, number]), true);
+    const panelW = document.querySelector('.library')?.getBoundingClientRect().width ?? 0;
+    map.current?.flyToEvents(evs, 1400, panelW + 48);
+    glideTo(Math.max(...evs.map((e) => e.t0)) + 0.001, 900);
   };
   const exitJourney = () => {
     store.set({ journey: null, journeyAuto: false });
@@ -278,7 +293,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
   const headEv = headline ? byId.get(headline) : undefined;
 
   return (
-    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' || panel === 'journeys' ? ' has-panel' : ''}${journey ? ' in-journey' : ''}${ready ? ' ready' : ''}`}>
+    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' || panel === 'journeys' ? ' has-panel' : ''}${panel === 'journeys' && !selEv ? ' has-library' : ''}${journey ? ' in-journey' : ''}${ready ? ' ready' : ''}`}>
       <div className="map" ref={mapEl} />
       <div className="vignette" />
       <Header atlas={atlas} />
@@ -299,7 +314,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
         <MusicToggle />
         <ThemeToggle />
       </nav>
-      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyList atlas={atlas} onStart={(id) => goStep(id, 0)} /> : null}
+      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyLibrary atlas={atlas} onStart={(id) => goStep(id, 0)} onPreview={previewJourney} /> : null}
       {journey && interlude && (
         <div className="journey-interlude" key={interlude.key} aria-live="polite">
           <b>{interlude.time}</b>
@@ -331,14 +346,13 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       {intro && (
         <div className="intro">
           <div className="intro-card">
-            <span className="kicker">UK Atlas{atlas.draft ? ' · draft' : ''}</span>
+            <span className="kicker">UK Atlas</span>
             <h1>{atlas.title}</h1>
             {atlas.subtitle && <p className="intro-dates">{atlas.subtitle}</p>}
             <p>
               Drag the timeline or press play. Every marker is an <i>include</i> row in round {atlas.pack.round} of the research pack ({atlas.events.length}{' '}
               {atlas.events.length === 1 ? 'event' : 'events'}); open one to see its sources and why it is on the map.
             </p>
-            {atlas.draft && <p className="intro-draft">Draft: this pack has rows no one has checked yet. Treat everything here as provisional.</p>}
             <div className="intro-actions">
               <button className="primary" onClick={begin} disabled={!ready}>
                 {ready ? 'Play the timeline' : 'Loading the map…'}
