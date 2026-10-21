@@ -5,8 +5,8 @@ import { store, useAtlas } from './store';
 import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
 import { About, Chronicle, Clock, Header, Headline, Legend, MusicToggle, ThemeToggle } from './ui/Panels';
-import { JourneyCard, JourneyList } from './ui/Journeys';
-import { placeGap, timeGap } from './data/journey';
+import { JourneyCard, JourneyList, JourneyTile } from './ui/Journeys';
+import { placeGap, timeLink } from './data/journey';
 import { formatShort } from './data/time';
 import { useTheme } from './theme';
 
@@ -70,7 +70,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
     tween.current = reduceMotion || capture ? null : { from, to, start: performance.now(), dur };
     if (!tween.current) store.set({ t: to });
   };
-  const [interlude, setInterlude] = useState<{ key: number; time: string; place: string } | null>(null);
+  const [interlude, setInterlude] = useState<{ key: number; time: string; prev: string; place: string } | null>(null);
   const interludeTimer = useRef(0);
   const goStep = (id: string, step: number) => {
     const j = atlas.journeys.find((x) => x.id === id);
@@ -80,10 +80,10 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
     const n = Math.max(0, Math.min(len + 1, step));
     const evs = j.stops.map((st) => byId.get(st.event)!);
     const from = store.get().journey?.id === id ? store.get().journey!.step : 0;
-    // Moving on to the next stop: say how much time passes and how far the story moves.
+    // Moving on to the next stop: say how long after the last stop it is, and how far the story moves.
     clearTimeout(interludeTimer.current);
     if (n === from + 1 && n >= 2 && n <= len) {
-      setInterlude({ key: Date.now(), time: timeGap(evs[n - 2], evs[n - 1]), place: placeGap(evs[n - 2], evs[n - 1]) });
+      setInterlude({ key: Date.now(), time: timeLink(evs[n - 2], evs[n - 1]), prev: evs[n - 2].title, place: placeGap(evs[n - 2], evs[n - 1]) });
       interludeTimer.current = window.setTimeout(() => setInterlude(null), 3600);
     } else setInterlude(null);
     // The story thread joins the stops reached so far; the newest segment draws itself.
@@ -303,6 +303,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       {journey && interlude && (
         <div className="journey-interlude" key={interlude.key} aria-live="polite">
           <b>{interlude.time}</b>
+          <i>{interlude.prev}</i>
           <span>{interlude.place}</span>
         </div>
       )}
@@ -310,6 +311,16 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       {panel === 'about' && <About atlas={atlas} onClose={() => store.set({ panel: null })} />}
       {headEv && !selEv && !journey && <Headline ev={headEv} atlas={atlas} />}
       {!journey && <Legend atlas={atlas} />}
+      {!journey && panel !== 'journeys' && atlas.journeys.length > 0 && (
+        <button className="journey-cta" onClick={() => store.set({ panel: 'journeys', selected: null, playing: false })}>
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden>
+            <circle cx="4" cy="15" r="2.2" fill="currentColor" />
+            <circle cx="16" cy="5" r="2.2" fill="currentColor" />
+            <path d="M5.5 13.5C9 12 6 8 10 7.5s3.5-1 4.5-1.6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="2 2.2" />
+          </svg>
+          Guided journeys <span className="n">{atlas.journeys.length}</span>
+        </button>
+      )}
       <Timeline atlas={atlas} onSeek={seek} />
       {regionTip && !evTip && (
         <div className="tip region-tip" style={{ left: regionTip.x, top: regionTip.y }}>
@@ -334,19 +345,30 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
             <span className="kicker">UK Atlas{atlas.draft ? ' · draft' : ''}</span>
             <h1>{atlas.title}</h1>
             {atlas.subtitle && <p className="intro-dates">{atlas.subtitle}</p>}
-            <p>
-              Drag the timeline or press play. Every marker is an <i>include</i> row in round {atlas.pack.round} of the research pack ({atlas.events.length}{' '}
-              {atlas.events.length === 1 ? 'event' : 'events'}); open one to see its sources and why it is on the map.
+            <p className="intro-lede">
+              {atlas.events.length} moments from this period, each placed on the map where it happened. Click any of them to read what happened, the
+              evidence for it, and how sure historians are.
             </p>
             {atlas.draft && <p className="intro-draft">Draft: this pack has rows no one has checked yet. Treat everything here as provisional.</p>}
+            {atlas.journeys.length > 0 && (
+              <section className="intro-journeys" aria-labelledby="intro-j-h">
+                <h2 id="intro-j-h">Start with a guided journey</h2>
+                <p>Short tours that link events into a story, stop by stop. The map and timeline follow along.</p>
+                <ol className="intro-j-grid">
+                  {atlas.journeys.map((j) => (
+                    <li key={j.id}>
+                      <JourneyTile atlas={atlas} journey={j} onStart={(id) => goStep(id, 0)} disabled={!ready} />
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
             <div className="intro-actions">
-              <button className="primary" onClick={begin} disabled={!ready}>
-                {ready ? 'Play the timeline' : 'Loading the map…'}
+              {atlas.journeys.length > 0 && <span className="intro-or">Or</span>}
+              <button className={atlas.journeys.length ? '' : 'primary'} onClick={begin} disabled={!ready}>
+                {ready ? 'Play the whole timeline' : 'Loading the map…'}
               </button>
-              {atlas.journeys.length > 0 && (
-                <button onClick={() => { setIntro(false); store.set({ panel: 'journeys' }); }}>Take a journey</button>
-              )}
-              <button onClick={() => setIntro(false)}>Explore freely</button>
+              <button onClick={() => setIntro(false)}>Explore the map freely</button>
             </div>
           </div>
         </div>

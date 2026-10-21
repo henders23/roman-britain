@@ -1,7 +1,7 @@
 import type { Atlas } from '../data/dataset';
 import type { Journey } from '../data/schema';
 import { formatShort, formatYear } from '../data/time';
-import { kmBetween } from '../data/journey';
+import { kmBetween, placeGap, placeLink, timeGap, timeLink } from '../data/journey';
 import { useState } from 'react';
 import { store, useAtlas } from '../store';
 import { Pin } from './Panels';
@@ -23,6 +23,31 @@ function span(atlas: Atlas, j: Journey) {
   return a === b ? formatYear(a) : `${formatYear(a)} – ${formatYear(b)}`;
 }
 
+/** A journey as a tile: the first stop's picture, the title and how far it spans. */
+export function JourneyTile({ atlas, journey: j, onStart, teaser = false, disabled = false }: { atlas: Atlas; journey: Journey; onStart: (id: string) => void; teaser?: boolean; disabled?: boolean }) {
+  const evs = j.stops.map((s) => atlas.events.find((e) => e.id === s.event)!);
+  const pic = evs.find((e) => e.image?.file) ?? evs[0];
+  return (
+    <button className="j-tile" onClick={() => onStart(j.id)} disabled={disabled}>
+      <span className="j-tile-pic">
+        <Thumb atlas={atlas} kind={pic.kind} area={pic.geometry === 'area'} file={pic.image?.file} />
+      </span>
+      <span className="j-tile-text">
+        <b>{j.title}</b>
+        <span>{j.stops.length} stops · {span(atlas, j)}</span>
+        {teaser && <em className="j-teaser">{firstSentence(j.intro)}</em>}
+        {atlas.draft && j.placeholder && <em className="ev-flag">Placeholder text</em>}
+      </span>
+    </button>
+  );
+}
+
+const firstSentence = (s: string) => {
+  const p = paragraphs(s)[0] ?? '';
+  const m = p.match(/^.+?[.!?](?=\s|$)/);
+  return m ? m[0] : p;
+};
+
 export function JourneyList({ atlas, onStart }: { atlas: Atlas; onStart: (id: string) => void }) {
   return (
     <aside className="panel journeys" aria-label="Journeys">
@@ -30,19 +55,12 @@ export function JourneyList({ atlas, onStart }: { atlas: Atlas; onStart: (id: st
         <h2>Journeys</h2>
         <span className="count">{atlas.journeys.length}</span>
         <button className="close" onClick={() => store.set({ panel: null })} aria-label="Close">×</button>
-        <p className="j-help">Guided routes through events on the map. The camera and timeline follow each stop; the text is its author’s interpretation.</p>
+        <p className="j-help">Guided tours that link events into a story. The map and timeline follow each stop; the text is its author’s interpretation.</p>
       </header>
       <ol className="j-list">
         {atlas.journeys.map((j) => (
           <li key={j.id}>
-            <button onClick={() => onStart(j.id)}>
-              <b>{j.title}</b>
-              <span>
-                {j.stops.length} stops · {span(atlas, j)}
-                {j.by && ` · ${j.by}`}
-              </span>
-              {atlas.draft && j.placeholder && <em className="ev-flag">Placeholder text</em>}
-            </button>
+            <JourneyTile atlas={atlas} journey={j} onStart={onStart} teaser />
           </li>
         ))}
       </ol>
@@ -57,6 +75,7 @@ export function JourneyCard({ atlas, journey, step, onStep, onExit }: { atlas: A
   const stop = step > 0 && !summary ? journey.stops[step - 1] : null;
   const ev = stop ? atlas.events.find((e) => e.id === stop.event) : undefined;
   const text = stop ? stop.text : journey.intro;
+  const prev = step >= 2 && stop ? atlas.events.find((e) => e.id === journey.stops[step - 2].event) : undefined;
   return (
     <section className="journey-card" aria-label={`Journey: ${journey.title}`} aria-live="polite">
       <header>
@@ -65,6 +84,13 @@ export function JourneyCard({ atlas, journey, step, onStep, onExit }: { atlas: A
         <h3>{journey.title}</h3>
         {journey.by && step === 0 && <p className="j-by">By {journey.by}</p>}
       </header>
+      {ev && prev && (
+        <p className="j-link">
+          <b>{timeLink(prev, ev)}</b>{' '}
+          <button onClick={() => onStep(step - 1)} title={`Back to stop ${step - 1}`}>{prev.title}</button>
+          <span>, {placeLink(prev, ev)}:</span>
+        </p>
+      )}
       {ev && (
         <button className="j-stop" onClick={() => store.set({ selected: ev.id })}>
           <Pin atlas={atlas} kind={ev.kind} area={ev.geometry === 'area'} size={22} />
@@ -160,6 +186,11 @@ function JourneySummary({ atlas, journey, onStep }: { atlas: Atlas; journey: Jou
       <ol className="j-recap">
         {evs.map((e, i) => (
           <li key={e.id}>
+            {i > 0 && (
+              <span className="j-gap">
+                {timeGap(evs[i - 1], e)} · {placeGap(evs[i - 1], e)}
+              </span>
+            )}
             <button onClick={() => onStep(i + 1)}>
               <span className="n">{i + 1}</span>
               <span>
