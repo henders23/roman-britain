@@ -2,7 +2,11 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
-## r06
+## r07
+- r06 with two dates checked against their publications; every row is still `unverified`.
+- dinas-powys-hillfort: window now starts about 500, not 450. Campbell, Seaman, Lane and Noble (Antiquity 97, 2023, 1548–63) model the start of dated activity at cal AD 510–600 and the end at 590–680 (95%); the earlier "5th-century phase" was not in the paper. Full citation added.
+- brixworth-all-saints: window now ends about 820, not 800, because the church is now usually dated to the late 8th or early 9th century. Fernie's 800–860 is cited from the CRSBI entry; his book itself was not read.
+
 - r05 with eight corrections from a fact-check; no rows added or removed, and every row is still `unverified`.
 - camulodunum-surrender-43: retitled "Claudius takes Camulodunum; British kings submit", since no source says where the kings submitted.
 - bloomberg-tablets: WT44 itself names both men as freedmen; only their role as business agents is interpretation.

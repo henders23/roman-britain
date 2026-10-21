@@ -8,7 +8,7 @@ Britain is an island, but it was never cut off. Who was it trading with after Ro
 On the Tintagel headland, excavation found buildings and a large quantity of pottery imported from the eastern Mediterranean in the centuries after Rome. Wine and oil were still reaching Cornwall by sea.
 
 ## Stop: dinas-powys-hillfort
-Near Cardiff, a wealthy household imported wine, pottery and glass from the Mediterranean and Gaul in the fifth to seventh centuries. Long-distance trade was a mark of status.
+Near Cardiff, a wealthy household imported wine, pottery and glass from the Mediterranean and Gaul in the sixth and seventh centuries. Long-distance trade was a mark of status.
 
 ## Stop: sutton-hoo-mound1
 The ship burial at Sutton Hoo held silver from the eastern Mediterranean and a purse of Frankish gold coins, alongside gold and garnet made closer to home. Treasure probably buried with an East Anglian king came from across Europe.
