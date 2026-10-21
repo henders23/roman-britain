@@ -16,6 +16,13 @@ function Thumb({ atlas, kind, area, file }: { atlas: Atlas; kind: string; area: 
 
 const paragraphs = (s: string) => s.split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
 
+// A turning point's stop text comes in three labelled paragraphs: what led up to it, the event, and what changed.
+const SECTIONS: Record<string, string> = { 'Before:': 'Leading up to it', 'What happened:': 'What happened', 'After:': 'What changed' };
+function section(p: string) {
+  const label = Object.keys(SECTIONS).find((k) => p.startsWith(k));
+  return label ? { label: SECTIONS[label], text: p.slice(label.length).trim() } : { label: '', text: p };
+}
+
 function span(atlas: Atlas, j: Journey) {
   const evs = j.stops.map((s) => atlas.events.find((e) => e.id === s.event)!);
   const a = Math.floor(Math.min(...evs.map((e) => e.t0)));
@@ -104,9 +111,18 @@ export function JourneyCard({ atlas, journey, step, onStep, onExit }: { atlas: A
         <JourneySummary atlas={atlas} journey={journey} onStep={onStep} />
       ) : (
         <div className="j-text">
-          {paragraphs(text).map((p, k) => (
-            <p key={k}>{p}</p>
-          ))}
+          {stop && paragraphs(text).some((p) => section(p).label) && <span className="j-turning">One of the atlas’s 40 turning points</span>}
+          {paragraphs(text).map((p, k) => {
+            const sec = section(p);
+            return sec.label ? (
+              <div className="j-sec" key={k}>
+                <h4>{sec.label}</h4>
+                <p>{sec.text}</p>
+              </div>
+            ) : (
+              <p key={k}>{p}</p>
+            );
+          })}
           <span className="synth" title="Written by the journey’s author; the evidence is in each event’s card">Journey author’s interpretation</span>
           {journey.thread !== 'none' && step >= 2 && <p className="j-thread-note">The dotted line shows the order of the story, not a route.</p>}
         </div>
