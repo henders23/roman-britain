@@ -2,6 +2,13 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
+## r06
+- r05 unchanged, plus 29 new rows (22 include, 1 merge, 6 exclude), compiled by web search like r03 to r05; see `r06-research-log.md`. All new rows are `unverified`.
+- Added so that every one of the atlas's 40 turning points (`../top-40.md`, atlas synthesis) is on the map. Late Rome and after: Magnus Maximus (383), the Gallic Chronicle's entry on the Saxons (441), the Spong Hill cemetery, Patrick's mission in Ireland, the siege of Mount Badon. Kingdoms: the Winwaed (655), the Synod of Hertford (672/3), the Council of Chelsea (787, standing for Offa's supremacy; the Dyke is still a line the atlas cannot draw). Norse age: the Dublin longphort (841), Cináed mac Ailpín (842/3), the great army takes York (866), Eamont (927), the end of the kingdom of York (954), Edgar's coronation at Bath (973), Maldon (991), St Brice's Day (1002), Sweyn at Gainsborough (1013), Clontarf (1014), Assandun (1016), Carham (1018), Gruffudd ap Llywelyn at Hereford (1055), Edward's death and Harold's coronation (1066).
+- Many are drawn as halos, because the sources do not place them (Maximus, the Gallic Chronicle, Patrick, Badon, the Winwaed, Cináed, Eric's expulsion, Assandun).
+- Merged: the St John's College, Oxford mass grave into St Brice's Day, as possible but unproven evidence. Excluded legends: Arthur at Badon, Armagh's Patrick legends (and the snakes and shamrock), "MacAlpin's treason", the blood-eagle death of Ælla, eight kings rowing Edgar on the Dee, and the idea that Clontarf drove the Vikings out of Ireland.
+- Five new journeys and new stops in seven others, so each turning point has a home journey that shows what led up to it, what happened and what changed. Every stop in every journey was rewritten with more detail.
+
 ## r05
 - r04 unchanged, plus 33 new rows (20 include, 11 merge, 2 exclude), compiled by web search like r03 and r04; see `r05-research-log.md`. All new rows are `unverified`.
 - Gods and defence of Roman Britain: the Walbrook and Carrawburgh mithraea, the Uley temple of Mercury, the Lydney temple of Nodens, Portchester shore fort, the "Barbarian Conspiracy" of 367 (a region).
