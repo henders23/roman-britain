@@ -1,6 +1,6 @@
-# Research log for round r06
+# Research log for round r07
 
-r06 is r05 unchanged plus the rows below, added to cover the atlas's 40 turning points (see `../top-40.md`). As in r03 to r05, locators were confirmed by web search only: catalogue, archive and Wikimedia pages could not be opened from the research environment, so every new row is `unverified` until a person checks it at source. Where a detail could not be confirmed, the row or this log says so.
+r07 is r06 unchanged plus the rows below, added to cover the atlas's 40 turning points (see `../top-40.md`). As in r03 to r05, locators were confirmed by web search only: catalogue, archive and Wikimedia pages could not be opened from the research environment, so every new row is `unverified` until a person checks it at source. Where a detail could not be confirmed, the row or this log says so.
 
 One change was made when the rows were merged: an unattributed note in *Welsh History Review* 1 (1960) was dropped from the Gruffudd ap Llywelyn row because its author could not be confirmed, and T. M. Charles-Edwards, *Wales and the Britons, 350–1064* (2013) cited instead.
 

@@ -1,6 +1,6 @@
 # Emperors in Britain
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
 Britain was a distant province, yet emperors came here, died here and were made here. This journey follows them across four centuries, from Claudius's short visit for the conquest to the soldiers and generals whom the army in Britain raised to the purple and who then took its troops across the Channel. Notice what kind of source puts each emperor in Britain: a later biography, a historian writing long after, an inscription, or coins. Notice too how, after 383, each usurper who left Britain took more of its army with him.
 
@@ -36,3 +36,6 @@ After: Maximus ruled Britain, Gaul and Spain from Trier and was recognised for a
 
 ## Stop: constantine-iii-proclaimed-407
 The last emperor made in Britain was a soldier named Constantine, raised by the army in 407. Zosimus says the troops first raised a man called Marcus and killed him, then a local man, Gratian, whom they killed after four months, before turning to Constantine; Orosius adds that he was a common soldier chosen for the hope his name inspired. Like Maximus before him, he took troops to Gaul, where Vandals, Alans and Sueves had crossed the Rhine, and he did not return. For a time Honorius recognised him, but his general Gerontius rebelled, and he was captured and executed in 411. No source says where in Britain any of the three was proclaimed, and the sources give different years. Within a few years Roman government in Britain had ended; Zosimus later reports that the Britons expelled Constantine's officials, which is where the journey on the end of Roman Britain picks up the story.
+
+## Closing
+Emperors came to Britain to win glory, to fight, and in the end to be made. Most of what we know of their visits comes from historians rather than the ground, with coins and an inscription or two beside them. When the army in Britain made Magnus Maximus emperor in 383, and Constantine III in 407, and followed them to Gaul, the last imperial story here was one of leaving.

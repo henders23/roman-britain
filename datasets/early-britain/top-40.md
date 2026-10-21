@@ -44,7 +44,7 @@ The list is in date order. Numbers are for reference, not a ranking.
    The end of Roman government in Britain: no more pay, coin or officials, and within a generation towns, villas and the money economy collapsed (Esmonde Cleary 1989; Fleming 2010). The date rests on one disputed sentence, which is why the row is low-certainty.
 
 10. **Anglo-Saxon settlement** (c. 420s–500s (chronicle entry 441); England). `gallic-chronicle-saxons-441`  
-   Stands for the Anglo-Saxon settlement, the change that turned lowland Britain into England. The chronicle entry is the only near-contemporary statement that Saxons had taken control, and anchors every modern chronology; how far it speaks for all of Britain is debated (Muhlberger, Britannia 14, 1983; Jones and Casey, Britannia 19, 1988). The Spong Hill cemetery, also added in r06, is the archaeology beside it (Hills and Lucy, Spong Hill IX, 2013).
+   Stands for the Anglo-Saxon settlement, the change that turned lowland Britain into England. The chronicle entry is the only near-contemporary statement that Saxons had taken control, and anchors every modern chronology; how far it speaks for all of Britain is debated (Muhlberger, Britannia 14, 1983; Jones and Casey, Britannia 19, 1988). The Spong Hill cemetery, also added in r07, is the archaeology beside it (Hills and Lucy, Spong Hill IX, 2013).
 
 11. **Patrick's mission to Ireland** (5th century; Ireland). `patrick-mission-ireland`  
    Patrick's two letters are the earliest writing from Ireland and the only first-hand account of Christianity carried beyond the Roman frontier from Britain; the Irish church that grew from his and others' work later evangelised much of Britain (Charles-Edwards, Early Christian Ireland, 2000; Hanson, Saint Patrick: His Origins and Career, 1968).
@@ -146,52 +146,52 @@ The list is in date order. Numbers are for reference, not a ranking.
 - **Æthelflæd and Edward the Elder's conquest of the Danelaw (910–920)**: Essential, but a campaign of many years; it is told as the lead-up at the Eamont stop.
 - **The laws of Hywel Dda (mid-10th century)**: Important for Welsh law, but the surviving texts are 13th-century and the link to Hywel is debated; on the map and in the Wales journey.
 - **The Benedictine reform and the Regularis Concordia (c. 970)**: Folded into Edgar's reign at the Bath stop.
-- **The St Brice's Day massacre (1002) and Sweyn Forkbeard's conquest (1013)**: Added to the map in r06 as stops in the Danish conquest journey, leading up to Assandun.
+- **The St Brice's Day massacre (1002) and Sweyn Forkbeard's conquest (1013)**: Added to the map in r07 as stops in the Danish conquest journey, leading up to Assandun.
 - **Rhodri Mawr (d. 878) and the rise of Gwynedd**: Important for Wales, but Gruffudd ap Llywelyn's brief rule of all Wales is the clearer turning point.
 
 ## The list against the journeys
 
-Before this round, 21 of the 40 were in the pack and 20 featured in a journey; Augustine's mission was on the map but in no journey, and Ireland had no events at all. Now all 40 are on the map and each is in at least one journey. In its home journey each is written in three parts: what led up to it, what happened, and what changed afterwards. Neighbouring stops show the chain, and the atlas prints the time and distance between stops.
+Before this round (pack r06 and the journeys as they were), 21 of the 40 were in the pack and 21 featured in a journey; Ireland had no events at all. Now all 40 are on the map and each is in at least one journey. In its home journey each is written in three parts: what led up to it, what happened, and what changed afterwards. Neighbouring stops show the chain, and the atlas prints the time and distance between stops.
 
-| # | Turning point | In the pack before r06 | In a journey before r06 | Journeys now | Home journey has Before / What happened / After |
+| # | Turning point | In the pack before r07 | In a journey before r07 | Journeys now | Home journey has Before / What happened / After |
 |---|---|---|---|---|---|
-| 1 | The Claudian invasion | yes | The Claudian invasion, AD 43, Emperors in Britain | The Claudian invasion, AD 43, Emperors in Britain | The Claudian invasion, AD 43 ✓ |
-| 2 | Boudica's revolt | yes | Boudica's revolt | Boudica's revolt | Boudica's revolt ✓ |
-| 3 | Mons Graupius and the limit of conquest | yes | Rome's northern frontier | Rome's northern frontier | Rome's northern frontier ✓ |
-| 4 | Hadrian's visit and the Wall | yes | Rome's northern frontier, Emperors in Britain | Emperors in Britain, Rome's northern frontier | Rome's northern frontier ✓ |
-| 5 | Severus in Britain | yes | Rome's northern frontier, Emperors in Britain | Emperors in Britain, Rome's northern frontier | Rome's northern frontier ✓ |
-| 6 | Carausius and the British empire | yes | Emperors in Britain, Defending the late Roman province | Defending the late Roman province, Emperors in Britain | Emperors in Britain ✓ |
+| 1 | The Claudian invasion | yes | The Roman conquest, Emperors in Britain, Roman Britain in six stops | The Roman conquest, Emperors in Britain, Roman Britain in six stops | The Roman conquest ✓ |
+| 2 | Boudica's revolt | yes | Boudica's revolt, Lost battlefields | Boudica's revolt, Lost battlefields | Boudica's revolt ✓ |
+| 3 | Mons Graupius and the limit of conquest | yes | The Roman conquest, Lost battlefields, Rome's northern frontier | The Roman conquest, Lost battlefields, Rome's northern frontier | Rome's northern frontier ✓ |
+| 4 | Hadrian's visit and the Wall | yes | Emperors in Britain, Roman Britain in six stops, Rome's northern frontier | Emperors in Britain, Roman Britain in six stops, Rome's northern frontier | Rome's northern frontier ✓ |
+| 5 | Severus in Britain | yes | Emperors in Britain, Rome's northern frontier | Emperors in Britain, Rome's northern frontier | Rome's northern frontier ✓ |
+| 6 | Carausius and the British empire | yes | Defending the late Roman province, Emperors in Britain | Defending the late Roman province, Emperors in Britain | Emperors in Britain ✓ |
 | 7 | Constantine proclaimed at York | yes | Emperors in Britain | Emperors in Britain | Emperors in Britain ✓ |
-| 8 | Magnus Maximus | added in r06 | **none** | Emperors in Britain, Wales and the west after Rome | Emperors in Britain ✓ |
-| 9 | The end of Roman rule | yes | How did Roman Britain end? | From Britannia to the English kingdoms, How did Roman Britain end? | How did Roman Britain end? ✓ |
-| 10 | Anglo-Saxon settlement | added in r06 | **none** | From Britannia to the English kingdoms | From Britannia to the English kingdoms ✓ |
-| 11 | Patrick's mission to Ireland | added in r06 | **none** | Christianity in Roman Britain, Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
-| 12 | The siege of Mount Badon | added in r06 | **none** | From Britannia to the English kingdoms | From Britannia to the English kingdoms ✓ |
-| 13 | Columba founds Iona | yes | Saints and scholars of the north, Picts, Scots and Britons: the making of Alba | Ireland: saints, Vikings and high kings, Picts, Scots and Britons: the making of Alba, Saints and scholars of the north | Saints and scholars of the north ✓ |
-| 14 | Augustine's mission to Kent | yes | **none** | The conversion of the English | The conversion of the English ✓ |
-| 15 | Sutton Hoo and the first great overkings | yes | Burials, treasure and early English kings, How do we know when? | The conversion of the English, Burials, treasure and early English kings, How do we know when? | Burials, treasure and early English kings ✓ |
-| 16 | Aidan and the Irish mission to Northumbria | yes | Saints and scholars of the north | The conversion of the English, Saints and scholars of the north | Saints and scholars of the north ✓ |
-| 17 | The battle of the Winwaed | added in r06 | **none** | The conversion of the English | The conversion of the English ✓ |
-| 18 | The Synod of Whitby | yes | Saints and scholars of the north | The conversion of the English, Saints and scholars of the north | The conversion of the English ✓ |
-| 19 | Theodore and the Synod of Hertford | added in r06 | **none** | The conversion of the English | The conversion of the English ✓ |
-| 20 | Dun Nechtain (Nechtansmere) | yes | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba ✓ |
-| 21 | Bede's Ecclesiastical History | yes | Saints and scholars of the north, Voices from the past: who wrote things down? | The conversion of the English, Saints and scholars of the north, Voices from the past: who wrote things down? | Saints and scholars of the north ✓ |
-| 22 | Offa's supremacy: the Council of Chelsea | added in r06 | **none** | Mercia and the trading towns | Mercia and the trading towns ✓ |
-| 23 | The Viking raid on Lindisfarne | yes | Saints and scholars of the north, Vikings in England, St Cuthbert's community on the move | Saints and scholars of the north, St Cuthbert's community on the move, Vikings in England | Vikings in England ✓ |
-| 24 | The Norse base at Dublin | added in r06 | **none** | Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
-| 25 | Cináed mac Ailpín, king of the Picts | added in r06 | **none** | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba ✓ |
-| 26 | The great army takes York | added in r06 | **none** | Vikings in England | Vikings in England ✓ |
-| 27 | Edington | yes | Alfred's kingdom, Vikings in England | Alfred's kingdom, The making of England, Vikings in England | Alfred's kingdom ✓ |
-| 28 | Alfred's burhs | yes | Alfred's kingdom | Alfred's kingdom, The making of England | Alfred's kingdom ✓ |
-| 29 | Athelstan at Eamont | added in r06 | **none** | The making of England | The making of England ✓ |
-| 30 | Brunanburh | yes | Alfred's kingdom, Vikings in England | Alfred's kingdom, Ireland: saints, Vikings and high kings, The making of England, Vikings in England | The making of England ✓ |
-| 31 | The end of the kingdom of York | added in r06 | **none** | The making of England, Vikings in England | The making of England ✓ |
-| 32 | Edgar's coronation at Bath | added in r06 | **none** | The making of England | The making of England ✓ |
-| 33 | Maldon and the return of the Vikings | added in r06 | **none** | From Æthelred to Cnut | From Æthelred to Cnut ✓ |
-| 34 | Clontarf | added in r06 | **none** | Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
-| 35 | Assandun and the Danish conquest | added in r06 | **none** | From Æthelred to Cnut | From Æthelred to Cnut ✓ |
-| 36 | Carham and the Tweed frontier | added in r06 | **none** | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba ✓ |
-| 37 | Gruffudd ap Llywelyn, king of all Wales | added in r06 | **none** | Wales and the west after Rome | Wales and the west after Rome ✓ |
-| 38 | Edward the Confessor's death and Harold's coronation | added in r06 | **none** | 1066, From Æthelred to Cnut | 1066 ✓ |
-| 39 | Stamford Bridge | yes | 1066 | 1066 | 1066 ✓ |
-| 40 | Hastings | yes | 1066, How do we know when? | 1066, How do we know when? | 1066 ✓ |
+| 8 | Magnus Maximus | added in r07 | **none** | Emperors in Britain, Wales and the west | Emperors in Britain ✓ |
+| 9 | The end of Roman rule | yes | How did Roman Britain end?, Roman Britain in six stops | From Britannia to the English kingdoms, How did Roman Britain end?, Roman Britain in six stops | How did Roman Britain end? ✓ |
+| 10 | Anglo-Saxon settlement | added in r07 | **none** | From Britannia to the English kingdoms | From Britannia to the English kingdoms ✓ |
+| 11 | Patrick's mission to Ireland | added in r07 | **none** | Christianity in Roman Britain, Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
+| 12 | The siege of Mount Badon | added in r07 | **none** | From Britannia to the English kingdoms | From Britannia to the English kingdoms ✓ |
+| 13 | Columba founds Iona | yes | Christianity comes again, Picts, Scots and Britons: the making of Alba, Saints and scholars of the north | Christianity comes again, Ireland: saints, Vikings and high kings, Picts, Scots and Britons: the making of Alba, Saints and scholars of the north | Saints and scholars of the north ✓ |
+| 14 | Augustine's mission to Kent | yes | Christianity comes again, Christianity in Roman Britain | Christianity comes again, Christianity in Roman Britain, The conversion of the English | The conversion of the English ✓ |
+| 15 | Sutton Hoo and the first great overkings | yes | Britain and the wider world, Burials, treasure and early English kings, Early medieval Britain in six stops, How do we know when? | Britain and the wider world, The conversion of the English, Burials, treasure and early English kings, Early medieval Britain in six stops, How do we know when? | Burials, treasure and early English kings ✓ |
+| 16 | Aidan and the Irish mission to Northumbria | yes | Christianity comes again, Saints and scholars of the north, St Cuthbert's community on the move | Christianity comes again, The conversion of the English, Saints and scholars of the north, St Cuthbert's community on the move | Saints and scholars of the north ✓ |
+| 17 | The battle of the Winwaed | added in r07 | **none** | The conversion of the English | The conversion of the English ✓ |
+| 18 | The Synod of Whitby | yes | Christianity comes again, Early medieval Britain in six stops, Saints and scholars of the north | Christianity comes again, The conversion of the English, Early medieval Britain in six stops, Saints and scholars of the north | The conversion of the English ✓ |
+| 19 | Theodore and the Synod of Hertford | added in r07 | **none** | The conversion of the English | The conversion of the English ✓ |
+| 20 | Dun Nechtain (Nechtansmere) | yes | Bede's world, Lost battlefields, Picts, Scots and Britons: the making of Alba, Still arguing: five debates | Bede's world, Lost battlefields, Picts, Scots and Britons: the making of Alba, Still arguing: five debates | Picts, Scots and Britons: the making of Alba ✓ |
+| 21 | Bede's Ecclesiastical History | yes | Bede's world, Early medieval Britain in six stops, Saints and scholars of the north, Voices from the past: who wrote things down? | Bede's world, The conversion of the English, Early medieval Britain in six stops, Saints and scholars of the north, Voices from the past: who wrote things down? | Saints and scholars of the north ✓ |
+| 22 | Offa's supremacy: the Council of Chelsea | added in r07 | **none** | Mercia and the trading towns | Mercia and the trading towns ✓ |
+| 23 | The Viking raid on Lindisfarne | yes | Early medieval Britain in six stops, Saints and scholars of the north, St Cuthbert's community on the move, Vikings in England, Vikings in the north | Early medieval Britain in six stops, Saints and scholars of the north, St Cuthbert's community on the move, Vikings in England, Vikings in the north | Vikings in England ✓ |
+| 24 | The Norse base at Dublin | added in r07 | **none** | Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
+| 25 | Cináed mac Ailpín, king of the Picts | added in r07 | **none** | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba ✓ |
+| 26 | The great army takes York | added in r07 | **none** | Vikings in England | Vikings in England ✓ |
+| 27 | Edington | yes | Alfred's kingdom, Early medieval Britain in six stops, Lost battlefields, The great army and the answer, Vikings in England | Alfred's kingdom, Early medieval Britain in six stops, Lost battlefields, The making of England, The great army and the answer, Vikings in England | Alfred's kingdom ✓ |
+| 28 | Alfred's burhs | yes | Alfred's kingdom, The great army and the answer, From trading towns to fortified towns | Alfred's kingdom, The making of England, The great army and the answer, From trading towns to fortified towns | Alfred's kingdom ✓ |
+| 29 | Athelstan at Eamont | added in r07 | **none** | The making of England | The making of England ✓ |
+| 30 | Brunanburh | yes | 1066: a kingdom worth fighting for, Alfred's kingdom, Lost battlefields, Still arguing: five debates, Vikings in England | 1066: a kingdom worth fighting for, Alfred's kingdom, Ireland: saints, Vikings and high kings, Lost battlefields, The making of England, Still arguing: five debates, Vikings in England | The making of England ✓ |
+| 31 | The end of the kingdom of York | added in r07 | **none** | The making of England, Vikings in England | The making of England ✓ |
+| 32 | Edgar's coronation at Bath | added in r07 | **none** | The making of England | The making of England ✓ |
+| 33 | Maldon and the return of the Vikings | added in r07 | **none** | From Æthelred to Cnut | From Æthelred to Cnut ✓ |
+| 34 | Clontarf | added in r07 | **none** | Ireland: saints, Vikings and high kings | Ireland: saints, Vikings and high kings ✓ |
+| 35 | Assandun and the Danish conquest | added in r07 | **none** | From Æthelred to Cnut | From Æthelred to Cnut ✓ |
+| 36 | Carham and the Tweed frontier | added in r07 | **none** | Picts, Scots and Britons: the making of Alba | Picts, Scots and Britons: the making of Alba ✓ |
+| 37 | Gruffudd ap Llywelyn, king of all Wales | added in r07 | **none** | Wales and the west | Wales and the west ✓ |
+| 38 | Edward the Confessor's death and Harold's coronation | added in r07 | **none** | 1066: a kingdom worth fighting for, From Æthelred to Cnut | 1066: a kingdom worth fighting for ✓ |
+| 39 | Stamford Bridge | yes | 1066: a kingdom worth fighting for, Vikings in the north | 1066: a kingdom worth fighting for, Vikings in the north | 1066: a kingdom worth fighting for ✓ |
+| 40 | Hastings | yes | 1066: a kingdom worth fighting for, Early medieval Britain in six stops, How do we know when?, Lost battlefields | 1066: a kingdom worth fighting for, Early medieval Britain in six stops, How do we know when?, Lost battlefields | 1066: a kingdom worth fighting for ✓ |

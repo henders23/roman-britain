@@ -1,8 +1,8 @@
 # Alfred's kingdom
 By: UK Atlas (atlas synthesis)
-Order: thematic
+Collection: rulers-and-kingdoms
 
-In 878 King Alfred of Wessex was nearly defeated. Within a generation his family ruled much of England. This journey follows the recovery and the kingdom he built: the victory, the learning and the fortified towns, and keeps the famous legend about the cakes off the map. The stops follow the story rather than strict date order, since the Alfred Jewel can only be dated to his reign as a whole and the burh at Wallingford to a window of some forty years.
+In 878 King Alfred of Wessex was nearly defeated. Within a generation his family ruled much of England. This journey follows the recovery and the kingdom he built: the victory, the learning and the fortified towns, and keeps the famous legend about the cakes off the map. The Alfred Jewel can be dated only to his reign as a whole and the burh at Wallingford to a window of some forty years, so both overlap the events of 878 and stand where they belong in the story, after the victory that made them possible.
 
 ## Stop: alfred-athelney-878
 After a surprise attack early in 878, Alfred retreated into the Somerset marshes and built a fortification at Athelney. The Chronicle says that Guthrum's army seized the royal estate at Chippenham at midwinter, and that Alfred went with a small band into the woods and fens while many of his people submitted. After Easter he fortified Athelney, an island of firm ground in the Levels, and raided the Viking army from it with the men of Somerset. The Chronicle and his biographer Asser tell the story; no remains of the 878 works have been certainly identified, though the fort is thought to have stood on the western of the island's two low summits. The tale of the burnt cakes appears only much later, so the pack excludes it.
@@ -26,3 +26,6 @@ After: Many burhs became lasting towns, with planned streets, markets and mints;
 
 ## Stop: battle-of-brunanburh-937
 Alfred's grandson Athelstan defeated a coalition of northern kings at Brunanburh, a victory celebrated as the moment the English kingdom held. Ten years earlier he had taken York and claimed lordship over the other rulers of Britain; in 937 Olaf Guthfrithson of Dublin, Constantine II of Alba and the Strathclyde Britons combined against him and his brother Edmund. The Chronicle marks the victory with a poem, but no source fixes the site: Bromborough on the Wirral is the leading candidate, and others in northern England and southern Scotland have been argued for. From the marshes of Athelney to Brunanburh is less than sixty years. That the battle made England is a later interpretation of its long-term effects.
+
+## Closing
+From a marsh fort to a kingdom ringed by fortified towns took less than sixty years. Much of the written record of Alfred's recovery comes from his own court, so it tells the story his way. At Brunanburh his grandson won the battle that held the English kingdom together.

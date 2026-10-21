@@ -5,7 +5,7 @@ import { store, useAtlas } from './store';
 import { Timeline } from './ui/Timeline';
 import { EventPanel } from './ui/EventPanel';
 import { About, Chronicle, Clock, Header, Headline, Legend, MusicToggle, ThemeToggle } from './ui/Panels';
-import { JourneyCard, JourneyList, JourneyTile } from './ui/Journeys';
+import { JourneyCard, JourneyLibrary, JourneyTile } from './ui/Journeys';
 import { placeGap, timeLink } from './data/journey';
 import { formatShort } from './data/time';
 import { useTheme } from './theme';
@@ -106,6 +106,21 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       glideTo(ev.t0 + 0.001);
       store.set({ selected: ev.id });
     }
+  };
+  // The library previews the journey it has open: its stops in view, the playhead at its
+  // last stop so every stop is on the map, and its thread (unless it has Thread: none).
+  const previewJourney = (id: string | null) => {
+    if (store.get().journey) return;
+    const j = id ? atlas.journeys.find((x) => x.id === id) : undefined;
+    if (!j) {
+      map.current?.setThread([], false);
+      return;
+    }
+    const evs = j.stops.map((st) => byId.get(st.event)!);
+    map.current?.setThread(j.thread === 'none' ? [] : evs.map((e) => [e.lon, e.lat] as [number, number]), true);
+    const panelW = document.querySelector('.library')?.getBoundingClientRect().width ?? 0;
+    map.current?.flyToEvents(evs, 1400, panelW + 48);
+    glideTo(Math.max(...evs.map((e) => e.t0)) + 0.001, 900);
   };
   const exitJourney = () => {
     store.set({ journey: null, journeyAuto: false });
@@ -276,9 +291,22 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
     map.current?.flyToPhase(atlas.from, 3200);
   };
   const headEv = headline ? byId.get(headline) : undefined;
+  // The intro leads with the 'start here' journeys and offers the other collections by theme.
+  const [libCol, setLibCol] = useState<string | undefined>(undefined);
+  const openLibrary = (col?: string) => {
+    setLibCol(col);
+    setIntro(false);
+    store.set({ panel: 'journeys', selected: null, playing: false });
+  };
+  const cols = atlas.config.journeyCollections ?? [];
+  const starters = atlas.journeys.filter((j) => j.collection === cols[0]?.id);
+  const collections = cols
+    .slice(starters.length ? 1 : 0)
+    .map((c) => ({ ...c, n: atlas.journeys.filter((j) => j.collection === c.id).length }))
+    .filter((c) => c.n > 0);
 
   return (
-    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' || panel === 'journeys' ? ' has-panel' : ''}${journey ? ' in-journey' : ''}${ready ? ' ready' : ''}`}>
+    <div className={`app${capture ? ' capture' : ''}${selEv || panel === 'chronicle' || panel === 'journeys' ? ' has-panel' : ''}${panel === 'journeys' && !selEv ? ' has-library' : ''}${journey ? ' in-journey' : ''}${ready ? ' ready' : ''}`}>
       <div className="map" ref={mapEl} />
       <div className="vignette" />
       <Header atlas={atlas} />
@@ -299,7 +327,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
         <MusicToggle />
         <ThemeToggle />
       </nav>
-      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyList atlas={atlas} onStart={(id) => goStep(id, 0)} /> : null}
+      {selEv ? <EventPanel ev={selEv} atlas={atlas} onClose={() => store.set({ selected: null })} /> : panel === 'chronicle' ? <Chronicle atlas={atlas} /> : panel === 'journeys' ? <JourneyLibrary key={libCol ?? ''} atlas={atlas} onStart={(id) => goStep(id, 0)} onPreview={previewJourney} initial={libCol} /> : null}
       {journey && interlude && (
         <div className="journey-interlude" key={interlude.key} aria-live="polite">
           <b>{interlude.time}</b>
@@ -312,7 +340,7 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       {headEv && !selEv && !journey && <Headline ev={headEv} atlas={atlas} />}
       {!journey && <Legend atlas={atlas} />}
       {!journey && panel !== 'journeys' && atlas.journeys.length > 0 && (
-        <button className="journey-cta" onClick={() => store.set({ panel: 'journeys', selected: null, playing: false })}>
+        <button className="journey-cta" onClick={() => openLibrary()}>
           <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden>
             <circle cx="4" cy="15" r="2.2" fill="currentColor" />
             <circle cx="16" cy="5" r="2.2" fill="currentColor" />
@@ -342,25 +370,38 @@ function AtlasView({ atlas }: { atlas: Atlas }) {
       {intro && (
         <div className="intro">
           <div className="intro-card">
-            <span className="kicker">UK Atlas{atlas.draft ? ' · draft' : ''}</span>
+            <span className="kicker">UK Atlas</span>
             <h1>{atlas.title}</h1>
             {atlas.subtitle && <p className="intro-dates">{atlas.subtitle}</p>}
             <p className="intro-lede">
               {atlas.events.length} moments from this period, each placed on the map where it happened. Click any of them to read what happened, the
               evidence for it, and how sure historians are.
             </p>
-            {atlas.draft && <p className="intro-draft">Draft: this pack has rows no one has checked yet. Treat everything here as provisional.</p>}
             {atlas.journeys.length > 0 && (
               <section className="intro-journeys" aria-labelledby="intro-j-h">
                 <h2 id="intro-j-h">Start with a guided journey</h2>
                 <p>Short tours that link events into a story, stop by stop. The map and timeline follow along.</p>
-                <ol className="intro-j-grid">
-                  {atlas.journeys.map((j) => (
-                    <li key={j.id}>
-                      <JourneyTile atlas={atlas} journey={j} onStart={(id) => goStep(id, 0)} disabled={!ready} />
-                    </li>
-                  ))}
-                </ol>
+                {starters.length > 0 && (
+                  <ol className="intro-j-grid intro-j-start">
+                    {starters.map((j) => (
+                      <li key={j.id}>
+                        <JourneyTile atlas={atlas} journey={j} onStart={(id) => goStep(id, 0)} disabled={!ready} teaser />
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                {collections.length > 0 && (
+                  <>
+                    <h3 className="intro-j-h3">Or choose from {atlas.journeys.length} journeys by theme</h3>
+                    <div className="intro-cols">
+                      {collections.map((c) => (
+                        <button key={c.id} onClick={() => openLibrary(c.id)}>
+                          {c.title} <span className="n">{c.n}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </section>
             )}
             <div className="intro-actions">

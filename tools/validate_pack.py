@@ -62,29 +62,40 @@ def narrative_sections(path):
     return found
 
 
+MIN_STOPS = 5
+
+
 def parse_journey(text):
-    """A journey file: '# Title', optional 'By:' and 'Order:' lines, an introduction,
-    then '## Stop: <canonical_id>' sections with the text for each stop."""
+    """A journey file: '# Title', optional 'By:', 'Collection:' and 'Thread:' lines, an
+    opening, '## Stop: <canonical_id>' sections with the text for each stop, then a
+    '## Closing' section."""
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
     parts = re.split(r"^##\s+", text, flags=re.M)
-    head, stops = parts[0], []
+    head, stops, closing, closing_at = parts[0], [], "", None
     for part in parts[1:]:
         line, _, body = part.partition("\n")
+        if re.match(r"^Closing\s*$", line.strip(), flags=re.I):
+            closing, closing_at = body.strip(), len(stops)
+            continue
         m = re.match(r"Stop:\s*(\S+)\s*$", line.strip(), flags=re.I)
         stops.append(((m[1] if m else ""), body.strip()))
-    title, by, order, thread, intro = "", "", "chronological", "story", []
+    title, by, collection, order, thread, intro = "", "", "", None, "story", []
     for line in head.splitlines():
         if not title and line.startswith("# "):
             title = line[2:].strip()
         elif re.match(r"^By:", line, flags=re.I):
             by = line.split(":", 1)[1].strip()
+        elif re.match(r"^Collection:", line, flags=re.I):
+            collection = line.split(":", 1)[1].strip()
         elif re.match(r"^Order:", line, flags=re.I):
             order = line.split(":", 1)[1].strip().lower()
         elif re.match(r"^Thread:", line, flags=re.I):
             thread = line.split(":", 1)[1].strip().lower()
         else:
             intro.append(line)
-    return {"title": title, "by": by, "order": order, "thread": thread, "intro": "\n".join(intro).strip(), "stops": stops}
+    return {"title": title, "by": by, "collection": collection, "order": order, "thread": thread,
+            "intro": "\n".join(intro).strip(), "stops": stops, "closing": closing,
+            "closing_last": closing_at is None or closing_at == len(stops)}
 
 
 def main():
@@ -278,28 +289,41 @@ def main():
             if lic and not (lic.startswith("public domain") or lic == "cc0") and not str(img.get("author", "")).strip():
                 err(where, "an image that is not public domain needs its author for attribution")
 
-    # journeys: guided routes through included events
+    # journeys: guided stories through included events. Each runs forward in time, has at
+    # least MIN_STOPS stops, an opening and a closing, and belongs to a collection.
+    collections = {c["id"] for c in cfg.get("journeyCollections", [])}
     jdir = root / "journeys"
-    for jpath in sorted(jdir.glob("*.md")) if jdir.is_dir() else []:
-        if jpath.name.startswith("_"):
-            continue
+    jpaths = [p for p in sorted(jdir.glob("*.md")) if not p.name.startswith("_")] if jdir.is_dir() else []
+    if jpaths and not collections:
+        err("dataset.json", "journeyCollections is missing; every journey must belong to a collection")
+    for jpath in jpaths:
         jid = f"journey:{jpath.stem}"
         if not KEBAB.match(jpath.stem):
             err(jid, "journey file name must be kebab-case")
         j = parse_journey(jpath.read_text(encoding="utf-8"))
         if not j["title"]:
             err(jid, "journey needs a '# Title' line")
+        if not j["collection"]:
+            err(jid, "journey needs a 'Collection:' line naming one of the journeyCollections in dataset.json")
+        elif collections and j["collection"] not in collections:
+            err(jid, f"Collection: '{j['collection']}' is not one of the journeyCollections in dataset.json ({', '.join(sorted(collections))})")
+        if j["order"] is not None:
+            err(jid, "the 'Order:' line is no longer used: every journey runs forward in time; remove the line")
         if not j["intro"]:
-            err(jid, "journey needs an introduction under its title")
+            err(jid, "journey needs an opening under its title: the question it asks")
         elif "PLACEHOLDER" in j["intro"]:
-            (warn if draft else err)(jid, "journey introduction is still a placeholder")
-        if j["order"] not in ("chronological", "thematic"):
-            err(jid, f"Order: '{j['order']}' must be chronological or thematic")
+            (warn if draft else err)(jid, "journey opening is still a placeholder")
+        if not j["closing"]:
+            err(jid, "journey needs a '## Closing' section after its last stop: what the stops showed")
+        elif "PLACEHOLDER" in j["closing"]:
+            (warn if draft else err)(jid, "journey closing is still a placeholder")
+        if not j["closing_last"]:
+            err(jid, "'## Closing' must come after the last stop")
         if j["thread"] not in ("story", "none"):
             err(jid, f"Thread: '{j['thread']}' must be story or none")
-        if len(j["stops"]) < 2:
-            err(jid, "journey needs at least two '## Stop: <canonical_id>' sections")
-        seen_stops, prev_t = set(), None
+        if len(j["stops"]) < MIN_STOPS:
+            err(jid, f"journey has {len(j['stops'])} stops; it needs at least {MIN_STOPS} '## Stop: <canonical_id>' sections")
+        seen_stops, prev = set(), None
         for sid, text in j["stops"]:
             where = f"{jid} stop {sid or '?'}"
             if sid in seen_stops:
@@ -314,11 +338,17 @@ def main():
                 err(where, "stop has no text")
             elif "PLACEHOLDER" in text:
                 (warn if draft else err)(where, "stop text is still a placeholder")
-            t = year_of(included[sid]["date_start"])
-            if j["order"] == "chronological" and t is not None and prev_t is not None and t < prev_t:
-                err(where, "stop is earlier than the one before it; reorder the stops or add 'Order: thematic'")
-            if t is not None:
-                prev_t = t
+            # Forward in time: a stop may not end before the stop before it begins. Stops in
+            # the same year, or whose date windows overlap, may follow the story's order.
+            row = included[sid]
+            t0 = year_of(row["date_start"])
+            t1 = year_of(row["date_end"]) if row["date_end"] else t0
+            if t0 is None:
+                continue
+            if prev is not None and t1 is not None and t1 < prev[1]:
+                err(where, f"stop ends ({row['date_end'] or row['date_start']}) before the stop before it begins "
+                    f"({prev[2]}); journeys run forward in time, so reorder the stops")
+            prev = (sid, t0, row["date_start"])
 
     counts = {d: sum(r["disposition"] == d for r in rows) for d in ("include", "merge", "exclude")}
     mode = "draft" if draft else "production"

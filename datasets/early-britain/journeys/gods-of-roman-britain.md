@@ -1,6 +1,6 @@
 # Gods of Roman Britain
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: gods-saints-and-the-church
 
 Roman Britain had no single religion. Local gods were given Roman names, soldiers brought cults from the eastern empire, and in the fourth century Christianity arrived in villas and treasures. This journey visits seven sacred places and asks, at each one, what the evidence shows people actually did there.
 
@@ -20,7 +20,10 @@ In London a larger Mithraeum stood by the Walbrook stream, built in about 240 as
 At Lydney, above the Severn, a temple to Nodens, a British god of healing, had a guest house and baths for visitors, all set inside an Iron Age hillfort. The god is known from inscriptions, among them a lead tablet in which a man named Silvianus, who had lost a ring, asks Nodens to deny health to a Senicianus until it is returned. Bronze dogs among the offerings, with the long building and the baths, are why the site is read as a healing sanctuary; no inscription says so. Its date is argued over, which matters. Mortimer Wheeler, who dug it in 1928–9, placed it in the late fourth century, when Christianity was the emperors' religion; re-excavation in 1980–81 put its start in the later 3rd century instead.
 
 ## Stop: water-newton-treasure
-Silver vessels and plaques marked with the chi-rho show Christians worshipping together in the fourth century. The treasure was ploughed up in 1975 inside the walled town of Durobrivae: nine silver vessels, including a jug, bowls and a two-handled cup, a set of thin silver plaques and one small gold disc. Some pieces carry the names of the people who gave them, such as Publianus on a bowl and Anicilla on a plaque. Some plaques are shaped like the votive leaves offered to pagan gods: old habits in a new faith. It is the earliest known group of probable church silver from the whole Roman Empire, though when it was buried, and why, is unknown.
+Silver vessels and plaques marked with the chi-rho suggest Christians worshipping together in the fourth century. The treasure was ploughed up in 1975 inside the walled town of Durobrivae: nine silver vessels, including a jug, bowls and a two-handled cup, a set of thin silver plaques and one small gold disc. Some pieces carry the names of the people who gave them, such as Publianus on a bowl and a woman, perhaps Anicilla (the name is also read Iamcilla), on a plaque. Some plaques are shaped like the votive leaves offered to pagan gods: old habits in a new faith. It is the earliest known group of probable church silver from the whole Roman Empire, though when it was buried, and why, is unknown.
 
 ## Stop: lullingstone-house-church
 In a villa in Kent, a room was painted with Christian symbols and figures at prayer, while a pagan shrine elsewhere in the house may still have been in use. The paintings had fallen from an upper room and were pieced together from fragments after excavations that began in 1949. They show figures standing between columns with their arms raised in the early Christian posture of prayer, and wreathed chi-rho monograms, and belong to the second half of the 4th century. Reading the rooms as a house church for the household and perhaps its neighbours is widely accepted, but it remains an interpretation. Belief in Roman Britain was rarely one thing at a time.
+
+## Closing
+Roman Britain worshipped many gods side by side: local gods with Roman names, soldiers' cults from the east, and at last Christ. The evidence is temples, offerings and curses rather than anyone's account of what they believed. Christianity arrived as one faith among many, in the houses of the wealthy.

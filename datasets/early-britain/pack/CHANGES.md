@@ -2,12 +2,25 @@
 
 Newest round first. Say what changed and why, in a line or two per change.
 
-## r06
-- r05 unchanged, plus 29 new rows (22 include, 1 merge, 6 exclude), compiled by web search like r03 to r05; see `r06-research-log.md`. All new rows are `unverified`.
+## r07
+- r06 unchanged, plus 29 new rows (22 include, 1 merge, 6 exclude), compiled by web search like r03 to r05; see `r07-research-log.md`. All new rows are `unverified`.
 - Added so that every one of the atlas's 40 turning points (`../top-40.md`, atlas synthesis) is on the map. Late Rome and after: Magnus Maximus (383), the Gallic Chronicle's entry on the Saxons (441), the Spong Hill cemetery, Patrick's mission in Ireland, the siege of Mount Badon. Kingdoms: the Winwaed (655), the Synod of Hertford (672/3), the Council of Chelsea (787, standing for Offa's supremacy; the Dyke is still a line the atlas cannot draw). Norse age: the Dublin longphort (841), Cináed mac Ailpín (842/3), the great army takes York (866), Eamont (927), the end of the kingdom of York (954), Edgar's coronation at Bath (973), Maldon (991), St Brice's Day (1002), Sweyn at Gainsborough (1013), Clontarf (1014), Assandun (1016), Carham (1018), Gruffudd ap Llywelyn at Hereford (1055), Edward's death and Harold's coronation (1066).
 - Many are drawn as halos, because the sources do not place them (Maximus, the Gallic Chronicle, Patrick, Badon, the Winwaed, Cináed, Eric's expulsion, Assandun).
 - Merged: the St John's College, Oxford mass grave into St Brice's Day, as possible but unproven evidence. Excluded legends: Arthur at Badon, Armagh's Patrick legends (and the snakes and shamrock), "MacAlpin's treason", the blood-eagle death of Ælla, eight kings rowing Edgar on the Dee, and the idea that Clontarf drove the Vikings out of Ireland.
 - Five new journeys and new stops in seven others, so each turning point has a home journey that shows what led up to it, what happened and what changed. Every stop in every journey was rewritten with more detail.
+
+## r06
+- r05 with eight corrections from a fact-check; no rows added or removed, and every row is still `unverified`.
+- camulodunum-surrender-43: retitled "Claudius takes Camulodunum; British kings submit", since no source says where the kings submitted.
+- bloomberg-tablets: WT44 itself names both men as freedmen; only their role as business agents is interpretation.
+- londinium-destruction-60: Tacitus's 70,000 dead refers to the places he has described, usually taken as all three towns.
+- inchtuthil-fortress: date precision `range` (it has a start and an end), not `circa`.
+- repton-winter-camp-873: the five coins of 872–5 came from the charnel deposit, not a separate grave.
+- dumbarton-siege-870: the well drying up comes from the Fragmentary Annals of Ireland, not the Annals of Ulster; source added.
+- lindisfarne-raid-793: dated to the year only. The Chronicle's day reads 8 January, and 8 June is a modern emendation, so a day-level date overstated it.
+- battle-of-brunanburh-937: Bromborough's name is "widely thought to" derive from Brunanburh, not stated as fact.
+- Narratives corrected at the same time (outside the rounds): bloomberg-tablets, constantine-proclaimed-york-306, caerleon-amphitheatre, londinium-destruction-60, carausius-usurpation-286, water-newton-treasure, repton-winter-camp-873, columba-iona-563, alfred-athelney-878, battle-of-brunanburh-937.
+- Still to check at source: the Dinas Powys start date (Campbell et al., Antiquity 97, 2023, may put the earliest activity after 500 rather than in the 5th century) and the Brixworth window (Parsons and Sutherland 2013 prefer the late 8th or very early 9th century; Fernie's 800–860 is not confirmed).
 
 ## r05
 - r04 unchanged, plus 33 new rows (20 include, 11 merge, 2 exclude), compiled by web search like r03 and r04; see `r05-research-log.md`. All new rows are `unverified`.

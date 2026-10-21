@@ -1,6 +1,6 @@
 # How do we know when?
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: how-do-we-know
 
 Every date on this map rests on some kind of evidence, and the kind of evidence decides how precise the date can be. Each stop on this journey is dated in a different way. Watch the timeline: most of these events are drawn as windows of years, not single dates, and the width of each window is the evidence speaking.
 
@@ -18,3 +18,6 @@ Dating by style and by a note added later. The book's decoration and script plac
 
 ## Stop: battle-of-hastings-1066
 Dating by a contemporary chronicle. By 1066 the Anglo-Saxon Chronicle records events year by year, and several sources agree on the day. Here, for once, the map can show a single date with confidence. One version of the Chronicle gives the day as the feast of Pope Calixtus, 14 October, and the Norman account by William of Poitiers and the Bayeux Tapestry describe the same battle from the winners' side. Precision in date is not precision in place, though: the site rests on the tradition that Battle Abbey's altar marks where Harold fell, and no battle archaeology has yet been found there.
+
+## Closing
+Each kind of evidence gives its own precision: layers and coins give windows of years, style gives decades or centuries, and written sources can give a day. A date on the map is only as good as the evidence behind it, which is why so many events are drawn as windows.

@@ -1,6 +1,6 @@
 # From Britannia to the English kingdoms
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
 In 410 Britain was a Roman province with towns, villas and a Latin-speaking elite. By about 600 the east and south were ruled by English kings and the west by British ones, speaking different languages and, at first, following different religions. How did Roman Britain become a land of English and British kingdoms, and how little do we know about it?
 
@@ -34,3 +34,6 @@ After: Gildas wrote in a time of peace from foreign wars, though he complains of
 
 ## Stop: prittlewell-burial
 By about 600 the English kingdoms had emerged, with kings rich enough to be buried like this. At Prittlewell in Essex, in 2003, archaeologists found an undisturbed timber chamber dated by radiocarbon and coins to about 580–605. The man buried there had a lyre, a folding stool, drinking horns, a gold buckle, two Frankish gold coins, a hanging bowl and a flagon from the eastern Mediterranean, and two small gold-foil crosses lay where his eyes would have been. He is usually thought to have belonged to the East Saxon ruling family, though who he was is unknown. In 597 Augustine's mission reached the neighbouring kingdom of Kent, and from then on Bede's history lets us name kings and count years again. The two centuries this journey has crossed are known mostly from graves like this one.
+
+## Closing
+The stops showed the end of Roman government in 410, a Roman town still lived in by a mixed population, new burial customs brought from the North Sea coast, a single line from a chronicler in Gaul, British rulers in the west trading with the Mediterranean, a victory remembered by Gildas, and by about 600 an English king buried in a timber chamber full of treasure. The honest answer to the opening question is that we know the outcome far better than the process: Britain was divided between English and British kingdoms by 600, but how many incomers there were, how the Britons of the east fared, and what part battles played are still argued over, and most of the evidence is graves, stones and pottery rather than written history.

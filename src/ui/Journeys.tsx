@@ -2,7 +2,7 @@ import type { Atlas } from '../data/dataset';
 import type { Journey } from '../data/schema';
 import { formatShort, formatYear } from '../data/time';
 import { kmBetween, placeGap, placeLink, timeGap, timeLink } from '../data/journey';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { store, useAtlas } from '../store';
 import { Pin } from './Panels';
 
@@ -55,22 +55,118 @@ const firstSentence = (s: string) => {
   return m ? m[0] : p;
 };
 
-export function JourneyList({ atlas, onStart }: { atlas: Atlas; onStart: (id: string) => void }) {
+type Period = 'all' | 'roman' | 'after';
+const ROMAN_END = 410;
+
+/** The journey library: collections down one side, the open collection's journeys beside them,
+ *  and one journey at a time opened to show its question, where it begins and where it ends.
+ *  The open journey is previewed on the map through onPreview. */
+export function JourneyLibrary({ atlas, onStart, onPreview, initial }: { atlas: Atlas; onStart: (id: string) => void; onPreview: (id: string | null) => void; initial?: string }) {
+  const cols = atlas.config.journeyCollections ?? [];
+  const byId = useMemo(() => new Map(atlas.events.map((e) => [e.id, e])), [atlas]);
+  const evsOf = (j: Journey) => j.stops.map((s) => byId.get(s.event)!);
+  const startOf = (j: Journey) => Math.min(...evsOf(j).map((e) => e.t0));
+  const [q, setQ] = useState('');
+  const [period, setPeriod] = useState<Period>('all');
+  const [col, setCol] = useState(() => initial ?? cols[0]?.id ?? '');
+  const [open, setOpen] = useState<string | null>(null);
+
+  const query = q.trim().toLowerCase();
+  const fits = (j: Journey) => {
+    const evs = evsOf(j);
+    if (period === 'roman' && !evs.some((e) => e.t0 < ROMAN_END)) return false;
+    if (period === 'after' && !evs.some((e) => e.t0 >= ROMAN_END)) return false;
+    if (!query) return true;
+    return [j.title, j.intro, j.closing, ...evs.flatMap((e) => [e.title, e.place])].some((t) => t.toLowerCase().includes(query));
+  };
+  const all = useMemo(() => [...atlas.journeys].sort((a, b) => startOf(a) - startOf(b)), [atlas]);
+  const shown = all.filter(fits);
+  const known = new Set(cols.map((c) => c.id));
+  const groups = [
+    ...cols.map((c) => ({ ...c, journeys: shown.filter((j) => j.collection === c.id) })),
+    { id: '', title: 'Other journeys', description: '', journeys: shown.filter((j) => !known.has(j.collection)) },
+  ].filter((g) => g.id || g.journeys.length);
+  // While searching, show every match; otherwise the chosen collection.
+  const current = groups.find((g) => g.id === col) ?? groups[0];
+  const list = query ? shown : (current?.journeys ?? []);
+  const openJ = list.find((j) => j.id === open) ?? null;
+
+  useEffect(() => onPreview(openJ?.id ?? null), [openJ?.id]);
+  useEffect(() => () => onPreview(null), []);
+
   return (
-    <aside className="panel journeys" aria-label="Journeys">
+    <aside className="panel journeys library" aria-label="Journeys">
       <header>
         <h2>Journeys</h2>
-        <span className="count">{atlas.journeys.length}</span>
+        <span className="count">{atlas.journeys.length} guided stories</span>
         <button className="close" onClick={() => store.set({ panel: null })} aria-label="Close">×</button>
-        <p className="j-help">Guided tours that link events into a story. The map and timeline follow each stop; the text is its author’s interpretation.</p>
+        <div className="lib-tools">
+          <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search a person, place or year" aria-label="Search journeys" />
+          <div className="lib-period" role="group" aria-label="Period">
+            {(['all', 'roman', 'after'] as Period[]).map((p) => (
+              <button key={p} aria-pressed={period === p} onClick={() => setPeriod(p)}>
+                {p === 'all' ? 'All periods' : p === 'roman' ? 'Roman' : 'After Rome'}
+              </button>
+            ))}
+          </div>
+        </div>
       </header>
-      <ol className="j-list">
-        {atlas.journeys.map((j) => (
-          <li key={j.id}>
-            <JourneyTile atlas={atlas} journey={j} onStart={onStart} teaser />
-          </li>
-        ))}
-      </ol>
+      <div className="lib-body">
+        <nav className="lib-cols" aria-label="Collections">
+          {groups.map((g) => (
+            <button key={g.id || 'other'} aria-current={!query && g.id === current?.id ? 'true' : undefined} onClick={() => { setQ(''); setCol(g.id); setOpen(null); }} disabled={!g.journeys.length}>
+              <span>{g.title}</span>
+              <span className="n">{g.journeys.length}</span>
+            </button>
+          ))}
+        </nav>
+        <section className="lib-list" aria-live="polite">
+          {query ? (
+            <p className="lib-note">{shown.length === 1 ? '1 journey matches' : `${shown.length} journeys match`} “{q.trim()}”</p>
+          ) : (
+            current && (
+              <div className="lib-head">
+                <h3>{current.title}</h3>
+                {current.description && <p>{current.description}</p>}
+              </div>
+            )
+          )}
+          {!openJ && list.length > 0 && <p className="lib-note">Choose a journey to see its question, and where it begins and ends.</p>}
+          {!list.length && <p className="lib-note">No journeys here for this period.</p>}
+          <ol>
+            {list.map((j) => {
+              const evs = evsOf(j);
+              const first = evs[0];
+              const last = evs[evs.length - 1];
+              const isOpen = j.id === openJ?.id;
+              return (
+                <li key={j.id} className={isOpen ? 'open' : undefined}>
+                  <button className="lib-row" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : j.id)}>
+                    <b>{j.title}</b>
+                    <span>{j.stops.length} stops · {span(atlas, j)}</span>
+                  </button>
+                  {isOpen && (
+                    <div className="lib-card">
+                      <p className="lib-q">{paragraphs(j.intro)[0]}</p>
+                      <dl className="lib-ends">
+                        <div>
+                          <dt>Begins</dt>
+                          <dd>{first.title} <em>{formatShort(first.start, first.end, first.datePrecision)}</em></dd>
+                        </div>
+                        <div>
+                          <dt>Ends</dt>
+                          <dd>{last.title} <em>{formatShort(last.start, last.end, last.datePrecision)}</em></dd>
+                        </div>
+                      </dl>
+                      <button className="primary" onClick={() => onStart(j.id)}>Begin the journey →</button>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      </div>
     </aside>
   );
 }
@@ -183,6 +279,14 @@ function JourneySummary({ atlas, journey, onStep }: { atlas: Atlas; journey: Jou
   const kmText = km < 20 ? Math.round(km) : km < 1000 ? Math.round(km / 10) * 10 : Math.round(km / 50) * 50;
   return (
     <div className="j-text j-summary">
+      {journey.closing && (
+        <div className="j-closing">
+          {paragraphs(journey.closing).map((p, k) => (
+            <p key={k}>{p}</p>
+          ))}
+          <span className="synth" title="Written by the journey’s author; the evidence is in each event’s card">Journey author’s interpretation</span>
+        </div>
+      )}
       <dl className="j-stats">
         <div>
           <dt>Years</dt>

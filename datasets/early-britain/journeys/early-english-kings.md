@@ -1,8 +1,8 @@
 # Burials, treasure and early English kings
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: rulers-and-kingdoms
 
-Kings in the sixth and seventh centuries left little writing, but some were buried, or buried their wealth, in ways that still astonish. This journey visits four places, three in East Anglia and Essex and one in Mercia, and asks how far we can move from what was found to who these people were. At each stop, notice where Bede's words meet the ground and where the archaeology has to speak for itself.
+Kings in the sixth and seventh centuries left little writing, but some were buried, or buried their wealth, in ways that still astonish. This journey visits five places, four in East Anglia and Essex and one in Mercia, and asks how far we can move from what was found to who these people were, and where their wealth came from. At each stop, notice where Bede's words meet the ground and where the archaeology has to speak for itself.
 
 ## Stop: prittlewell-burial
 A richly furnished chamber burial in Essex, dated by radiocarbon and coins to about 580–605. Archaeologists found it in 2003 at Priory Crescent, ahead of road widening, and although the timber chamber had collapsed, careful recording of the stains in the soil allowed its layout to be rebuilt. Its goods include a lyre, a folding stool, drinking horns, a Byzantine flagon from the eastern Mediterranean, two Frankish gold coins and two small gold-foil crosses that lay where the man's eyes would have been. The crosses suggest Christian belief, but the rest of the burial follows older custom. Who was buried is unknown; a member of the East Saxon royal family has been suggested, and an early proposal that he was King Sæberht, who died about 616, fits the radiocarbon dates poorly.
@@ -19,3 +19,9 @@ Thousands of fragments of gold and garnet fittings stripped from weapons and war
 
 ## Stop: rendlesham-royal-settlement
 Bede names Rendlesham as an East Anglian royal residence, and survey has found a large settlement of high status nearby. Bede mentions it only once: King Æthelwold of East Anglia stood sponsor there at the baptism of Swithhelm, king of the East Saxons, which places the event between 655 and 664. From 2008 metal-detecting, geophysics and later excavation found early medieval activity spread over some 50 hectares, with burials, workshops, imported goods, many coins and the plan of a great hall, occupied from the fifth to the eighth century. Here, unusually, a written source and the ground meet, about 6 km from Sutton Hoo, giving the East Anglian kings a place to live as well as a place to be buried. That this is the township Bede meant is the prevailing view rather than a proven one, and the map draws the site as a small region rather than a precise point.
+
+## Stop: gipeswic-ipswich
+Not far from the royal centres, Ipswich grew from a landing place into a trading town, where England's first wheel-turned pottery since Rome was made. Kings needed more than treasure: a town like this brought goods and wealth through their lands. Excavation since 1974 has found 7th-century cemeteries beside the landing place, some of the Buttermarket burials with goods in continental style, and an 8th-century town of some 50 hectares with streets and a pottery quarter around Carr Street and Cox Lane. Ipswich ware, turned on a slow wheel and fired in kilns, is now dated about 720 to 850, and it turns up across East Anglia and as far as Kent, London and Yorkshire. Its shapes resemble Frisian pottery, so some think continental potters brought the craft, though that is debated. Unlike Lundenwic and Hamwic, Ipswich carried on as a town without a break.
+
+## Closing
+Graves and hoards show kings with extraordinary wealth, but rarely who they were. Only at Rendlesham does a written source name the place. In the eighth century, trading towns like Ipswich point to a new source of royal wealth that would outlast the age of buried treasure.

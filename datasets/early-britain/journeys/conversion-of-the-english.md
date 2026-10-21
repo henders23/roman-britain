@@ -1,6 +1,6 @@
 # The conversion of the English
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: gods-saints-and-the-church
 
 How did the English kingdoms become Christian, and whose Christianity was it? Missionaries came from Rome to Kent and from Iona to Northumbria, Frankish clergy worked at royal courts, and kings were baptised, fell back, fought and changed sides. The British Christians already living in the island play almost no part in the story as it has come down to us. This journey follows the process from Augustine's landing in Kent to the book that tells it.
 
@@ -42,3 +42,6 @@ After: A proposal to make more bishoprics as the number of Christians grew was p
 
 ## Stop: bede-historia-731
 Bede finished his Ecclesiastical History of the English People at Jarrow in 731, and almost everything on this journey comes to us through it: Augustine's landing, Rædwald's two altars, Aidan's mission, the Winwaed, Whitby and the record of Hertford. Two copies made within a few years of his death in 735 survive, so the text is secure, and he usually says where his information came from. His answer to the question of whose Christianity it was is plain in the book's shape: the conversion begins with Gregory and Canterbury and is completed by unity with Rome, while he writes of Aidan and the Irish monks with real warmth and blames the Britons for never having preached to the English. That shape is Bede's interpretation, and historians now give more weight to the Irish, Frankish and British contributions he played down. In 734 he wrote to Bishop Ecgberht of York urging more bishops and complaining of false monasteries, and in 735 Ecgberht became archbishop, so that Gregory's plan for a northern archbishopric was finally carried out.
+
+## Closing
+The stops showed a conversion that came from several directions and moved at the pace of kings: a Roman mission to Kent, a king in East Anglia keeping two altars, Irish monks from Iona converting Northumbria, a pagan king's death opening the Midlands, a choice for Rome at Whitby, and a Greek archbishop giving the English one church before they had one kingdom. The answer to whose Christianity it was is that it was many people's, Roman, Irish, Frankish and, quietly, British, but the story reaches us in the shape Bede gave it, with Rome and Canterbury at its centre and the Britons left out.

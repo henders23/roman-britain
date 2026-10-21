@@ -1,6 +1,6 @@
 # Rome's northern frontier
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: conquest-and-frontiers
 
 How far north did Rome reach, and why did it stop? This journey moves between a lost battlefield, an unfinished fortress and the forts behind the later frontier. The walls themselves are lines the atlas cannot yet draw, so they appear in the pack as excluded rows rather than on the map.
 
@@ -30,3 +30,6 @@ Before: Under Antoninus Pius, Hadrian's successor, the frontier moved north to a
 What happened: A century after Hadrian, Severus campaigned beyond the Wall. Dio, a senator who knew him, says the wars were hard going through forest and bog, with heavy losses and no pitched battle, and that a peace was made which the Britons soon broke. Worn out by illness, Severus died at York on 4 February 211, the first emperor to die in the province; the day is worked out from Dio's figures for his life and reign, and no building in York has been identified as his residence. Marching camps across eastern Scotland, a base at Carpow on the Tay and granaries at South Shields are assigned to these wars, though dating individual camps is debated.
 
 After: His sons made peace, gave up the new conquests and took his ashes to Rome, where Caracalla soon had Geta murdered. After him, the frontier settled on Hadrian's line for good, and the north seems to have been largely quiet for most of the 3rd century. At about this time Britain was divided into two provinces, though whether by Severus or by Caracalla is debated.
+
+## Closing
+Rome reached far into Scotland, won a battle there and began a fortress it never finished. The lasting frontier settled further south, where the Vindolanda letters show an army at home. Even so, emperors kept coming north, and Severus died at York after his own campaigns. The frontier was a choice Rome kept revisiting, not a line it reached once.

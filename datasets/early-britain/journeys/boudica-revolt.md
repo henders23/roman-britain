@@ -1,6 +1,6 @@
 # Boudica's revolt
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: conquest-and-frontiers
 Thread: none
 
 In AD 60 or 61 the Iceni and their neighbours rose against Roman rule. Almost everything we know about the course of the revolt comes from two Roman historians, Tacitus and Cassius Dio, writing decades or more later. The archaeology is different evidence: layers of burnt debris in three towns. Follow the revolt, and keep asking which kind of evidence each stop rests on. The camera moves between places, but no route is drawn, because nobody knows the rebels' route.
@@ -25,3 +25,6 @@ Before: Prasutagus, king of the Iceni and an ally of Rome, had left his kingdom 
 What happened: After the three towns had burnt, Paulinus, with perhaps 10,000 men, chose a narrow valley with woodland behind him, so that he could only be attacked from the front. Tacitus describes a much larger British army that had brought its families in wagons to watch; the Romans held their ground, then drove forward, and the Britons were trapped against their own wagons. Boudica died soon after, by poison in Tacitus and by illness in Dio. No ancient writer says where the battle was fought and no battlefield has been found, so the map draws a broad region along Watling Street, where Mancetter is the site most often proposed, rather than inventing a pin; compare the certainty here with the burnt towns.
 
 After: Tacitus says Paulinus laid waste the lands of every people that had rebelled or wavered, and that famine followed because the Britons had not sown their crops. The new procurator, Julius Classicianus, reported to Rome that this harshness would only prolong the war, and Paulinus was soon replaced by Petronius Turpilianus, who avoided provoking the Britons; historians usually read this as a turn to a softer policy, though Tacitus scorned it as idleness given the honourable name of peace. London was rebuilt within a few years and grew into the province's main town, and Classicianus's own tombstone was later found there.
+
+## Closing
+Three towns burned, and both the Roman writers and the ground say so. Where the revolt ended, nobody knows: the writers name no place, and no battlefield has been found. That gap between what the ground confirms and what only the writers tell us runs through all of Roman Britain.

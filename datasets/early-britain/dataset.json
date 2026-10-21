@@ -25,7 +25,7 @@
       "story": "Claudius's army landed in AD 43 and within a generation much of lowland Britain was a Roman province. The written record is Roman and hostile to the Britons; the ground adds burnt towns from Boudica's revolt, new ports and palaces, and letters from the army on the northern frontier.",
       "camera": { "center": [-1.5, 52.5], "zoom": 5.6 } },
     { "id": "high-roman", "title": "Walls, towns and villas", "from": 122, "to": 284,
-      "story": "From the 120s the frontier was fixed in stone across northern England, and the lowland province settled into towns, villas and roads. Walls and roads are lines the atlas cannot yet draw, so this chapter is thin on the map; the evidence for it is plentiful on the ground.",
+      "story": "From the 120s a wall ran across northern England; for a time in the 140s and 150s the frontier moved north to the Antonine Wall before settling back on Hadrian's line, and the lowland province settled into towns, villas and roads. Walls and roads are lines the atlas cannot yet draw, so this chapter is thin on the map; the evidence for it is plentiful on the ground.",
       "camera": { "center": [-2.5, 53.5], "zoom": 5.3 } },
     { "id": "late-roman", "title": "Late Roman Britain", "from": 285, "to": 409,
       "story": "In the fourth century Britain was a wealthy, largely peaceful part of the empire, and Christianity reached its villas and treasures. As imperial control weakened after 400, people buried their valuables and, by about 410, Roman government had ended.",
@@ -39,5 +39,14 @@
     { "id": "norse-age", "title": "Norse settlement and the making of England", "from": 793, "to": 1066,
       "story": "From 793 Scandinavian raiders, then armies and settlers, reshaped Britain. Kings of Wessex fought, bargained and expanded until a single English kingdom emerged, which in 1066 was fought over by Norwegian and Norman claimants.",
       "camera": { "center": [-2.0, 54.0], "zoom": 5.2 } }
+  ],
+  "journeyCollections": [
+    { "id": "start-here", "title": "Start here", "description": "Two short overviews of the whole period." },
+    { "id": "conquest-and-frontiers", "title": "Conquest and frontiers", "description": "How Rome took Britain, who fought back, and where the army stopped." },
+    { "id": "rulers-and-kingdoms", "title": "Rulers and kingdoms", "description": "Emperors, kings and the kingdoms they built." },
+    { "id": "gods-saints-and-the-church", "title": "Gods, saints and the Church", "description": "What people believed, from Roman temples to Northumbrian monks." },
+    { "id": "vikings-and-england", "title": "Vikings and the making of England", "description": "Raids, armies, settlers, and the kingdom that came out of them." },
+    { "id": "towns-trade-and-everyday-life", "title": "Towns, trade and everyday life", "description": "Where people lived, traded and showed off their wealth." },
+    { "id": "how-do-we-know", "title": "How do we know?", "description": "Journeys about the evidence itself: dates, writing, hoards and arguments." }
   ]
 }

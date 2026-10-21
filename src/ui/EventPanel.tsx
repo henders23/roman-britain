@@ -152,7 +152,6 @@ export function EventPanel({ ev, atlas, onClose }: { ev: AtlasEvent; atlas: Atla
           </div>
         ) : (
           <>
-            {ev.narrative === 'placeholder' && <p className="ev-flag-line">This narrative is still a placeholder.</p>}
             <section className="ev-section">
               <h3 className="lbl">Summary</h3>
               {paragraphs(ev.summary).map((p, k) => (

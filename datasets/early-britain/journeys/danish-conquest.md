@@ -1,6 +1,6 @@
 # From Æthelred to Cnut
 By: UK Atlas (atlas synthesis)
-Order: chronological
+Collection: vikings-and-england
 
 How did England fall to a Danish king a generation after Edgar's peace? When Edgar died in 975 the English kingdom was united, wealthy and well governed. Within forty years it had paid huge sums to Viking armies, its king had fled abroad, and a Danish king ruled it. This journey follows that collapse through a defeat in Essex, a massacre ordered by the king, a Danish king's arrival on the Trent and the battle that decided the war, and ends with the return of the English line that led to 1066.
 
@@ -28,3 +28,6 @@ After: The two kings met at Alney near Deerhurst and divided the kingdom, Edmund
 
 ## Stop: edward-dies-harold-crowned-1066
 Edward reigned for almost twenty-four years, and the great men around him were largely made under Cnut: above all Godwin, earl of Wessex, whose daughter Edith Edward married. Edward had no children. He died at Westminster on 5 January 1066, a few days after his new abbey church there was consecrated, and was buried in it the next day; on the same day Harold Godwinson, earl of Wessex, was crowned king. English sources say the dying king entrusted the kingdom to Harold, while Norman writers say Edward had long before promised it to Duke William of Normandy, Emma's great-nephew. The Scandinavian past had not gone either: Harald Hardrada of Norway also claimed the throne, by Norse tradition through an agreement made between Harthacnut and the Norwegian king Magnus. The journey 1066 follows what happened next.
+
+## Closing
+The stops showed a united, wealthy kingdom worn down over a generation: a defeat at Maldon followed by tribute, a massacre that made enemies without removing them, a Danish king accepted from the Trent to London, and the battle at Assandun that gave England to Cnut. The answer to the opening question is that renewed attack, heavy taxes and divided English leaders together brought the kingdom down, but much of the blame laid on Æthelred is the chronicler's hindsight. Under Cnut the kingdom itself survived intact, and the return of Æthelred's son Edward in 1042 brought back the English line, and with it the Norman tie, that led to 1066.
